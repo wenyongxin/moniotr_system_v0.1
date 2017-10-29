@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+{% if filename %}
+	<div class="alert alert-info">
+        	<button type="button" class="close" data-dismiss="alert">×</button>
+	        <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+	</div>
+{% endif %}
+
+
+
+<form action="" id="change_post" method="post" class="form" role="form">
+	<table class="table">
+		<tr>
+			<td><label>扫描IP地址:</label></td>
+			<td><input type="text" id="host" name="host" placeholder="格式：5.240-245 或 ip1 ip2"></td>
+			<td><label>端口号:</label></td>
+			<td><input type="text" id="port" name="port" placeholder="格式：20 80 或 1-19,30-50 "></td>
+			<td><label>扫描方式:</label></td>
+			<td><select name="way" id="way"><option value="fast">快速</option><option value="slow">详细</option></select><td>
+           		<td><input type="button" class="btn btn-primary" value="扫描" onclick="Scan_Click()" ></td>
+		</td>
+	</table>
+</form>
+<hr>
+
+<div style="clear:both">
+	<div style="float:left">
+		显示数量：
+		<select id="SelectNum" style="width:80px;" onchange="SelectInfo()">
+			{% if abc %}
+				<option >{{ abc }}</option>
+			{% else %}
+				<option>选择</option>
+			{% endif %}
+			<option id="OptionValue" value="0" >All</option>
+			<option id="OptionValue" value="10">10</option>
+			<option id="OptionValue" value="5">5</option>
+		</select>
+	</div>
+	<div style="float:right">
+		<input class="input-medium search-query" type="text" id="SelectInput" >
+		<button class="btn" contenteditable="true" type="submit" onclick="SelectButton()">查找</button>
+	</div>
+</div>
+
+
+{% if db_data%}
+	{% for a in  db_data %}
+		{{ a }}
+	{% endfor %}
+
+{% endif %}
+
+<hr>
+<div style="text-align:right;"> 
+	<td><button type="button" class="btn btn-success" onclick="PutExcel()">导出Excel</button></td>
+</div>
+
+{% endblock %}
+
+

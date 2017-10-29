@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<style type="text/css">
+	.title_text {font-size:24px; font-family:"微软雅黑"; color:#666; margin: 20px 0px 25px 0px;}
+	.zabbix {width:90%; height:400px;}
+	.formal {width:100%; height:140px;}
+	.formal .f_input{width:100%; height:30px;}
+	.formal .f_input .i_name{float:left; margin: 0px 30px 0px 20px; line-height:30px;}
+	.formal .f_input .i_name .i_input{margin: 0px 0px 2px 12px;}
+
+	.c_div {border:1px solid #D5D5D5; border-radius:15px; }
+	.c_div .d_title{margin:20px 110px;}
+	.c_div .d_input{margin:0px 0px 2px 12px;}
+	.m_button {float:right; margin-top:30px;}
+
+	.m_div{margin:0px 150px;}
+</style>
+
+
+<div class="tabbable tabs-left">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#Manger_user" data-toggle="tab">用户管理</a></li>
+		<li><a href="#Manager_zabbix" data-toggle="tab">zabbix管理</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="Manger_user">
+			<a class="btn btn-success" type="button" href="#create_user" role="button" data-toggle="modal" >创建用户</a>
+			<table class="table">
+				<th>序号</th><th>用户</th><th>邮箱</th><th>最后登录日期</th><th>权限</th><th>操作</th>
+			{% for user in manager_user %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ user.username }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.last_seen  }}</td>
+					<td>{% if user.role_permissions %}<span class="label label-success">Admin</span>{% else %}<span class="label label-info">User</span>{% endif %}</td>
+					<td>
+						<a class="btn btn-info" type="button" onclick="Change_password({{ user.id }})">修改密码</a>
+						<!--<a class="btn btn-success" href="#change_profile{{ user.id }}" role="button" data-toggle="modal">修改资料</a>-->
+						<a class="btn btn-danger" type="button" onclick="Del_user( {{ user.id}}, '{{ user.username }}' )">删除用户</a>
+						{% if user.role_permissions %}
+							<a class="btn btn-primary" href="{{ url_for('main.config')}}?user={{ user.id}}&permissions=0">降低权限</a>
+						{% else %}
+							<a class="btn btn btn-warning" href="{{ url_for('main.config')}}?user={{ user.id }}&permissions=1">提升权限</a>
+						{% endif %}
+						<div id="change_profile{{ user.id }}" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							<div class="modal-header">
+								<h3 id="myModalLabel">{{ user.username }}</h3>
+							</div>
+							<div class="modal-body">
+								<div class="c_div">
+									<div class="d_title">全名<input class="d_input" type="text" id="new_name{{ user.id }}" value="{{ user.name }}"></div>
+									<div class="d_title">岗位<input class="d_input" type="text" id="new_location{{ user.id }}" value="{{ user.location}}"></div>
+									<div class="d_title">关于<textarea class="d_input" rows="3" id="new_about{{ user.id }}">{{ user.about_me}}</textarea></div>
+								</div>
+								<div class="m_button">
+									<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+									<button class="btn btn-primary" onclick="Change_profile({{ user.id }})">保存</button>
+								</div>
+							</div>
+						</div>						
+					</td>
+				</tr>
+			{% endfor %}
+			</table>
+		</div>
+		<div class="tab-pane zabbix" id="Manager_zabbix">
+			<div class="formal">
+				<p class="f_text title_text">正式服</p>
+				{% if zabbix_total['formal'] %}
+					<div class="f_input">
+						<div class="i_name">地址<input type="text" class="i_input" id="inputformal" value="{{ zabbix_total['formal'].zabbix_server }}"></div>
+						<div class="i_name">用户名<input type="text" class="i_input" id="inputformal" value="{{ zabbix_total['formal'].zabbix_user }}"></div>
+						<div class="i_name">密码<input type="password" class="i_input" id="inputformal" value="{{ zabbix_total['formal'].zabbix_password }}"></div>
+						<button class="btn btn-success" type="button" onclick="Zabbix_Formal_Save('formal')">保存</button>
+					</div>
+				{% endif %}
+			</div>
+			<hr>
+			<div class="formal">
+				<p class="f_text title_text">测试服</p>
+                                {% if zabbix_total['text'] %}
+                                        <div class="f_input">
+                                                <div class="i_name">地址<input type="text" class="i_input" id="inputformal" value="{{ zabbix_total['text'].zabbix_server }}"></div>
+                                                <div class="i_name">用户名<input type="text" class="i_input" id="inputformal" value="{{ zabbix_total['text'].zabbix_user }}"></div>
+                                                <div class="i_name">密码<input type="password" class="i_input" id="inputformal" value="{{ zabbix_total['text'].zabbix_password }}"></div>
+                                                <button class="btn btn-success" type="button" onclick="Zabbix_Formal_Save('text')">保存</button>
+                                        </div>
+                                {% endif %}
+                        </div>
+		</div>
+	</div>
+</div>
+
+
+<div id="create_user" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<h3 id="myModalLabel">创建用户</h3>
+	</div>
+	<div class="modal-body">
+		<div class="m_div">
+			<div><label>用户名</label><input type="text" id="new_username" ></div>
+			<div><label>邮箱</label><input type="text" id="new_email" ></div>
+			<div><label>权限</label><select id="perm">	
+				<option value=1>Admin</option>
+				<option value=0>User</option>
+			</select></div>
+			<div><label>密码</label><input type="password" id="new_passwd" ></div>
+			<div><label>确认密码</label><input type="password" id="new_passwd2" ></div>
+		</div>
+	</div>
+	<div style="margin: 0px 20px 20px 0px;float: right;">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		<button class="btn btn-primary" onclick="Creat_user()">保存</button>
+	</div>
+</div>   
+
+<!--Creat_user()创建用户开始-->
+<script type="text/javascript">
+	function Creat_user(){
+		var data = {};
+		var new_username = document.getElementById("new_username").value;
+		data['username'] = new_username;
+		var new_email = document.getElementById("new_email").value;
+		data['email'] = new_email;
+		var perm = document.getElementById("perm").value;		
+		data['perm'] = perm;
+		var new_passwd = document.getElementById("new_passwd").value;
+		var new_passwd2 = document.getElementById("new_passwd2").value;
+		if(new_passwd == new_passwd2){
+			data['passwd'] = new_passwd;
+			var xml = new XMLHttpRequest();
+			xml.open("POST", "{{ url_for('main.config') }}", true);
+			xml.send(JSON.stringify(data))
+			location.reload()
+		}else{
+			alert('密码错误')
+		}
+	}
+</script>
+<!--Creat_user()创建用户结束-->
+
+
+
+<!--Change_password() 修改密码开始-->
+<script type="text/javascript">
+	function Change_password(id){
+		var password = window.prompt("请输入新密码");
+		var data = {};
+		data['password'] = password
+		data['id'] = id;
+		var xml = new XMLHttpRequest(); 
+		xml.open("POST", "{{ url_for('main.config') }}", true);
+		xml.send(JSON.stringify(data))
+		location.reload()
+	}
+</script>
+<!--Change_password() 修改密码结束-->
+
+
+<!--Change_profile()修改个人资料开始-->
+<script type="text/javascript">
+	function Change_profile(id){
+		var data = {};
+		data['id'] = id;
+		var new_name = document.getElementById("new_name" + id).value;
+		data['name'] = new_name;
+		var new_location = document.getElementById("new_location" + id).value;
+		data['location'] = new_location;
+		var new_about = document.getElementById("new_about" + id).value;
+		data['about'] = new_about;
+		var xml = new XMLHttpRequest(); 
+                xml.open("POST", "{{ url_for('main.config') }}", true);
+                xml.send(JSON.stringify(data))
+                location.reload()
+	}
+</script>
+<!--Change_profile()修改个人资料结束-->
+
+
+<!--Del_user()删除指定用户开始-->
+<script type="text/javascript">
+	function Del_user(id, name){
+		if(window.confirm("用户 " + name + " 确定要删除吗?")){
+			url = "{{ url_for('main.config')}}?id=" + id;
+			window.location.href = url;
+	      	}
+	}
+</script>
+<!--Del_user()删除指定用始结束-->
+
+
+
+
+
+<script type="text/javascript">
+	function Zabbix_Formal_Save(name){
+		var str = []
+		var info = {}
+		var inputformal = document.all("inputformal");
+		for(var x=0; x<inputformal.length; x++){
+			str[x] = inputformal[x].value
+		}
+		var xml = new XMLHttpRequest(); 
+                xml.open("POST", "{{ url_for('main.config') }}", true);
+                info[name] = str;
+                xml.send(JSON.stringify(info))
+                location.reload()
+	}
+
+	function Zabbix_Text_Save(name){
+		var str = []
+		var info = {}
+		var inputtext = document.all("inputtext");
+		for(var y=0; y<inputtext.length; y++){
+			str[y] = inputtext[y].value
+		}
+		var xml = new XMLHttpRequest(); 
+                xml.open("POST", "{{ url_for('main.config') }}", true);
+                info[name] = str;
+                xml.send(JSON.stringify(info))
+                location.reload()
+	}
+</script>
+
+
+
+{% endblock %}

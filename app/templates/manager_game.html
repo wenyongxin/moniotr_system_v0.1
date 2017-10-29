@@ -1,0 +1,633 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block page_content %}
+<style type="text/css">
+	.top {width:100%; height:30px;}
+	.top .t_right {float:right;}
+	.top .t_left {float:left;}
+	.top .t_left .t_num{width:80px; margin-right:10px;}
+
+	.m_des {width:100%; height:380px;}
+	.m_des .m_center {margin: 30px;}
+	.m_des .m_center .m_mess {margin-top:5px;}
+	.m_des .m_center .m_mess .m_title {display:block; width:130px; height:20px; float:left;}
+
+	#showdiv{width:100%; height:40px; background:#F9F9F9; display:none; border-radius:10px 0 0 0; border:1px solid #CFCFCF;}
+	#showdiv .s_checkbox{float: right;  margin-top: 10px; margin-right: 10px; letter-spacing: 2px;}
+
+	#d_search{height:40px; display:none;}
+	#d_search .s_input{float:right; width:50%; height:75%; margin:8px 0px 8px 0px;}
+
+	.ChangInput{width:110px;}
+	
+	.content{width:100%; height:630px; overflow-y:auto;}
+	.content .c_list{margin-top:8px;}
+	.content .t_select{width:125px; background:#fff; border:1px solid #ddd; display:none; box-shadow:2px 3px 8px 0px;}
+	
+	#th_title0 {position:relative;}
+	#th_title0 .la {position:absolute; top:30px; left:0px; z-index:1;}
+
+	#th_title2{position:relative;}
+	#th_title2 .lb{position:absolute; top:30px; left:0px; z-index:1;}
+
+	#th_title4{position:relative;}
+	#th_title4 .lc{position:absolute; top:30px; left:0px; z-index:1;}
+
+	.content .t_select ul li{list-style:none; width:100%; margin-left:-15px; cursor:pointer; margin-top:5px; color:#666; font-size:12px; display: block; text-align:center;} 
+	.content .t_select ul li:hover{color:#000; font-size:16px; background:#ddd;}
+
+
+	.a_hand{cursor:pointer;}
+
+
+	.font-style{color:#000; font-weight: bold;}
+	.right {float:right;}
+
+	.page{margin-top:-20px; float:right;}
+
+</style>
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+{% if filename != "None" %}
+        <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>文件生成完毕</strong> <a href="../static/files/{{ filename }}">点击下载</a>
+        </div>
+{% endif %}
+
+<div class="top">
+	<div class="t_left">
+		<div class="input-prepend">
+			<span class="add-on">显示</span>
+			<select class="t_num" id="num">
+                        	<option value="15">15</option>
+        	                <option value="all">全部</option>
+	                </select>
+		</div>
+
+	</div>
+	<div class="t_right">
+		<a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">添加</a>
+		<button class="btn btn-warning" id="editinput" onclick="Editinput()">修改</button>
+		<button class="btn btn-success" onclick="SaveNewdata()">保存</button>
+		<button class="btn btn-danger" onclick="deleteinput()">删除</button>
+		<button class="btn btn-inverse" onclick="location.reload()">取消</button>
+		<button class="btn btn-info" onclick="gpupdate()">更新策略</button>
+		<button class="btn btn-success" onclick="To_Excel()"><span class="caret"></span>导出Excel</button>
+		<button class="btn" onclick="show_something(showdiv)">显示隐藏<span class="caret"></span></button>
+		<button class="btn" onclick="show_something(d_search)"><span class="icon-search"></span>检索<span class="caret"></span></button>
+	</div>
+</div>
+
+
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">游戏负责人添加</h3>
+	</div>
+	<div class="m_des">
+		<div class="m_center">
+			<div class="m_mess"><span class="m_title">运营中心</span><select id="insertdata">
+				<option value="">请选择</option>
+				{% for c_center in fcenter %}
+					{% if c_center.fcenter != '技术中心' %}
+						<option value="{{ c_center.fcenter }}">{{ c_center.fcenter }}</option>
+					{% endif %}
+				{% endfor %}
+			</select></div>
+			<div class="m_mess"><span class="m_title">游戏名称</span><select id="insertdata">
+				<option value="-1">请选择</option>
+			</select></div>
+			<div class="m_mess"><span class="m_title">第一负责人</span><select id="insertdata">
+				<option value="-1">请选择</option>
+				{% for u_user in username %}
+					<option value="{{ u_user }}">{{ u_user }}</option>
+				{% endfor %}
+			</select></div>
+			<div class="m_mess"><span class="m_title">第二负责人</span><select id="insertdata">
+				<option value="-1">请选择</option>
+                        	{% for u_user in username %}
+					<option value="{{ u_user }}">{{ u_user }}</option>
+	                        {% endfor %}
+        	        </select></div>
+                	<div class="m_mess"><span class="m_title">第三负责人</span><select id="insertdata">
+				<option value="-1">请选择</option>
+                        	{% for u_user in username %}
+					<option value="{{ u_user }}">{{ u_user }}</option>
+	                        {% endfor %}
+        	        </select></div>
+			<div class="m_mess"><span class="m_title">原厂名称</span><input type="input" id="insertdata"></div>
+
+			<div class="m_mess"><span class="m_title">是否自主运维</span><select id="insertdata">
+				<option value="-1">请选择</option>
+				<option value="1">是</option>
+				<option value="0">否</option>
+			</select></div>
+			<div class="m_mess"><span class="m_title">是否上线</span><select id="insertdata">
+				<option value="-1">请选择</option>
+				<option value="1">是</option>
+				<option value="0">否</option>
+			</select></div>
+			<div class="m_mess"><span class="m_title">PM名字</span><input type="input" id="insertdata"></div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		<button class="btn btn-primary" onclick="insertdata()">保存</button>
+	</div>
+</div>
+
+<div id="showdiv">
+	<div class="s_checkbox">
+		<input type="checkbox" id="checkbox0" onclick="showth('0')">运营中心
+		<input type="checkbox" id="checkbox1" onclick="showth('1')">游戏名称
+		<input type="checkbox" id="checkbox2" onclick="showth('2')">第一负责人
+		<input type="checkbox" id="checkbox3" onclick="showth('3')">一负责电话
+		<input type="checkbox" id="checkbox4" onclick="showth('4')">第二负责人
+		<input type="checkbox" id="checkbox5" onclick="showth('5')">二负责电话
+		<input type="checkbox" id="checkbox6" onclick="showth('6')">第三负责人
+		<input type="checkbox" id="checkbox7" onclick="showth('7')">三负责电话
+		<input type="checkbox" id="checkbox8" onclick="showth('8')">原厂名称
+		<input type="checkbox" id="checkbox9" onclick="showth('9')">是否自主运维
+		<input type="checkbox" id="checkbox10" onclick="showth('10')">是否上线
+		<input type="checkbox" id="checkbox11" onclick="showth('11')">PM名字
+	</div>
+</div>
+
+<div id="d_search">
+	<input type="text" class="s_input" oninput="search (event)" onpropertychange="OnPropChanged (event)" placeholder="检索游戏名称">
+</div>
+
+<div class="content">
+	<table class="table table-bordered table-striped table-hover"> 
+		<thead>
+			<th><input type="checkbox" id="CheckBoxAll"></th>
+			<th>序号</th>
+			<th id="th_title0">运营中心<span class="caret c_list"></span>
+				<div class="t_select la" id="t_select">
+					<ul id="insert_ul_center"></ul>
+				</div>
+			</th>
+			<th id="th_title1">游戏名称</th>
+			<th id="th_title2">第一负责人<span class="caret c_list"></span>
+                                <div class="t_select lb" id="t_select">
+                                        <ul id="insert_ul_username"></ul>
+                                </div>
+			</th>
+			<th id="th_title3">一负责电话</th>
+			<th id="th_title4">第二负责人<span class="caret c_list"></span>
+                                <div class="t_select lc" id="t_select">
+                                        <ul id="insert_ul_user"></ul>
+                                </div>
+			</th>
+			<th id="th_title5">二负责电话</th>
+			<th id="th_title6">第三负责人</th>
+			<th id="th_title7">三负责电话</th>
+			<th id="th_title8">原厂名称</th>
+			<th id="th_title9">是否自主运维</th>
+			<th id="th_title10">是否上线</th>
+			<th id="th_title11">PM名字</th>
+		</thead>
+	<tbody>
+	{% for game in game_list %}
+		<tr id="tr">
+			<td><input type="checkbox" id="checkboxline" value="{{ game.id }}"></td>
+			<td>{{ loop.index }}</td>
+			<td id="th_title0"><span id="inputtext{{ game.id }}">{{ game.center }}</span></td>
+			<td id="th_title1"><span id="inputtext{{ game.id }}">{{ all_name[game.gamename] }}</span></td>
+			<td id="th_title2"><span id="inputtext{{ game.id }}">{{ game.first_name }}</span></td>
+			<td id="th_title3"><span id="inputtext{{ game.id }}">{{ game.first_phone }}</span></td>
+			<td id="th_title4"><span id="inputtext{{ game.id }}">{{ game.second_name }}</span></td>
+			<td id="th_title5"><span id="inputtext{{ game.id }}">{{ game.second_phone }}</span></td>
+			<td id="th_title6"><span id="inputtext{{ game.id }}">{{ game.third_name }}</span></td>
+			<td id="th_title7"><span id="inputtext{{ game.id }}">{{ game.third_phone }}</span></td>
+			<td id="th_title8"><span id="inputtext{{ game.id }}">{{ game.vendor }}</span></td>
+			<td id="th_title9"><span id="inputtext{{ game.id }}">{% if game.operations == '0' %}否{% else  %}是{% endif %}</span></td>
+			<td id="th_title10"><span id="inputtext{{ game.id }}">{% if blockonline == '0' %}否{% else  %}是{% endif %}</span></td>
+			<td id="th_title11"><span id="inputtext{{ game.id }}">{{ game.PMname }}</span></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</div>
+	
+<div class="page">
+	<div class="pagination">
+		<ul id="details"></ul>
+       </div>
+</div>
+
+
+
+<!--控制tables显示行数开始-->
+<script type="text/javascript">
+	var list = [];
+	var all_tr = document.all("tr");
+	var b = document.getElementById("num").value;
+
+
+	//隐藏table中全部tbody中的tr
+	function hidden_tbody(){
+		for(x=0; x<all_tr.length; x++){
+			all_tr[x].style.display = 'none';
+		}
+	}
+
+	function show_table(a){
+		if(a){
+			show_lines(all_tr, a, 1)
+			show_page(all_tr, a)
+		}
+
+		document.getElementById("num").addEventListener("change", function(){
+			if(this.value == "all"){
+				show_lines(all_tr, all_tr.length, 1)
+				show_page(all_tr, 1)
+			}else{
+				show_lines(all_tr, this.value, 1)
+				show_page(all_tr, this.value)
+			}
+		}, false);
+		active()[0].className = "active";
+	}
+
+	//用于配置页面默认选中和取消
+	function active(){
+		return document.all("ps");	
+	}
+
+	//控制页面显示列表行数
+	function show_lines(otr, b, p){
+		var start = b * p - b;
+		var end = b * p;
+		hidden_tbody()
+		for(i=start; i<end; i++){
+			otr[i].style.display = 'table-row';
+		}
+	}
+
+	//控制页面页码跳转
+	function show_page(otr, b){
+		var odetails = document.getElementById("details");
+		var pages = Math.ceil(otr.length / b);
+		odetails.style.display = 'block';
+		if(b != 1){
+			var p = 1;
+			var html = "<li><a class=\"a_hand\" onclick=\"page_up()\">上一页</a></li>";
+			while(p <= pages){
+				html += "<li id=\"ps\"><a class=\"a_hand\" onclick=\"page(" + p + ")\">" + p + "</a></li>";
+				p++;
+			}
+			html += "<li><a class=\"a_hand\" onclick=\"page_down()\">下一页</a></li>";
+			odetails.innerHTML = html; 
+		}else{
+			odetails.style.display = 'none';
+		}
+		
+	}
+	
+	//用于分页显示
+	function page(p){
+		list[p] = active()[p-1];
+		list[1] = active()[0];
+		for( var i in list){
+			list[i].className = "";
+		}
+		active()[p-1].className = "active";
+		show_lines(all_tr, b, p)
+	}
+
+	//页面上下页反动
+	function page_up(){
+		if(return_active() != 0)page(return_active())
+	}
+
+	function page_down(){
+		if(active().length + 1 != return_active() + 2)page(return_active() + 2);
+	}
+
+	function return_active(){
+		for(i=0;i<active().length;i++){
+			if(active()[i].className == "active"){
+				return i
+			}
+		}
+	}
+
+
+	//赛选运营中心
+	var th_title0 = document.getElementById("th_title0");
+	//筛选负责人名称
+	var th_title2 = document.getElementById("th_title2");
+	var th_title4 = document.getElementById("th_title4");
+
+	th_title0.onmouseenter = function(){ showlist("insert_ul_center", 0, "fcenter" ); fast_index("insert_ul_center", 2) }; //鼠标移入显示
+	th_title0.onmouseleave = function(){ hiddenlist(0)}; //鼠标移除隐藏
+	th_title2.onmouseenter = function(){ showlist("insert_ul_username", 1, "username" ); fast_index("insert_ul_username", 4) };
+	th_title2.onmouseleave = function(){ hiddenlist(1)};
+	th_title4.onmouseenter = function(){ showlist("insert_ul_user", 2, "username" ); fast_index("insert_ul_user", 6) };
+	th_title4.onmouseleave = function(){ hiddenlist(2)};
+	
+
+	//将jinja2信息传入到html页面中
+	function showlist(id, num, db){
+		var insert_ul = document.getElementById(id);
+		document.all("t_select")[num].style.display = 'block';
+		if(db == "fcenter"){
+			html = "<li>所有</li>{% for center in fcenter %}{% if center.fcenter != '技术中心' %}<li>{{ center.fcenter }}</li>{% endif %}{% endfor %}"
+		}else{
+			html = "<li>所有</li>{% for u_user in username %}<li>{{ u_user }}</li>{% endfor %}"
+		}
+		insert_ul.innerHTML = html;
+	}
+
+
+	function hiddenlist(num){
+ 	       document.all("t_select")[num].style.display = 'none';
+        }
+
+
+	//通过点击url快速获取名称
+	function fast_index(id, loca){
+		var ul = document.getElementById(id);
+		var lis = ul.getElementsByTagName("li");
+		funny = function(i){
+			lis[i].onclick = function(){
+				select_center(lis[i].innerText, loca);
+			}
+		};
+
+		for(var i=0; i<lis.length; i++){
+			funny(i);
+		}
+	}
+
+	//用于通过关键字在页面显示内容
+	function select_center(content, loca){
+		var zz=/[a-z]/;
+		var aa=/[0-9]/;
+		if(content == "所有"){
+			show_lines(all_tr, all_tr.length, 1)	
+		}else if( content.length == 0 ){
+			show_table(15);
+			return;
+		}else{
+			hidden_tbody()
+			for(var y=0; y<all_tr.length; y++){
+				if(zz.test(content)){
+					var content = content.toUpperCase();
+					matching(y, content, loca);
+				}else if(aa.test(content)){
+					show_table(15);
+					return;
+				}else{
+					matching(y, content, loca);
+				}
+			}
+		}
+                show_page(all_tr, all_tr.length)
+	}
+
+	//用于匹配显示
+	function matching(y, content, loca){
+		if(all_tr[y].cells[loca].innerText.indexOf(content) != -1){
+			all_tr[y].style.display = 'table-row';
+		}
+	}
+
+	//用于索引快速显示内容
+	function search(event){
+		var content = event.target.value;
+		select_center(content, 3)
+	}
+</script>
+<!--控制tables显示行数结束-->
+
+<!--用于导出excel文件开始-->
+<script type="text/javascript">
+	function To_Excel(){
+		var datas = [];
+		var checkbox = document.all("checkboxline");
+		if(checkbox.length != undefined){
+			for(var x=0; x<checkbox.length; x++){
+				if(checkbox[x].checked){
+					datas[x] = checkbox[x].value;
+				}else{
+					alert('请选择！')
+					return;
+				}
+			}
+		}
+		var url = "{{ url_for('main.game_distribution')}}?excel_ids=" + datas.join(',');
+		window.location.href = url;
+	}
+</script>
+<!--用于导出excel文件结束-->
+
+
+
+<!--gpupdate()更新游戏组策略开始-->
+<script type="text/javascript">
+	function gpupdate(){
+		if(window.confirm("确定要刷新?")){
+			window.location.href = "{{ url_for('main.game_distribution_flush')}}"
+		}
+	}
+</script>
+<!--gpupdate()更新游戏组策略结束-->
+
+
+<!--实现多表联动效果开始-->
+<script type="text/javascript">
+	function linnk_game(id){
+		var all_info = document.all(id);
+		var s_game = all_info[1];
+		var s_center = all_info[0];
+		s_center.addEventListener("change", function(){
+			var name = this.value.substring(0,2);
+			var game_data = {{ hostgroup | tojson }};
+			s_game.options.length=0;
+			s_game.options.add(new Option(name + "选择", "None"))
+			for(var x=0; x<game_data.length; x++ ){
+				if(game_data[x][1].indexOf(name) == 0){
+					s_game.options.add(new Option(game_data[x][1], game_data[x][0]));
+				}
+			}
+		}, false);
+	}
+</script>
+
+<!--实现多表联动效果结束-->
+
+
+<script type="text/javascript">
+	function insertdata(){
+		var insertdata = document.all("insertdata");
+		var datas = [];
+		for(var x=0; x<insertdata.length; x++){
+			if(insertdata[x].value == "" || insertdata[x].value == "-1"){
+				alert('请按格式输入')
+				break;
+			}else{
+				if(datas == ""){
+					datas = insertdata[x].value;
+				}else{
+					datas = datas + "," + insertdata[x].value;
+				}
+			}
+		}
+		if(datas != ""){
+			var xml = new XMLHttpRequest(); 
+			xml.open("POST", "{{ url_for('main.game_distribution_save') }}", true);
+        	        xml.send(JSON.stringify(datas))
+                	location.reload()  
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function Editinput(){
+		var checkboxline = document.all("checkboxline");
+		var a = [];
+		if(checkboxline.length == undefined){
+				alert('数据太少请添加数据')
+		}else{
+			for(var x=0; x<checkboxline.length; x++){
+				a[x] = checkboxline[x].checked;
+				if(checkboxline[x].checked == true){
+					var id = checkboxline[x].value;
+					var inputtext = document.all("inputtext"+id);
+					for(var y=0; y<inputtext.length; y++){
+						if(y==0){
+							inputtext[y].innerHTML = '<select style="width:110px;" id="newdata' + id + '"><option>' + inputtext[y].innerHTML + 
+							'</option>{% for c_center in fcenter %}{% if c_center.fcenter != '技术中心' %}<option value="{{ c_center.fcenter }}">{{ c_center.fcenter }}</option>{% endif %}{% endfor %}</select>'
+						}else if(y==1){
+							inputtext[y].innerHTML = '<select style="width:150px;" id="newdata' + id + '"><option>' + inputtext[y].innerHTML + 
+							'</option>{% for game in hostgroup %}<option value="{{ game[1] }}">{{ game[1] }}</option>{% endfor %}</select>' 
+						}else if(y==2 || y==4 || y==6){
+							inputtext[y].innerHTML = '<select style="width:95px;"id="newdata' + id + '"><option>' + inputtext[y].innerHTML + 
+										'</option>{% for u_user in username %}<option value="{{ u_user }}">{{ u_user }}</option>{% endfor %}</select>'
+						}else if(y==9 || y==10){
+							inputtext[y].innerHTML = '<select style="width:50px;" id="newdata' + id + '"></option><option value="1">是</option><option value="0">否</option></select>'
+						}else{
+							inputtext[y].innerHTML = '<input style="width:95px;" type="input" id="newdata' + id + '" value="' + inputtext[y].innerHTML + '">' 
+						}
+					}
+				}
+			}
+		}
+		var b = a.join(',');
+		if(b.indexOf('true') != -1){
+			document.getElementById("editinput").disabled="true"
+		}else{
+			alert('请选择')
+		}
+	}
+</script>
+
+
+<script type="text/javascript">
+	function deleteinput(){
+		var ids = [];
+		var checkboxline = document.all("checkboxline");
+		if(checkboxline.length == undefined){
+			alert('x')
+		}else{
+			for(var x=0; x<checkboxline.length; x++){
+				if(checkboxline[x].checked == true){
+					if(ids == ""){
+						ids = checkboxline[x].value;
+					}else{
+						ids = ids + "," + checkboxline[x].value;
+					}
+				}
+			}	
+		}
+		var url = "{{ url_for('main.game_distribution')}}?ids=" + ids;
+		window.location.href = url;
+	}
+</script>
+
+<script type="text/javascript">
+	function show_something(id){
+		if(id.style.display == ""){
+			id.style.display = 'block';	
+		}else{
+			id.style.display = '';
+		}
+	}
+</script>
+
+
+<script type="text/javascript">
+	window.onload = function(){
+		var none = ['3', '5', '7']
+		for(var x=0; x<none.length; x++){
+			var th = document.all("th_title" + none[x]);
+			var checkbox = document.getElementById("checkbox" + none[x]);
+			checkbox.checked = true; 
+			for(var y=0; y<th.length; y++){
+				th[y].style.display = 'none';			
+			}
+		}
+		show_table(15)
+		linnk_game("insertdata")
+	}
+</script>
+
+<script type="text/javascript">
+	function showth(id){
+		var th = document.all("th_title" + id);
+		for(var x=0; x<th.length; x++){
+			if(th[x].style.display == "none"){
+				th[x].style.display = 'table-cell';
+			}else{
+				th[x].style.display = 'none';
+			}
+		}
+	}
+</script>
+
+
+<script type="text/javascript">
+	function SaveNewdata(){
+		var all_data = {};
+		var checkboxline = document.all("checkboxline");
+		for(var y=0; y<checkboxline.length; y++){
+                        if(checkboxline[y].checked == true){
+				var datas = [];
+			        var newdata = document.all("newdata" + checkboxline[y].value);
+				for(var x=0; x<newdata.length; x++){
+					datas[x] = newdata[x].value;
+				}
+				all_data[checkboxline[y].value] = datas
+                        }
+                }
+		var xml = new XMLHttpRequest(); 
+		xml.open("POST", "{{ url_for('main.game_distribution_update') }}", true);
+		xml.send(JSON.stringify(all_data))
+		location.reload()  
+	}
+</script>
+
+<script type="text/javascript">
+	document.getElementById("CheckBoxAll").addEventListener("click", function(){
+		var checkboxline = document.all("checkboxline");		
+		for(var x=0; x<checkboxline.length; x++){
+			checkboxline[x].checked = this.checked;
+		}
+	});
+
+</script>
+
+
+{% endblock %}
+

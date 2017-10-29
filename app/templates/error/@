@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}监控安装完成{% endblock %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>监控安装完成</h1>
+</div>
+	<div class="row-fluid">
+		<div class="container">
+		<div class="span11">
+			<div class="tabbable">  <!-- Only required for left/right tabs -->
+				{% if ips  %}
+	 				<ul class="nav nav-tabs">
+						<li><a href="#error" data-toggle="tab">错误</a></li>
+						{% for ip in ips %}
+						<li><a href="#{{ loop.index }}" data-toggle="tab">{{ ip }}</a></li>
+						{% endfor %}
+					</ul> <!-- tabbable -->
+					 <div class="tab-content">
+						 <div class="tab-pane" id="error">
+							<p>xxxx</p>
+						 </div>
+						{% for ip in ips %}
+						 <div class="tab-pane" id="{{ loop.index }}">
+							 <p>{{ ip }}</p>
+						</div>
+						{% endfor %}
+				  	</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

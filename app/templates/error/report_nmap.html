@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+{% if filename %}
+	<div class="alert alert-info">
+        	<button type="button" class="close" data-dismiss="alert">×</button>
+	        <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+	</div>
+{% endif %}
+
+
+<div id="modal-container" class="modal hide fade in" style="display: none; "><!-- 弹窗开始 -->
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal"></a>
+			<h3>特殊端口添加</h3>
+	</div>
+	<div class="modal-body">
+		<div class="text-center">
+			{% for port in port_db %}
+				<form>
+					<input id="PortList" class="span6" value="{{ port.port }}">
+					<a class="btn btn-danger" id="portid" value="{{ port.id }}"  onclick="DelPort({{ port.id }})">删除</a>
+				</form>
+			{% endfor %}
+			<hr>
+			<span id="NoteInput">
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn btn-success" contenteditable="true" onclick="AddInput()">添加</button>
+		<button class="btn btn-primary" contenteditable="true" onclick="SaveDate()">保存设置</button>
+		<button class="btn" data-dismiss="modal" aria-hidden="true" contenteditable="true">关闭</button>
+	</div>
+</div>
+
+<div class="row-fluid">	
+	<div class="span9">
+		<form class="form-inline" id="change_post" method="post" class="form" role="form">
+			<label>扫描IP地址:</label>
+			<input type="text" id="host" name="host" placeholder="格式：5.240-245 或 ip1 ip2">
+			&nbsp
+			&nbsp
+			<label>端口号:</label>
+			<input type="text" id="port" name="port" placeholder="格式：20 80 或 1-19,30-50 ">
+			&nbsp
+			&nbsp
+			<label>扫描方式:</label>
+			<select name="way" id="way" class="input-small"><option value="fast">快速</option><option value="slow">详细</option></select>
+			&nbsp
+			&nbsp
+       			<input type="button" class="btn" value="扫描" onclick="Scan_Click()" >
+		</form>
+	</div>
+	<div class="text-right">
+		<div class="input-prepend input-append div-right">
+     	        	<span class="add-on">关键端口</span>
+			<select name="way" id="way" class="input-small">
+				{% for port in port_db %}
+					<option value="{{ port.port }}">{{ port.port }}</option>
+				{% endfor %}
+			</select>
+			<a href="#modal-container" class="btn btn-danger" data-toggle="modal"><i class="icon-th-list"></i>添加</a>
+	       	</div>
+	</div>
+</div>
+<hr>
+
+<div class="row-fluid">
+	<div class="span9">
+		显示数量：
+		<select id="SelectNum" style="width:80px;" onchange="SelectInfo()">
+			{% if abc %}
+				<option >{{ abc }}</option>
+			{% else %}
+				<option>选择</option>
+			{% endif %}
+			<option id="OptionValue" value="0" >All</option>
+			<option id="OptionValue" value="10">10</option>
+			<option id="OptionValue" value="5">5</option>
+		</select>
+	</div>
+	<div class="text-right">
+		<input class="input-medium search-query" type="text" id="SelectInput" >
+		<button class="btn" contenteditable="true" type="submit" onclick="SelectButton()"><i class="icon-search"></i>查找</button>
+	</div>
+</div>
+
+
+
+{% if db_data %}
+	{% for a in db_data %}
+		{% for i in a %}
+			<div id="myModal{{ loop.index }}" class="modal hide fade in" style="display: none; "><!-- 弹窗开始 -->
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal"></a>
+						<h3>{{ i.ip }}端口扫描结果</h3>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<th>程序名称</th><th>版本</th><th>端口号</th><th>状态</th>
+							{% for data in data_dict[i.ip] %}
+								<tr id="InfoTr">
+									<td>{{ data[0] }}</td>
+									<td>{{ data[1] }}</td>
+									<td>{{ data[2] }}</td>
+									<td>{{ data[3] }}</td>
+								</tr>
+							{% endfor %}
+					</table>
+				</div>
+					<div class="modal-footer">
+						<a href="#" class="btn" data-dismiss="modal">关闭</a>
+					</div>
+				</div> 
+	{% endfor %}
+{% endfor %}
+
+	<table class="table table-hover" id="SnmpTable">
+		<th><input type="checkbox" id="CheckAll" name="CheckAll"></th>
+		<th>序号</th>
+		<th>日期</th><th>IP地址</th><th>扫描端口</th><th>进度</th><th>方式</th><th>查看结果</th>
+		{% for a in db_data %}
+			{% for i in a %}
+				<tr>
+					{% if i.data_t == "100"  %}
+						<td width="50"><input type="checkbox" value="{{ i.id }}" id="ScanMonitor" name="ScanMonitor"></td>
+					{% else %}
+						<td width="50"><input type="checkbox" value="{{ i.id }}" id="ScanMonitor" name="ScanMonitor" disabled="true" ></td>
+					{% endif %}
+					<td width="50">{{ loop.index }}</td>
+					<td width="200">{{ i.i_time }}</td>
+					<td width="100">{{ i.ip }}</td>
+					<td width="400">{{ i.port_info | e }}</td>
+					<td width="400">
+						<div class="progress">
+							<div class="bar" id="JinDu" style="width: 0%;">
+								<div id="details{{ loop.index0 }}">
+								</div>
+							</div>
+						</div>
+						</td>
+					<td width="50">{{ i.way }}</td>
+					{% if i.data_t == "100"  %}
+						{% if data_dict[i.ip] == [] %}
+							<td width="120"><a href="#myModal{{ loop.index }}" class="btn btn-info" data-toggle="modal" onclick="Tr_Click()"><i class="icon-warning-sign"></i>无数据</a></td>
+						{% else %}
+							<td width="120"><a href="#myModal{{ loop.index }}" class="btn" data-toggle="modal" onclick="Tr_Click()"><i class="icon-pencil"></i>查看结果</a></td>
+						{% endif %}
+					{% else %}
+						<td width="120"><a href="#" class="btn" disabled="true"><i class="icon-circle-arrow-up"></i>请等待</a></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
+{% endif %}
+
+{% if full_page != 1 %}
+<div class="pagination" style="text-align:center;">
+	<ul>
+		<li><a onclick="ChangePageUp({{ abc }})">上一页</a></li>
+			{% for c in total_data %}
+				<li><a onclick="ChangePage({{ loop.index }}, {{ abc }})">{{ loop.index }}</a></li>
+			{% endfor%}
+		<li><a onclick="ChangePageDown({{ full_page }},{{ abc }})">下一页</a></li>
+	</ul>
+</div>
+{% endif %}
+
+
+<hr>
+<div style="text-align:right;"> 
+	<td><button type="button" class="btn btn-success" onclick="PutExcel()">导出Excel</button></td>
+</div>
+
+
+<!-- 用于刷新进度条 -->
+        <script type="text/javascript">
+        window.onload = function(){
+                function abc(){
+                        var url = "{{ url_for('main.scan_data') }}";
+                        var request = new XMLHttpRequest();
+                        request.open("GET", url, true);
+                        request.send();
+                        request.onreadystatechange = function(){
+                                if(request.readyState == 4 && request.status == 200){
+                                        var result = request.responseText;
+                                        var objects = eval("(" + result + ")");
+                                        var jinduobject = document.all('JinDu');
+                                        var jinduo_id = document.all('ScanMonitor');
+                                        if(jinduobject.length == undefined){
+                                                var id = jinduo_id.value;
+                                                var NewValue = objects[id];
+                                                jinduobject.setAttribute("style","width:" + NewValue + "%;") ;
+
+                                                var aNode = document.createElement('a');
+                                                aNode.style.color = "#fff"; 
+                                                aNode.appendChild(document.createTextNode(NewValue + "%"));
+
+                                                var detailsNode = document.getElementById("details0");
+                                                detailsNode.innerHTML = "";
+                                                detailsNode.appendChild(aNode);
+                                        }else{
+                                                for (var x=0; x<jinduobject.length; x++){
+                                                        var id = jinduo_id[x].value;
+                                                        var NewValue = objects[id];
+                                                        jinduobject[x].setAttribute("style","width:" + NewValue + "%;") ;                                               
+                                                
+                                                        var aNode = document.createElement('a');
+                                                        aNode.style.color = "#fff"; 
+                                                        aNode.appendChild(document.createTextNode(NewValue + "%")); 
+                                
+                                                        var detailsNode = document.getElementById("details" + x);
+                                                        detailsNode.innerHTML = ""; 
+                                                        detailsNode.appendChild(aNode);
+                                                }
+                                        }
+                                }
+                        }
+                }
+                var host = "{{ url_for('main.report_nmap') }}"
+                var timer;
+                var params = window.location.pathname;
+                var arr = params.substring(1).split("/");
+                if( arr[0] == "nmap" ){ 
+                        clearInterval(timer);                   
+                        timer = setInterval(function(){abc()},3000)
+                }else{
+                        clearInterval(timer);
+                }
+        }
+        </script>
+
+<!--    /* 用于获取form中信息，并以get方式将数据传给后台 */-->
+        <script type="text/javascript">
+        function Scan_Click(){
+                var new_info = ""
+                var check_host = document.getElementById("host").value;
+                var cehck_port = document.getElementById("port").value;
+                var check_way = document.getElementById("way").value;
+                var timer;
+                if(check_host == ""){
+                        alert("请输入扫描IP地址")
+                }else if(cehck_port == ""){
+                        alert("请输入端口号")
+                }else{
+                        var info = "hosts=" + check_host + "&" + "ports=" + cehck_port + "&" + "ways=" + check_way
+                        window.location.href = "{{ url_for('main.post_scan')}}?"+info; 
+                }
+        }
+        </script>
+
+<!--    用于做页面显示内容数量 -->
+        <script type="text/javascript">
+        function SelectInfo(){
+                var SelectNum = document.getElementById("SelectNum");
+                        if( SelectNum.value != ''){
+                                var OptionValue = document.all('OptionValue');
+                                for(var x=0; x<OptionValue.length; x++){
+                                        if(SelectNum.value == OptionValue[x].value){
+                                                var url = "{{ url_for('main.change_num') }}?" + "abc=" + SelectNum.value + "&page=1"
+                                                window.location.href = url 
+                                                
+                                        }
+                                }
+                        }
+                }
+        </script>
+
+<!-- 页面分页显示 -->
+        <script type="text/javascript">
+        function ChangePage(num, abc){
+                var url = "{{ url_for('main.change_num') }}?" + "abc=" + abc + "&page=" + num 
+                window.location.href = url;
+        }
+        </script>
+
+        <script type="text/javascript">
+        function ChangePageUp(abc){
+                var params = window.location.search;
+                var arr = params.substring(1).split("=");
+                var id = arr[2];
+                if(id >= 1){
+                        id --
+                }
+                var url = "{{ url_for('main.change_num') }}?" + "abc=" + abc + "&page=" + id
+                window.location.href = url;
+        }
+        </script>
+
+        <script type="text/javascript">
+        function ChangePageDown(all, abc){
+                var params = window.location.search;
+                var arr = params.substring(1).split("=");
+                var id = arr[2];
+                if(all > id){
+                        id ++
+                }
+                var url = "{{ url_for('main.change_num') }}?" + "abc=" + abc + "&page=" + id
+                window.location.href = url;
+        }
+
+        </script>
+
+<!-- 导出excel -->
+        <script type="text/javascript">
+        function PutExcel(){
+                var id_list = ""
+                var ids = document.all("ScanMonitor");
+                for(var x=0; x<ids.length; x++){
+                        if(ids[x].checked == true){
+                                if(id_list == ""){
+                                        id_list=ids[x].value;
+                                }else{
+                                        id_list = id_list + "," + ids[x].value;
+                                }
+                        }
+                }
+                if(id_list == ""){
+                        alert('请选择')
+                }else{
+                        var url = "{{ url_for('main.to_excel') }}" + "?ids=" + id_list;
+                        window.location.href = url; 
+                }
+        }
+        </script>
+  </body>
+
+<!-- 搜索框 -->
+        <script type="text/javascript">
+        function SelectButton(){
+                var name = document.getElementById("SelectInput");
+                var url = "{{ url_for('main.select_host') }}?" + "host=" + name.value;
+                window.location.href = url;
+        }
+        </script>
+
+
+{% endblock %}
+
+

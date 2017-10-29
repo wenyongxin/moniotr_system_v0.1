@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<div class="tabbable tabs-left">
+	<ul class="nav nav-tabs">
+		{% for user in login_user %}
+			{% if loop.index == 1 %}
+				<li class="active"><a href="#user{{ loop.index }}" data-toggle="tab">{{ user }}</a></li>
+			{% else %}
+				<li><a href="#user{{ loop.index }}" data-toggle="tab">{{ user }}</a></li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+	<div class="tab-content">
+		{% for user in login_user %}
+			{% if loop.index == 1 %}
+				<div class="tab-pane active" id="user{{ loop.index }}">
+			{% else %}
+				<div class="tab-pane" id="user{{ loop.index }}">
+			{% endif %}
+				<table class="table">
+					{% for h in history %}
+						{% if h.user == user %}
+							<tr>
+								<td>{{ h.date }}<td>
+								<td>{{ h.history }}<td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				</table>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+

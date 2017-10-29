@@ -1,0 +1,9 @@
+<p>Hello {{ user.username }},</p>
+<p>欢迎使用! <b>Efun运维监控系统</b></p>
+<p>您的账号已经创建</p>
+<p>您的登录用户名：{{ user.mail }}</p>
+<p>登录密码：请查阅QQ小窗</p>
+<p>请先登录验证<a href="{{ url_for('auth.confirm', token=token, _external=True) }}">验证</a></p>
+<p>如果您不能够登录请复制下面的URL到浏览器</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>Efun监控运维团队</p>

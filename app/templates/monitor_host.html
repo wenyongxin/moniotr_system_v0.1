@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+<div class="tabbable">  <!-- Only required for left/right tabs -->
+	<button type="button" class="btn btn-primary btn-sm" onclick="Math_Click()">批量修改</button>
+	<!--<button type="button" class="btn btn-warning btn-sm" onclick="#">批量执行</button>-->
+	<table class="table">
+		<th>选择</th><th>序号</th><th>主机地址</th><th>SSH端口号</th><th>proxy地址</th><th>操作系统</th><th>监控安装人</th><th>安装日期</th><th>Connect</th>
+		{% if machines %}
+		{% for i in machines %}			
+			{% if i.monitor == 0 %}   <!-- 0 则未处理  1 处理完毕-->
+				<tr>
+					<td><input type="checkbox" value={{ i.id }} name="monitor"></td>
+					<td><div>{{ loop.index }}</div></td>
+					<td><div>{{ i.ip }}</div></td>
+					<td><div>{{ i.port }}</div></td>
+					<td><div>{{ i.proxy }}</div></td>
+					<td><div>{{ system_dict[i.system] }}</div></td>
+					<td><div>{{ i.i_user }}</div></td>
+					<td><div>{{ i.i_time }}</div></td>
+					<td><button type="button" class="btn btn-primary" onclick="ssh_connect({{ i.id }})">连接</button></td>
+					<td style="display:none;"><a href="#myModal_{{ i.id }}" id="btnSearch{{ i.id }}" role="button" class="btn" data-toggle="modal"></a></td>
+			{% else %}
+				<tr class="success">
+					<td><input type="checkbox" value={{ i.id }} name="monitor" disabled="true"></td>
+					<td><div>{{ loop.index }}</div></td>
+					<td><div>{{ i.ip }}</div></td>
+					<td><div>{{ i.port }}</div></td>
+					<td><div>{{ i.proxy }}</div></td>
+					<td><div>{{ system_dict[i.system] }}</div></td>
+					<td><div>{{ i.i_user }}</div></td>
+					<td><div>{{ i.i_time }}</div></td>
+					<td><button type="button" class="btn btn-success" disabled="true">完成</button></td>
+			{% endif %}
+				</tr>
+		{% endfor %}
+		{% endif %}
+	</table>
+</div>
+
+
+{% for i in machines %}
+        <div id="myModal_{{ i.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin: 30px 0 0 -650px;width:1300px;">
+                <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">webssh登录：{{ i.ip }}</h3>
+                </div>
+                <div class="modal-body">
+			<div style="height:500px;">		
+				<object style="border:0px" type="text/x-scriptlet" data="{{ url }}" width=100% height=500px></object>
+			</div>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+        </div>
+{% endfor %}
+
+
+{% if all_page > 1 %}
+	{% if total_page %}
+		<div class="pagination" style="text-align:center;">
+			<ul> 
+				<li><a onclick="page_up()">上一页</a></li>
+				{% for i in total_page %}
+					<li id="page_num{{ loop.index }}"><a href="{{ url_for('main.monitor_host')}}?page={{ loop.index }}">{{ loop.index }}</a></li>
+				{% endfor %}
+				<li><a onclick="page_down()">下一页</a></li>
+			</ul>
+		</div>
+	{% endif %}
+{% endif %}
+
+
+
+<!--ssh_connect()webssh页面登录开始-->
+<script type="text/javascript">
+	function ssh_connect(id){
+		var info = {};
+		var arr = window.location.search.split('=');
+		var page = Number(arr[1]);
+		info['page'] = page;
+		
+		var xml = new XMLHttpRequest();
+		info['id'] = id;
+		xml.open("POST", "{{ url_for('main.ssh_host') }}", true);
+		xml.send(JSON.stringify(info))
+	//	location.reload()
+		document.getElementById("btnSearch" + id).click();
+	}
+</script>
+<!--ssh_connect()webssh页面登录结束-->
+
+
+<!--page_up() 开始-->
+<script type="text/javascript">
+	function page_up(){
+		var arr = window.location.search.split('=');
+		var page = Number(arr[1]);
+		if(page > 1){
+			page--
+		}
+		url = "{{ url_for('main.monitor_host')}}?page=" + page;
+		window.location.href = url;
+	}
+
+
+	function page_down(){
+		var arr = window.location.search.split('=');
+		var page = Number(arr[1]);
+		if(page < "{{ all_page }}"){
+			page++
+		}
+		url = "{{ url_for('main.monitor_host')}}?page=" + page;
+		window.location.href = url;
+	}
+	
+</script>
+<!--page_up() 结束-->
+
+
+
+<!--用于判断页面开始-->
+<script type="text/javascript">
+	window.onload = function(){
+		var arr = window.location.search.split('=');
+                var page = Number(arr[1]);
+		var page_num = document.getElementById("page_num" + page);
+		page_num.className = "active";
+
+	}
+</script>
+<!--用于判断页面结束-->
+
+
+
+
+<!-- 获取checkbox value值 -->
+<script type="text/javascript">
+	function Math_Click(){
+	var rusult="";
+	var check_array=document.getElementsByName("monitor");
+	for(var i=0;i<check_array.length;i++){
+		if(check_array[i].checked==true){         
+			if(rusult==""){
+				rusult=check_array[i].value;
+			}else{
+				rusult=rusult+","+check_array[i].value;
+			}
+		}
+	}
+		if(rusult==""){
+			alert('请选择')
+		}else{
+			window.location.href = "{{ url_for('main.monitor_change')}}?ids="+rusult;
+		}
+        }
+</script>
+
+{% endblock %}
+
+

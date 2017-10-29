@@ -1,0 +1,3 @@
+<p>Dear {{ user.username }}</p>
+<p>Welcome to <b>Flasky</b></p>
+<p>To reset your password please<a href="{{ url_for('auth.reset_pass_confirm', token=token, _external=True) }}">Click Here</a></p>

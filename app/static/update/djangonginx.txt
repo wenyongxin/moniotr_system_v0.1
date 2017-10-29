@@ -1,0 +1,81 @@
+
+
+yum -y install gcc* make openssl openssl-devel
+yum -y install readline readline-devel*
+yum -y install gcc  python27-devel  libxml2 libxml2-devel libxslt libxslt-devel
+
+1、安装python 2.7.3
+./configure && make install
+
+2、修改yum的python版本
+vim /usr/bin/python /usr/bin/python  改  /usr/bin/python2.6
+
+3、链接python2.7
+ln -s /usr/local/bin/python2.7 /usr/bin/python
+
+4、安装Mysqldb
+python setup.py install
+
+5、安装setuptools
+python setup.py install
+
+6、安装pip
+easy_install pip
+
+7、安装django
+python setup.py install
+
+8、安装uwsgi
+export LDFLAGS="-Xlinker --no-as-needed"
+pip install uwsgi
+
+9、测试
+新建test.py文件
+内容如下：
+#-*- coding:utf-8 -*-
+
+def application(env, start_response):
+    start_response('200 OK', [('Content-Type','text/html')])
+    return "Hello uwsgi"
+	
+10、执行测试
+uwsgi --http 0.0.0.0:1989 --wsgi-file test.py
+在web页面查看
+
+11、安装nginx
+yum -y install nginx
+
+12、在django工程目录中创建django_socket.ini
+[uwsgi]
+vhost = false
+socket = 127.0.0.1:8077
+master = true
+enable-threads = true
+workers = 4
+wsgi-file = wechat/wsgi.py
+
+13、ngxin配置
+server {
+    listen      80;
+    server_name 172.16.5.15;    #本机的IP或域名
+    charset     utf-8;
+
+    client_max_body_size 75M;
+
+    location /static {
+        alias /usr/share/nginx/html/weixin/wechat/static;  #静态文件目录
+    }
+
+    location / {
+        uwsgi_pass  127.0.0.1:8077;
+        include     /etc/nginx/uwsgi_params;
+    }
+}
+
+
+
+supervisor管理进程
+
+
+
+

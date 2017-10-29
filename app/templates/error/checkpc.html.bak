@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}自动检测监控添加{% endblock %}
+
+{% block sidebar %}
+	<script>
+	   $(function() { 
+	      $(".btn").click(function(){
+        	 $(this).button('loading').delay(1000).queue(function() {
+	           // $(this).button('reset');
+        	 });        
+	      });
+	   });  
+</script>
+	{{ super() }}
+{% endblock %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>自动检测添加监控</h1>
+</div>
+	<div class="row-fluid">
+		<div id="example" class="modal hide fade in" style="display: none; "><!-- 弹窗开始 -->
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">×</a>
+					<h3>监控自动检测信息</h3>
+			</div>
+			<!--
+			<div class="modal-body">
+		                {% if info_dict %}
+                		        <table class="table">              
+			                        <th>序号</th><th>IP地址</th><th>ssh端口号</th><th>登录密码</th><th>Proxy地址</th><th>操作系统</th>
+                        			{% for ip,value in info_dict.iteritems() %}
+			                                {% if loop.index is divisibleby 2 %} <!-- 判断奇偶 -->
+                        			                <tr class="info">
+			                                {% else %}
+                        			                <tr>
+			                                {% endif %}
+				                                <td>{{ loop.index }}</td>
+                        				        <td>{{ ip | e }}</td>
+			                	                <td>{{ value.0 | e }}</td>
+				                                <td>{{ value.1 | e }}</td>
+				                                <td>{{ value.2 | e }}</td>
+				                                <td>{{ value.3 | e }}</td>
+			                                </tr>
+			                        {% endfor %}
+		                        </table>
+                		{% endif %}			
+			</div>
+			<div class="modal-footer">
+				<a href="/addmachine-2/install?info={{ url_code }}" class="btn btn-success">提交安装</a>
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+			-->
+		</div> <!-- 弹窗结束 -->
+
+		<form action="" method="post" class="form" role="form"> <!-- form 开始 -->
+			{{ form.hidden_tag() }}
+			<div class="row-fluid">
+				<div class="span11">
+					<div class="form-group required">	
+						{{ form.ip.label(class="col-sm-2 control-label") | safe }}
+						{{ form.ip(class="form-control input-lg", style="margin: 0px 0px 10px; width: 1277px; height: 42px;")}}
+					</div><!-- span2 -->
+				</div><!-- row-fluid -->
+			</div>
+			<div class="row-fluid">
+				<div class="span3">
+					<div class="form-group required">
+						{{ form.proxy.label(class="col-sm-2 control-label") | safe }}
+						{{ form.proxy(class="form-control", required=True)}}
+					</div><!-- span2 -->
+				</div><!--row-fluid-->
+				<div class="span3">
+					<div class="form-group required">
+						{{ form.system.label(class="col-sm-2 control-label") | safe }}
+						{{ form.system(class="form-control", required=True)}}
+					</div><!-- span2 -->
+				</div><!--row-fluid-->
+			</div>
+			<div class="row-fluid" >
+				<div class="span2"> <!-- 用于提交监控安装按钮 -->
+                                        <div class="register">
+						{{ form.submit(class="btn btn-info submit") }}
+                                        </div><!-- span2 -->
+                                </div><!--row-fluid-->
+				<div class="span2"> <!-- 用于提交监控安装按钮 -->
+                                        <div class="register">
+                                                <p><a data-toggle="modal" href="#example" class="btn btn-success submit">查看结果</a></p>
+                                        </div><!-- span2 -->
+                                </div><!--row-fluid-->
+			</div><!--row-fluid-->
+		</form><!-- form 结束 -->
+		{% if ips %}
+                <div class="span11">
+                        <div class="tabbable">  <!-- Only required for left/right tabs -->
+                                <div class="tabbable" id="tabs-159021"><!-- Only required for left/right tabs -->
+                                        <ul class="nav nav-tabs">
+                                                <li><a data-toggle="tab" href="#error">错误信息</a></li>
+                                                {% for ip in ips %}
+                                                        <li><a data-toggle="tab" href="#pcinfo_{{ loop.index0 }}">{{ ip }}</a></li>
+                                                {% endfor %}
+                                        </ul>
+
+                                        <div class="tab-content">
+                                                <div class="tab-pane" id="error">
+                                                        {% for ip in ips %}
+                                                                <p>{{ ip }}</p>
+                                                                {% for err in info[ip]['err'] %}
+                                                                        <p>{{ err }}</p><br>
+                                                                {% endfor %}
+                                                        {% endfor %}
+                                                </div>
+                                                {% for ip in ips %}
+                                                        <div class="tab-pane active" id="pcinfo_{{ loop.index0 }}">
+                                                        {% for i in  info[ip]['ok'] %}
+                                                                {{ i }}<br>
+                                                        {% endfor %}
+                                                        </div>
+                                                {% endfor %}
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+               {% endif %}
+        </div>
+</div>
+
+{% endblock %}

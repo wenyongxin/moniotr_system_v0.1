@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<style type="text/css">
+			body{font-size:12px;background:#F0F0F0;}
+			.m_div .m_des{margin-top:30px;}
+			.m_div .m_des .d_title{margin-top:40px;}
+			.m_div .m_des .d_font{float:left;}
+			.m_div .m_des .d_button{display:block; width:40px; height:20px; background:#F5920E; float:left; text-decoration:none; 
+				line-height:20px; text-align:center; color:#fff; border-radius:5px;float:left; margin:-3px 10px;}
+			.m_div .m_des .d_right{float:right;}
+		</style>
+	</head>
+	<body>
+		<div class="m_div">
+			<div class="m_des">
+				<p><b>Hello</b>{{ user.username }},</p>
+				<p>欢迎使用! <b>Efun运维监控系统</b></p>
+				<p class="d_title">您的账号已经创建</p>
+				<hr>
+				<p>您的登录用户名：{{ user.email }}</p>
+				<p>登录密码：请查阅QQ小窗</p>
+				<div class="d_font">请先登录验证</div><a class="d_button" href="{{ url_for('auth.confirm', token=token, _external=True) }}">验证</a>
+				<br>
+				<hr>
+				<p>如果您不能够登录请复制下面的URL到浏览器</p>
+				<p>{{ url_for('auth.confirm',token=token, _external=True) }}</p>
+				<p class="d_right"><b>Efun监控运维团队</b></p>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,4 @@
+<p>Dear {{user.username}}</p>
+<p>Welcome Flasky</p>
+<p>To reset your email please <a href="{{ url_for('auth.change_email', token=token, _external=True) }}">click here</a></p>
+<!-- <p>To reset your password please<a href="{{ url_for('auth.reset_pass_confirm', token=token, _external=True) }}">Click Here</a></p> >

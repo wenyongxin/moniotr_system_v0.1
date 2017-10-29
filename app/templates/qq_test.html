@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}企业QQ测试{% endblock %}
+
+
+
+
+{% block page_content %}
+
+
+<div class="page-header">
+    <h1>企业QQ测试</h1>
+</div>
+
+<a href="https://openapi.b.qq.com/oauth2/authorize?app_id={{ app_id }}&oauth_version=2&response_type=code&redirect_uri={{ redirect_uri }}&ui=web&state={{ state }}" onclick="CheckBut()">QQ模拟登录</a>
+
+<hr>
+
+
+{% for item in title %}
+	<li>{% block loop_item scoped %}{{ item }}{% endblock %}</li>
+{% endfor %}
+
+
+{% endblock %}
+
+

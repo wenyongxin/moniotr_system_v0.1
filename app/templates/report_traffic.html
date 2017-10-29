@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+{% block page_content %}
+<style type="text/css">
+	.idc_div {height:30px; width:100%; float:left;}
+	.idc_div .select_idc {float:left;}
+	.idc_div .i_title{margin: 10px 1px 10px 22px;} 
+
+
+	.idc_div .select_time{float:right;}
+	.idc_div .select_time .s_start{float:left; margin:5px 10px;}
+	.idc_div .select_time .s_end{float:left; margin:5px 18px;}
+	.idc_div .select_time .s_input{float:left; margin:0px 20px}
+	.idc_div .select_time .s_btn{float:right; display:block; width:81px; height:26px; background:#FF9100; border-radius:7px; text-decoration:none; font-size:14px; font-family:"微软雅黑"; color:#fff; margin:0 7px 0 12px;
+			text-align:center; line-height:26px; cursor:pointer;}
+	.idc_div .select_time .s_btn:hover{background:#FFB800;}	
+
+</style>
+<script src="../static/js/Chart.js"></script>
+
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+{% if filename != "None" %}
+        <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+        </div>
+{% endif %}
+
+
+<div class="idc_div">
+	<div class="select_idc">
+		{% for id, name in idc_dict.iteritems()%}
+			<input type="radio" name="idcRadios" class="i_title" id="idccheckbox" value="{{ id }}">{{ name }}
+		{% endfor %}
+		
+	</div>
+
+	<div class="select_time">
+		<div class="s_start">开始时间</div>
+		<input type="input" id="start_time" class="s_input" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+		<a class="s_btn" onclick="Select_times()">查询</a>
+	</div>
+</div>
+
+
+
+
+<script src="http://www.my97.net/dp/My97DatePicker/WdatePicker.js"></script>
+
+
+
+
+
+<!--To_Excel()导出excel按钮开始--->
+<script type="text/javascript">
+	function Select_times(){
+		var idccheckbox = document.all("idccheckbox");
+		for (var x=0; x< idccheckbox.length; x++){
+			if(idccheckbox[x].checked == true){
+				var start_time = document.getElementById("start_time");
+				if(start_time.value == ""){
+					alert('开始时间不能为空')
+				}
+				url = "{{ url_for('main.report_traffic_save')}}?idc=" + idccheckbox[x].value + "&start_time=" + start_time.value;
+				window.location.href = url;
+			}
+		}	
+	}
+</script>
+<!--To_Excel()导出excel按钮结束--->
+
+
+<!--IDC下拉列表赛选器GetIdcInfo()开始-->
+<script type="text/javascript">
+	function GetIdcInfo(){
+		var idc_select = document.getElementById("idc_select");
+		if(idc_select.value != 0){
+			url = "{{ url_for('main.report_traffic')}}?idc=" + idc_select.value;
+			window.location.href = url;
+		}
+	}
+</script>
+<!--IDC下拉列表赛选器GetIdcInfo()结束-->
+
+
+
+{% endblock %}
+
+

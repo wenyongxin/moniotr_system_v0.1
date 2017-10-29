@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+<style type="text/css">
+	th{font:12px; font-family:"微软雅黑"; color:#fff; line-height:30px; background:#000; line-height:auto;}
+	.cn{float:left; width:100%;} 
+	.cn .cn_text{color:#A5A4A4; text-decoration:none;}
+	.cn .error{float:right; display:block; text-align:right; cursor:pointer;}
+	.cn .ChangInput{width:80%;}
+	.cn .SaveButton{color:red;}
+
+</style>
+
+<table class="table">
+     	<th>漏洞</th>
+        <th>主机</th>
+     	<th>位置</th>
+	{% for d in data %}
+	<tr>
+		<td>
+			<div class="en">英文：<a href="#myModal{{ loop.index0 }}" role="button" data-toggle="modal" id="openvas_en{{ loop.index0 }}">{{ d['nvt_name'] }}</a></div>
+			<div class="cn">中文：<a class="cn_text" id="openvas_cn{{ loop.index0 }}">{{ translate_dict[d['nvt_name']] }}</a>
+				<div class="error">
+					<a id="SaveButton{{ loop.index0 }}"></a>
+					<a id="ChangButton{{ loop.index0 }}" onclick="ChangButton({{ loop.index0 }})">纠错</a>
+				</div>
+			</div>
+		</td>
+		<td>{{ scan_host }}</td>
+		<td>{{ d['port_proto'] }}/{{ d['port_name'] }}</td>
+	</tr>
+		<div id="myModal{{ loop.index0 }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin:77px 0px 0px -512px; width:1000px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">{{ d['nvt_name'] }}</h3>
+			</div>
+			<div class="modal-body">
+				{% if d['summary'] %}
+					<strong></p>摘要</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_ensummary{{ loop.index0 }}"class="openvas_ensummary{{ loop.index0 }}">{{ d['summary'] }}</p></div>
+					<div class="cn"><a class="cn_text" id="openvas_cnsummary{{ loop.index0 }}">{{ translate_dict[d['summary']] }}</a></div>
+					<div class="error">
+						<a id="SaveButtonsummary{{ loop.index0 }}"></a>
+						<a id="ChangButtonsummary{{ loop.index0 }}" onclick="ChangButton('summary{{ loop.index0 }}')">纠错</a>
+					</div>
+				{% endif %}
+
+				{% if d['impact'] %}
+					<strong></p>影响</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_enimpact{{ loop.index0 }}"class="openvas_ensummary{{ loop.index0 }}">{{ d['impact'] }}</p></div>
+                	                <div class="cn"><a class="cn_text" id="openvas_cnimpact{{ loop.index0 }}">{{ translate_dict[d['impact']] }}</a></div>
+                        	        <div class="error">
+                                	        <a id="SaveButtonimpact{{ loop.index0 }}"></a>
+                                        	<a id="ChangButtonimpact{{ loop.index0 }}" onclick="ChangButton('impact{{ loop.index0 }}')">纠错</a>
+	                                </div>
+				{% endif %}
+
+				{% if d['affected'] %}
+					<strong></p>影响软件</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_enaffected{{ loop.index0 }}"class="openvas_enaffected{{ loop.index0 }}">{{ d['affected'] }}</p></div>
+                	                <div class="cn"><a class="cn_text" id="openvas_cnaffected{{ loop.index0 }}">{{ translate_dict[d['affected']] }}</a></div>
+                        	        <div class="error">
+                                	        <a id="SaveButtonaffected{{ loop.index0 }}"></a>
+                                        	<a id="ChangButtonaffected{{ loop.index0 }}" onclick="ChangButton('affected{{ loop.index0 }}')">纠错</a>
+	                                </div>
+				{% endif %}
+
+				{% if d['insight'] %}
+					<strong></p>漏洞检查方法</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_eninsight{{ loop.index0 }}"class="openvas_eninsight{{ loop.index0 }}">{{ d['insight'] }}</p></div>
+                	                <div class="cn"><a class="cn_text" id="openvas_cninsight{{ loop.index0 }}">{{ translate_dict[d['insight']] }}</a></div>
+                        	        <div class="error">
+                                	        <a id="SaveButtoninsight{{ loop.index0 }}"></a>
+                                        	<a id="ChangButtoninsight{{ loop.index0 }}" onclick="ChangButton('insight{{ loop.index0 }}')">纠错</a>
+	                                </div>
+				{% endif %}
+
+				{% if d['solution'] %}
+					<strong></p>解决方法</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_ensolution{{ loop.index0 }}"class="openvas_ensolution{{ loop.index0 }}">{{ d['solution'] }}</p></div>
+                	                <div class="cn"><a class="cn_text" id="openvas_cnsolution{{ loop.index0 }}">{{ translate_dict[d['solution']] }}</a></div>
+                        	        <div class="error">
+                                	        <a id="SaveButtonsolution{{ loop.index0 }}"></a>
+                                        	<a id="ChangButtonsolution{{ loop.index0 }}" onclick="ChangButton('solution{{ loop.index0 }}')">纠错</a>
+	                                </div>
+				{% endif %}
+
+				{% if d['vuldetect'] %}	
+					<strong></p>漏洞检测方法</p></strong>
+					<div class="cn"><p class="en_text" id="openvas_envuldetect{{ loop.index0 }}"class="openvas_envuldetect{{ loop.index0 }}">{{ d['vuldetect'] }}</p></div>
+                	                <div class="cn"><a class="cn_text" id="openvas_cnvuldetect{{ loop.index0 }}">{{ translate_dict[d['vuldetect']] }}</a></div>
+                        	        <div class="error">
+                                	        <a id="SaveButtonvuldetect{{ loop.index0 }}"></a>
+                                        	<a id="ChangButtonvuldetect{{ loop.index0 }}" onclick="ChangButton('vuldetect{{ loop.index0 }}')">纠错</a>
+	                                </div>
+				{% endif %}
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	{% endfor %}
+</table>
+
+
+<!--纠错按钮 ChangeError() 开始 -->
+<script type="text/javascript">
+	function ChangButton(id){
+		var openvas_cn = document.getElementById("openvas_cn" + id);
+		var ChangButton = document.getElementById("ChangButton" + id);
+		var SaveButton = document.getElementById("SaveButton" + id);
+		openvas_cn.innerHTML = '<input type="txt" class="ChangInput" id="NewOpenvas_cn'+id+'" value="'+openvas_cn.innerHTML+'">';
+		ChangButton.style.display = "none";
+		SaveButton.innerHTML = '<a style="color:red;" onclick="SaveError(\''+id+'\')">保存</a>';
+	}
+</script>
+<!--纠错按钮 ChangeError() 结束 -->
+
+<!--保存按钮 SaveError() 开始-->
+<script type="text/javascript">
+	function SaveError(id){
+		var datas = {};
+		var openvas_en = document.getElementById("openvas_en" + id);	
+		var NewOpenvas_cn = document.getElementById("NewOpenvas_cn" + id);
+		datas['en'] = openvas_en.innerHTML
+		datas['cn'] = NewOpenvas_cn.value 
+                var data = new XMLHttpRequest(); 
+                data.open("POST", "{{ url_for('main.game_openvas_save') }}", true);
+                data.send(JSON.stringify(datas))
+                location.reload()   
+	}
+</script>
+<!--保存按钮 SaveError() 结束-->
+
+
+
+
+
+{% endblock %}
+
+
+
+
+

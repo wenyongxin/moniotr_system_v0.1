@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}{{ name }}{% endblock %}
+
+{% block page_content %}
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+<form class="form-inline" action="{{ url_for('main.monitor_file') }}" method="post" enctype="multipart/form-data">
+	<input class="btn btn-primary" type=submit value="导入↑">
+	<input type="file" name="file" id="lefile2" class="filestyle" data-icon="false" style="display:none">
+	<div class="input-append">
+		<a class="btn btn-inverse" onclick="$('input[id=lefile2]').click();">浏览@</a>
+		<input id="photoCover" disabled="true" style="width:397px;height:27px;border:none;background-color:#FFF">
+	</div>
+</form>
+
+<!--弹框开始用于做文件编辑-->
+{% for i in monitorfile %}
+	<div id="myModal{{ i.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin: 30px 0 0 -740px;width:1300px;">
+		<div class="modal-header">
+			<h3 id="myModalLabel">{{ i.file_name }}</h3>
+		</div>
+		<div class="modal-body" contenteditable="true">
+			{% for b in text_info[i.id] %}
+				<p>{{ b }}</p>
+			{% endfor %}
+		</div>
+			<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+		</div>
+	</div>
+{% endfor %}
+
+<!--弹框结束用于做文件编辑-->
+
+
+
+<table class="table">
+	<th>序号</th><th>更新日期</th><th>跟新人</th><th>文件名称</th><th>操作</th>
+	{% for i in monitorfile %}
+		<tr>
+			<td>{{ loop.index }}</td>
+			<td>{{ i.generate_time }}</td>
+			<td>{{ i.operation_user }}</td>
+			<td>{{ i.file_name }}</td>
+			<td>
+				<button type="button" class="btn btn-success" onclick="ReportDown('{{ i.file_name }}')"><i class="icon-download-alt"></i>下载</button>
+				<a href="#myModal{{ i.id }}" role="button" class="btn btn-warning" data-toggle="modal"><i class="icon-pencil"></i>查看</a>
+				<button type="button" class="btn btn-danger" onclick="ReportDel('{{ i.id }}')"><i class="icon-trash"></i>删除</button>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+
+<script src="../static/js/jquery.min.js"></script>
+
+<!--用于文件上传-->
+<script type="text/javascript">
+        $('input[id=lefile2]').change(function() {
+                $('#photoCover').val($(this).val());
+        });
+</script>
+<!--用于文件上传-->
+
+
+<script type="text/javascript">
+        function ReportDown(name){
+                window.location.href = "../static/update/" + name;
+        }
+
+        function ReportDel(id, label){
+                window.location.href = "{{ url_for('main.monitor_file')}}?del=" + id; 
+        }
+</script>
+
+
+
+
+{% endblock %}
+

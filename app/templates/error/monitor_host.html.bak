@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}主机信息{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>监控安装完成</h1>
+</div>
+	<div class="row-fluid">
+		<div class="span11">
+			<div class="tabbable">  <!-- Only required for left/right tabs -->
+				<table class="table">
+					<th>选择</th><th>序号</th><th>主机地址</th><th>SSH端口号</th><th>proxy地址</th><th>操作系统</th>
+						{% for i in info %}			
+								<form action="/monitor_host/{{ i.id }}" method="post" class="form" role="form" >
+								{{ form.hidden_tag() }}
+								{% if i.monitor == 0 %}   <!-- 0 则未处理  1 处理完毕-->
+									<tr>
+									<td>{{ form.monitor(class="form-control", required=True, value=i.id, id=loop.index)}}</td>
+								{% else %}
+									<tr class="success">
+									<td>{{ form.monitor(class="form-control", disabled="true", required=True, value=i.id, id=loop.index )}}</td>
+								{% endif %}
+								<td>{{ loop.index }}</td>
+								<td>{{ i.ip }}</td>
+								<td>{{ i.port }}</td>
+								<td>{{ i.proxy }}</td>
+								<td>{{ system_dict[i.system] }}</td>
+								{% if i.monitor == 0 %}
+									<td>{{ form.submit(class="btn btn-primary btn-sm" ) }}</td>
+								{% else %}
+									<td>{{ form.submit(class="btn btn-primary btn-sm", disabled="true") }}</td>
+								{% endif %}
+								</tr>
+								</form>
+						{% endfor %}
+				</table>
+			</div>
+	                <div class="span4">
+                        <div class="tabbable">  <!-- Only required for left/right tabs -->
+
+			</div>
+			</div>
+
+	                <div class="span4">
+                        <div class="tabbable">  <!-- Only required for left/right tabs -->
+                		<div class="pagination">
+					<ul> 
+						<li><a href="#">上一页</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#">下一页</a></li>
+					</ul>
+				</div>
+                        </div>
+	                </div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+

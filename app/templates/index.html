@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block title %}Efun首页{% endblock %}
+
+{% block indexpage %}
+
+<style type="text/css">
+        .a {height:400px;border:1px solid #ccc; }
+</style>
+
+<div style="margin:50px;">
+	{% if current_user.is_authenticated %}
+		<h1>Hello: {{ current_user.username }}</h1>
+	{% endif %}
+	<p>查询日期范围 {{ day_begin }} 至 {{ day_end }}</p>
+</div>
+
+
+<div class="row" style="margin:20px;">
+	<div class="span8 a">
+		<div id="graph">Loading graph...</div>
+	</div>
+	<div class="span8 a">
+		<div id="graph2">Loading graph...</div>
+	</div>
+	<div class="span8 a">
+		<div id="graph3">Loading graph...</div>
+	</div>
+	<div class="span8 a">
+		<div id="graph4">Loading graph...</div>
+	</div>
+</div>
+
+<script src="../static/js/jscharts.js"></script>
+
+<script type="text/javascript">
+	var myData = eval("(" + {{ type_list | tojson }} + ")"); 
+	var colors = {{ type_colors | tojson }} 
+	var myChart = new JSChart('graph', 'pie');
+	myChart.setDataArray(myData);
+	myChart.colorizePie(colors);
+	myChart.setTitle('{{ Month }}' + '月份故障归属 (%)');
+	myChart.setTitleColor('#8E8E8E');
+	myChart.setTitleFontSize(11);
+	myChart.setTextPaddingTop(30);
+	myChart.setPieUnitsColor('#8F8F8F');
+	myChart.setSize(616, 321);
+	myChart.setPiePosition(308, 190);
+	myChart.setPieRadius(85);
+	myChart.draw();
+</script>
+
+<script type="text/javascript">
+	var myData = eval("(" + {{ center_datas | tojson }} + ")");
+	var myChart = new JSChart('graph2', 'bar');
+	myChart.setDataArray(myData);
+	myChart.setTitle('季度部门故障比较');
+	myChart.setTitleColor('#8E8E8E');
+	myChart.setAxisNameX('');
+	myChart.setAxisNameY('');
+	myChart.setAxisNameFontSize(16);
+	myChart.setAxisNameColor('#999');
+	myChart.setAxisValuesAngle(30);
+	myChart.setAxisValuesColor('#777');
+	myChart.setAxisColor('#B5B5B5');
+	myChart.setAxisWidth(1);
+	myChart.setBarValuesColor('#2F6D99');
+	myChart.setAxisPaddingTop(60);
+	myChart.setAxisPaddingBottom(60);
+	myChart.setAxisPaddingLeft(45);
+	myChart.setTitleFontSize(11);
+	myChart.setBarColor('#6495ED', 1);
+	myChart.setBarColor('#1E90FF', 2);
+	myChart.setBarColor('#87CEEB', 3);
+	myChart.setBarColor('#4169E1', 4);
+	myChart.setBarBorderWidth(0);
+	myChart.setBarSpacingRatio(50);
+	myChart.setBarOpacity(0.9);
+	myChart.setFlagRadius(6);
+	myChart.setTooltipPosition('nw');
+	myChart.setTooltipOffset(3);
+	myChart.setLegendShow(true);
+	myChart.setLegendPosition('right top');
+	myChart.setLegendForBar(1, '{{ Months[0] }}');
+	myChart.setLegendForBar(2, '{{ Months[1] }}');
+	myChart.setLegendForBar(3, '{{ Months[2] }}');
+	myChart.setLegendForBar(4, '{{ Months[3] }}');
+	myChart.setSize(616, 321);
+	myChart.setGridColor('#C6C6C6');
+	myChart.draw();
+</script>
+
+<script type="text/javascript">
+	var myChart = new JSChart('graph3', 'pie');
+	var colors = {{ center_type_color | tojson }};
+	var datas = eval("(" + {{ centers_types | tojson }} + ")");
+	myChart.setDataArray(datas);
+	myChart.colorize(colors);
+	myChart.setSize(600, 300);
+	myChart.setTitle('{{ Month }}' + '月份运营中心故障类型占比（%）');
+	myChart.setTitleFontSize(14);
+	myChart.setTitleColor('#0F0F0F');
+	myChart.setPieRadius(95);
+	myChart.setPieValuesColor('#FFFFFF');
+	myChart.setPieValuesFontSize(9);
+	myChart.setPiePosition(180, 165);
+	myChart.setShowXValues(false);
+	for(var x=0; x<datas.length; x++){
+		myChart.setLegend(colors[x], datas[x][0] + " " + datas[x][1] + "%" );
+	}
+	myChart.setLegendShow(true);
+	myChart.setLegendFontFamily('Times New Roman');
+	myChart.setLegendFontSize(10);
+	myChart.setLegendPosition(350, 120);
+	myChart.setPieAngle(30);
+	myChart.set3D(true);
+	myChart.draw();
+</script>
+
+<script type="text/javascript">
+	var myData = eval("(" + {{ day_faults | tojson }} + ")"); 
+	var myChart = new JSChart('graph4', 'line');
+	myChart.setDataArray(myData);
+	myChart.setTitle('每天故障数量');
+	myChart.setTitleColor('#8E8E8E');
+	myChart.setTitleFontSize(11);
+	myChart.setAxisNameX('');
+	myChart.setAxisNameY('');
+	myChart.setAxisColor('#C4C4C4');
+	myChart.setAxisValuesColor('#343434');
+	myChart.setAxisPaddingLeft(100);
+	myChart.setAxisPaddingRight(120);
+	myChart.setAxisPaddingTop(50);
+	myChart.setAxisPaddingBottom(40);
+	myChart.setAxisValuesNumberX(6);
+	myChart.setGraphExtend(true);
+	myChart.setGridColor('#c2c2c2');
+	myChart.setLineWidth(6);
+	myChart.setLineColor('#4169E1');
+	myChart.setSize(616, 321);
+	myChart.draw();
+</script>
+
+{% endblock %}

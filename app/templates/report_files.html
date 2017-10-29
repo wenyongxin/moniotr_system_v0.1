@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}{{ name }}{% endblock %}
+
+{% block page_content %}
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<div class="tabbable tabs-left">
+	<ul class="nav nav-tabs">
+	{% for type in file_type %}
+		{% if type == show_default %}
+			<li class="active"><a href="#port_{{ loop.index }}" data-toggle="tab">{{ type }}</a></li>
+		{% else %}
+			<li><a href="#port_{{ loop.index }}" data-toggle="tab">{{ type }}</a></li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+	<div class="tab-content">
+	{% for type in file_type %}
+		{% if type == show_default %}
+			<div class="tab-pane active" id="port_{{ loop.index }}">
+		{% else %}
+			<div class="tab-pane" id="port_{{ loop.index }}">
+		{% endif %}
+		<table class="table">
+			<th>序号</th><th>生成日期</th><th>文件名称</th><th>操作人</th><th>操作方式</th>
+			{% for data in report_all[type] %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ data.generate_time }}</td>
+					<td>{{ data.file_name }}</td>
+					<td>{{ data.operation_user }}</td>
+					<td>
+						<button class="btn btn-success" type="button" onclick="ReportDown('{{ data.file_name }}')"><i class="icon-download-alt"></i>下载</button>
+						<button class="btn btn-danger" type="button" onclick="ReportDel('{{ data.id }}','{{ type }}')"><i class="icon-trash"></i>删除</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+		{% if page_num[type] > 1%}
+			<div class="pagination" style="text-align:center;">
+				<ul>
+					<li><a onclick="PageUp('{{ type }}')">上一页</a></li>
+					{% for c in all_page[type] %}
+						<li><a onclick="Page('{{ type }}', '{{ loop.index }}')">{{ loop.index }}</a></li>
+					{% endfor %}
+					<li><a onclick="PageDown('{{ type }}','{{ page_num[type] }}')">下一页</a></li>
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+	{% endfor %}
+</div>
+
+
+<!--按钮操作，用于下载以及删除动作开始-->
+<script type="text/javascript">
+	function ReportDown(name){
+		window.location.href = "../static/files/" + name;
+	}
+
+	function ReportDel(id, label){
+		var params = window.location.search;
+                var arr = params.split("page=");
+                var page = arr[1];
+		window.location.href = "{{ url_for('main.report_files')}}?del=" + id + "&label=" + label + "&page=" + page;
+	}
+</script>
+<!--按钮操作，用于下载以及删除动作结束-->
+
+
+<!--分页功能开始-->
+<script type="text/javascript">
+	function Page(label, page){
+		var url = "{{ url_for('main.report_files') }}?label=" + label + "&page=" + page;
+                window.location.href = url;
+	}
+
+	function PageUp(label){
+		var params = window.location.search;
+                var arr = params.split("page=");
+                var page = arr[1];
+		if(page > 1){
+			page--
+		}
+		var url = "{{ url_for('main.report_files') }}?label=" + label + "&page=" + page;
+		window.location.href = url;
+	}
+	
+	function PageDown(label, total){
+		var params = window.location.search;
+                var arr = params.split("page=");
+                var page = arr[1];
+		if(page < total){
+			page++
+		}
+		var url = "{{ url_for('main.report_files') }}?label=" + label + "&page=" + page;
+                window.location.href = url;
+	}
+</script>
+<!--分页功能结束-->
+
+
+
+{% endblock %}
+

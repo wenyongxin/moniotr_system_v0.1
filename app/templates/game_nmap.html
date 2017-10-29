@@ -1,0 +1,477 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+{% if filename != "None" %}
+        <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+        </div>
+{% endif %}
+
+<div id="modal-container" class="modal hide fade in" style="display: none; "><!-- 弹窗开始 -->
+        <div class="modal-header">
+                <a class="close" data-dismiss="modal"></a>
+                        <h3>特殊端口添加</h3>
+        </div>
+        <div class="modal-body">
+                <div class="text-center">
+                        {% for port in port_db %}
+                                <form>
+                                        <input id="PortList" class="span6" value="{{ port.port }}">
+                                        <a class="btn btn-danger" id="portid" value="{{ port.id }}"  onclick="DelPort({{ port.id }})">删除</a>
+                                </form>
+                        {% endfor %}
+                        <hr>
+                        <span id="NoteInput">
+                </div>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn btn-success" contenteditable="true" onclick="AddInput()">添加</button>
+                <button class="btn btn-primary" contenteditable="true" onclick="SaveDate()">保存设置</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true" contenteditable="true">关闭</button>
+        </div>
+</div>
+
+{% if scan_user %}
+	<div class="row-fluid">
+		<div class="span8">
+			<form>	
+				<label class="checkbox inline">
+					<input type="checkbox" id="CheckAll" name="CheckAll">全选</input>
+				</label>
+				{% for user in scan_user%}
+					<label class="checkbox inline">
+						<input type="checkbox" id="ZabbixCheckbox" value="{{ user }}">{{ user }}</input>
+					</label>
+				{% endfor %}
+
+				<button class="btn btn-primary" type="button" onclick="GameScan()">扫描</button>
+			</form>	
+		</div>
+	        <div class="text-right">
+	                <div class="input-prepend input-append div-right">
+        	                <span class="add-on">关键端口</span>
+                	        <select name="way" id="way" class="input-small">
+                        	        {% for port in port_db %}
+                                	        <option value="{{ port.port }}">{{ port.port }}</option>
+	                                {% endfor %}
+        	                </select>
+                        <a href="#modal-container" class="btn btn-danger" data-toggle="modal"><i class="icon-th-list"></i>添加</a>
+               		</div>
+	        </div>
+	</div>
+{% endif %}
+
+<hr>
+<div class="row-fluid">
+        <div class="span3">
+		查看:
+		<select id="SelectBox1" class="input-medium" onchange="SelectUser()">
+			{% if listname %}
+				<option >{{ listname }}</option>
+			{% else %}
+				<option value="0">选择用户</option>
+			{% endif %}
+				<option value="1">ALL</option>
+			{% for user in listuser%}
+				<option value="{{ user }}">{{ user }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="text-right">
+		<span class="badge">
+			<div id="TotalInit"></div>
+		</span>
+		Nmap执行进程数 
+	</div>
+</div>
+
+<hr>
+
+{% for groupid, groupname in hostgroup.iteritems() %}
+	{% for k,v in group_hosts[groupid].iteritems() %}
+		<div id="myModal{{ k }}" class="modal hide fade in" style="display: none; "><!-- 弹窗开始 -->
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal"></a>
+					<h3>{{ v[0]}}游戏端口扫描结果</h3>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+				<th>程序名称</th><th>版本</th><th>端口类型</th><th>端口号</th><th>状态</th>
+				{% for a in html_data[groupid][k] %}
+                                        <tr id="InfoTr">
+                                                <td>{{ a[0] }}</td>
+                                                <td>{{ a[1] }}</td>
+                                                <td>{{ a[2] }}</td>
+                                                <td>{{ a[3] }}</td>
+                                                <td>{{ a[4] }}</td>
+                                        </tr>
+                                {% endfor %}
+				</table>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">关闭</a>
+			</div>
+		</div>
+	{% endfor %}
+{% endfor %}
+
+
+
+
+{% if hostgroup %}
+	<div class="view">
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="row-fluid">
+					<div class="span1">
+						<input type="checkbox" id="GameCheckBoxTotal", name="GameCheckBoxTotal">
+					</div>
+					<div class="span3">
+						<h4>游戏名称</h4>
+					</div>
+					<div class="span6">
+						<h4>进度</h4>
+					</div>
+					<div class="span1"></div>
+					<div class="span1">
+						<h4>查看详细</h4>
+					</div>
+				</div>
+				{% for groupid, groupname in hostgroup.iteritems() %}
+					<div class="accordion-group">
+						<div class="accordion-heading"> 
+							<div class="row-fluid">
+								<div class="span1">
+									<input type="checkbox" id="GameCheckBox{{ groupid }}" value="{{ groupid }}" onclick="GameCheckBox({{ groupid }})">
+								</div>
+								<div class="span3">
+									{{ groupname }}
+								</div>
+								<div class="span6">
+			                                                <div class="progress"><div class="bar" id="JinDu{{ groupid }}" style="width: 0%;"><div id="details{{ groupid }}"></div></div></div>
+								</div>
+								<div class="span1">
+									<span class="badge">
+										<div id="groupnum{{ groupid }}"></div>
+									</span>
+								</div>
+								<div class="text-right">
+									<a class="btn btn-link" data-toggle="collapse" href="#accordion-{{ groupid }}" >查看结果<i class=" icon-chevron-down"></i></a>
+								</div>
+							</div>
+						</div>
+						<div id="accordion-{{ groupid }}" class="accordion-body collapse" style="height: 0px;">
+							<div class="accordion-inner">
+								<table class="table table-hover">
+									<th><span class="icon-leaf"></span></th>
+									<th>名称</th><th>IP地址</th><th>执行日期</th><th>负责人</th><th>进度</th><th>查看</th>
+									{% for k,v in group_hosts[groupid].iteritems() %}
+										<tr>
+											<td><input type="checkbox" id="GameCheckBox{{ groupid }}Smail" value="{{ k }}" onclick="RadioCheck({{ groupid }}, {{ loop.index0 }})"></td>
+											<td>{{ hostnames[k] }}</td>
+											<td>{{ v[0] }}</td>
+											<td>{{ v[1] }}</td>
+											<td>{{ v[2] }}</td>
+											{% if v[3] == True %}
+												{% if v[4] == "[]" %}
+													<td><span class="label label-warning">异常</span></td>
+												{% else %}
+													<td><span class="label label-success">完成</span></td>
+													<td><a href="#myModal{{ k }}" class="btn" data-toggle="modal" onclick="Tr_Click()"><i class="icon-pencil"></i>查看结果</a></td>
+												{% endif %}
+											{% else %}
+												<td><span class="label label-info">稍等</span></td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+								</table>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endif %}
+<hr>
+<div style="text-align:right;">
+        <td><button type="button" class="btn btn-success" id="GamePutExcel" onclick="GamePutExcel()">导出Excel</button></td>
+</div>
+
+
+<script type="text/javascript">
+	/* 使用ajax实现滚动条 */
+	window.onload = function(){
+		function update(){
+			var url = "{{ url_for('main.game_data') }}";
+        	        var request = new XMLHttpRequest();
+			var ids = ""
+                	request.open("GET", url, true);
+	                request.send();
+        	        request.onreadystatechange = function(){
+                	if(request.readyState == 4 && request.status == 200){
+                        	var result = request.responseText;
+	                        var objects = eval("(" + result + ")");
+
+        	                var nmap = objects.init.nmap;
+                	        var data = objects.data;
+
+				var sss = "{{ web_groupids }}";
+				var groupids = sss.split(",");
+
+				for(var aa=0; aa<groupids.length; aa++){
+					if(ids == ""){
+						ids = groupids[aa];
+					}else{
+						ids = ids + "," + groupids[aa];
+
+					}
+                        		var jinduobject = document.getElementById('JinDu' + groupids[aa]);
+
+					if(nmap == 0){
+						var NewValue = '100';
+					}else{	
+						var NewValue = data[groupids[aa]];
+					}
+					jinduobject.setAttribute("style","width:" + NewValue + "%;")
+					var aNode = document.createElement('a');
+					aNode.style.color = "#fff";
+					aNode.appendChild(document.createTextNode(NewValue + "%"));
+
+					var detailsNode = document.getElementById("details" + groupids[aa]);
+					detailsNode.innerHTML = "";
+					detailsNode.appendChild(aNode);
+
+
+					var GameBoxSmail = document.all("GameCheckBox" + groupids[aa] + "Smail")
+					if(GameBoxSmail.length ==undefined){
+						var fff = 1;
+					}else{
+						var fff = GameBoxSmail.length;
+					}
+
+					var groupnum = document.createElement("a");
+					groupnum.style.color = "#fff";
+					groupnum.appendChild(document.createTextNode(fff));
+
+
+					var groupnumid = document.getElementById("groupnum" + groupids[aa]);
+					groupnumid.innerHTML = "";
+					groupnumid.appendChild(groupnum); 
+				}
+
+				var GameCheckBoxTotal = document.getElementById("GameCheckBoxTotal");
+				GameCheckBoxTotal.value = ids;
+			
+				var new_nmap = document.createElement("a");
+				new_nmap.style.color = "#fff";
+				new_nmap.id = "NmapInt";
+				new_nmap.appendChild(document.createTextNode(nmap));
+	
+				var TotalInit = document.getElementById("TotalInit");
+				TotalInit.innerHTML = "";
+				TotalInit.appendChild(new_nmap);
+	                }
+	        }
+	}        
+        var timer;
+	var params = window.location.pathname;
+	var arr = params.substring(1).split("/");
+	if( arr[0] == "game" ){ 
+		clearInterval(timer);                   
+		timer = setInterval(function(){
+			update()
+			var TotalInit = document.getElementById('TotalInit').innerText;
+			if( TotalInit == "0" ){
+				clearInterval(timer);                   
+                                }
+                        },3000)
+	}else{
+		clearInterval(timer);
+	}
+}
+</script>
+
+
+<script type="text/javascript">
+	/* 用于全选等操作 */
+	var params = window.location.pathname;
+	var arr = params.substring(1).split("/");
+	if(arr[0] == "game"){
+		document.getElementById("GameCheckBoxTotal").addEventListener("click",function(){
+			var ids = this.value.split(',')
+			if(ids == "on"){
+				alert('请等待进度！')
+			}else{
+				for(var x=0; x<ids.length; x++){
+					var GameCheckBox = document.getElementById("GameCheckBox" + ids[x]);
+					var GameCheckBoxSmail = document.all("GameCheckBox" + ids[x] + "Smail");
+					GameCheckBox.checked = this.checked;
+					for(var y=0; y<GameCheckBoxSmail.length; y++){
+						if (GameCheckBox.checked == true){
+							GameCheckBoxSmail[y].checked = true;
+						}else{
+							GameCheckBoxSmail[y].checked = false;
+						}
+					}
+				}
+			}
+		},false);
+	}
+</script>
+
+<script type="text/javascript">
+	/* 通过js实现 子选项卡全选功能 */
+	function GameCheckBox(groupid){
+		var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupid);
+		var GameCheckBoxSmail = document.all("GameCheckBox" + groupid + "Smail");
+		if(GameCheckBoxSmail.length == undefined){
+			if(GameCheckBoxAll.checked == true){
+				GameCheckBoxSmail.checked = true;
+			}else{
+				GameCheckBoxSmail.checked = false;
+			}
+		}else{
+			for(var x=0; x<GameCheckBoxSmail.length; x++){
+				if(GameCheckBoxAll.checked == true){
+					GameCheckBoxSmail[x].checked = true;
+				}else{
+					GameCheckBoxSmail[x].checked = false;
+				}
+			}
+
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	function RadioCheck(groupid, index){
+		var GameCheckBox = document.all("GameCheckBox" + groupid + "Smail");
+		var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupid);
+		if(GameCheckBox[index].checked == true){
+			GameCheckBoxAll.checked = true;
+		}else{
+			var Check_num = 0;
+			for(var z=0; z<GameCheckBox.length; z++){
+				if(GameCheckBox[z].checked == true){
+					Check_num++
+				}
+			}
+			if(Check_num == 0){
+				GameCheckBoxAll.checked = false;
+
+			}
+		}
+	}
+</script>
+
+
+
+<script type="text/javascript">
+	function GamePutExcel(){
+		var params = window.location.search;
+		var arr = params.substring(1).split("=");
+		var str = ""
+		var groupids = document.getElementById("GameCheckBoxTotal").value.split(',');
+		for(var x=0; x<groupids.length; x++){
+			var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupids[x]);
+			if(GameCheckBoxAll.checked == true){
+				var GameCheckBoxSmail = document.all("GameCheckBox" + groupids[x] + "Smail");
+				if(GameCheckBoxSmail.length == undefined){
+					str = GameCheckBoxSmail.value + ":None";
+				}else{
+					var zz = 0;
+					for(var z=0; z<GameCheckBoxSmail.length; z++){
+						if(GameCheckBoxSmail[z].checked == true){
+							zz ++;
+						}
+					}
+					if(zz == GameCheckBoxSmail.length){
+						if(str == ""){
+							str = groupids[x] + ":None";
+						}else{
+							str = str + "$" + groupids[x] + ":None";
+						}
+						
+					}else{
+						var hids = "";
+						for(var y=0; y<GameCheckBoxSmail.length; y++){
+							if(GameCheckBoxSmail[y].checked == true){
+								if(hids == ""){
+									hids = GameCheckBoxSmail[y].value;
+								}else{
+									hids = hids + "," + GameCheckBoxSmail[y].value;
+								}
+							}	
+						}
+						if(str == ""){
+							str = groupids[x] + ":" + hids;
+						}else{
+							str = str + "$" + groupids[x] + ":" + hids;
+						}		
+					}
+				}
+			}
+		}
+
+		var url = "user=" + arr[1] + "&data=" +  str; 
+		window.location.href = "{{ url_for('main.game_to_excel')}}?" + url;
+	}
+</script>
+
+<!-- 用于zabbix 端口扫描 -->
+<script type="text/javascript">
+        function GameScan(){
+                var result = ""
+                var zabbix_info = document.all("ZabbixCheckbox");
+                if(zabbix_info.length == undefined){
+                        if(zabbix_info.checked == true){
+                                result = zabbix_info.value;
+                        }
+                }else{
+                        for(var x=0; x<zabbix_info.length; x++){
+                                if(zabbix_info[x].checked == true){
+                                        if(result == ""){
+                                                result = zabbix_info[x].value
+                                        }else{
+                                                result = result + "," + zabbix_info[x].value
+                                        }
+                                }
+                        }
+                }
+                var url = "{{ url_for('main.game_groups')}}?" + "users=" + result;
+                window.location.href = url;
+        }
+</script>
+
+<!-- 用于 game_nmap.html 页面-->
+<script type="text/javascript">
+	function SelectUser(){
+	var SelectBox1 = document.getElementById("SelectBox1");
+	if(SelectBox1.value != '0'){
+		if(SelectBox1.value == '1'){
+			var url = "{{ url_for('main.game_nmap')}}?" + "user=All"
+		}else{
+			var url = "{{ url_for('main.game_nmap')}}?" + "user=" + SelectBox1.value;
+		}
+		window.location.href = url;
+		}
+	}
+</script>
+
+{% endblock %}
+
+

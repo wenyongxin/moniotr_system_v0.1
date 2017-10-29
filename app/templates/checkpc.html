@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}自动检测监控添加{% endblock %}
+
+
+{% block page_content %}
+<link href="../static/css/addmachine2.css" rel="stylesheet">
+<style type="text/css">
+	.monitor .m_tools .t_proxy{width: 15%; float: left; margin-left: 0;}
+</style>
+
+
+<div class="page-header">
+    <h1>自动检测添加监控</h1>
+</div>
+
+
+
+<div class="monitor">
+        <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <div class="m_ips">
+                        {{ form.ip.label() | safe }}
+                        {{ form.ip(class="i_input",placeholder="请输入IP地址")}}
+                </div>
+                <div class="m_tools">
+                        <div class="t_proxy">
+                                {{ form.proxy.label() | safe }}
+                                {{ form.proxy(class="pr_input")}}
+                        </div>
+                        <div class="t_system">
+                                {{ form.system.label() | safe }}
+                                {{ form.system(class="s_input")}}
+                        </div>
+                </div>
+                <div class="m_btn">
+                        {{ form.submit(class="btn btn-info submit") }}
+                </div>
+        </form>
+</div>
+
+
+{% if ips %}
+<div class="monitor">
+        <div class="tabbable">  <!-- Only required for left/right tabs -->
+                <div class="tabbable" id="tabs-159021"><!-- Only required for left/right tabs -->
+                        <ul class="nav nav-tabs">
+                                 <li class="active"><a data-toggle="tab" href="#error">错误信息</a></li>
+                                {% for ip in ips %}
+                                        <li><a data-toggle="tab" href="#pcinfo_{{ loop.index0 }}">{{ ip }}</a></li>
+                                {% endfor %}
+                        </ul>
+
+                        <div class="tab-content">
+                                <div class="tab-pane active" id="error">
+                                {% for ip in ips %}
+                                        <p>{{ ip }}</p>
+                                        {% for err in info[ip]['err'] %}
+                                                <div>{{ err }}</div>
+                                        {% endfor %}
+                                {% endfor %}
+                                </div>
+                                {% for ip in ips %}
+                                        <div class="tab-pane" id="pcinfo_{{ loop.index0 }}">
+                                        {% for i in  info[ip]['ok'] %}
+                                                <div>{{ i }}<div>
+                                        {% endfor %}
+                                        </div>
+                                {% endfor %}
+                        </div>
+                </div>
+        </div>
+</div>
+{% endif %}
+
+{% endblock %}

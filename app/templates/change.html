@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}监控批量修改{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>监控批量修改</h1>
+</div>
+
+
+
+
+<div class="span9"> <!-- 外侧框 -->
+	<form action="" id="change_post" method="post" class="form" role="form">
+	<div class="row-fluid">
+		<div class="span4">
+			<label for="host">主机IP</label>
+			<input type="text" id="host" name="host" value="{{ ips }}" style="margin: 0px 0px 10px; width: 465px; height: 30px;" >
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span4">
+			<label for="name">定义名称</label>
+			<input class="input text" type="text" id="name" name="name" style="margin: 0px 0px 10px; width: 465px; height: 30px;">
+		</div>
+	</div>
+	<label style="color:red">#请注意命名规则 例：L_六龙御天_远传_繁</label>
+
+	<div class="row-fluid">
+		<div class="span6">
+			<table align="left">
+				<tr>
+					<td>
+						<select name="first" size="10" multiple="multiple" id="first">
+							{% for hostgroup in list_info %}
+								<option value={{ hostgroup[0] }}>{{ hostgroup[1] }}</a></button>
+							{% endfor %}
+						</select>    
+					</td>
+					<td width="69" valign="middle">
+						<input name="add"  id="add" type="button" class="button" value="-->" /> 
+						<input name="remove"  id="remove" type="button" class="button" value="<--" />
+					</td>
+					<td width="127" align="left">
+						<select name="second" size="10" multiple="multiple" class="td3" id="second">
+						</select>
+					</td>
+				</tr>
+			</table>
+
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span4">
+			<label for="new_hostgroup">新主机组名称</label>
+			<input class="input text" type="text" id="new_hostgroup" name="new_hostgroup" style="margin: 0px 0px 10px; width: 465px; height: 30px;">
+		</div>
+	</div>
+
+	<div class="row-fluid">
+		<div class="span6" >
+			<input type="button" class="pure-button pure-button-primary btn-block" value="提交" onclick="Change_Click()" >
+		</div>
+	</div>
+	</form>
+</div>
+
+<!--Chang_Click提交按钮开始-->
+        <script type="text/javascript">
+        function Change_Click(){
+                var new_group=""
+                var check_host=document.getElementById("host").value;
+                var check_name=document.getElementById("name").value;
+                var check_group=document.getElementById("second");
+                var check_group_name=document.getElementById("new_hostgroup").value;
+                for(var i=0;i<check_group.length;i++)
+                {
+                                if(new_group==""){
+                                        new_group=check_group[i].value;
+                                }else{
+                                        new_group=new_group+","+check_group[i].value;
+                                }
+                }
+                if(check_name==""){
+                        alert("请输入名称")
+                }else if(check_group.value==""){
+                        alert("请选择主机组")
+                }else{
+                        var info="host="+check_host+"&"+"name="+check_name+"&"+"second="+new_group+"&"+"new_hostgroup="+check_group_name
+                        window.location.href = "{{ url_for('main.change_host')}}?"+info;
+                }
+        }
+        </script>
+<!--Chang_Click提交按钮结束-->
+{% endblock %}

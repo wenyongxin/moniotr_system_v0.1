@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel='icon' href='../static/img/favicon.ico' type='image/x-ico' />
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link href="../static/css/bootstrap.css" rel="stylesheet">
+		<link href="../static/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<style type="text/css">
+			body {padding-top: 60px;padding-bottom: 40px;}
+			.sidebar-nav {padding: 9px 0;}
+		</style>
+		{% block sidecss %}{% endblock %}
+	  </head>
+
+	<body>
+		{% block sidebar %}
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+          				<a class="brand">Efun运维监控系统</a>
+						<ul class="nav">
+							<li><a href="/">首页</a></li>
+							<li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">功能<b class="caret"></b></a>
+                                                                <ul class="dropdown-menu">
+									{% if current_user.role_permissions %}
+	                                                                        <li><a href="{{ url_for('main.add_machine_2') }}">手动监控添加</a></li>
+        	                                                                <li><a href="{{ url_for('main.check_pc') }}">自动添加监控</a></li>
+                	                                                        <li><a href="{{ url_for('main.monitor_host') }}?page=1">批量修改主机</a></li>
+                        	                                                <li><a href="{{ url_for('main.ssh_history') }}">操作历史记录</a></li>
+                                	                                        <li class="divider"></li>
+									{% endif %}
+                                                                        <li><a href="{{ url_for('main.report_dns')}}?page=1">DNS记录</a></li>
+                                                                        <li><a href="{{ url_for('main.report_fault')}}?page=1">故障报告</a></li>
+                                                                        <li><a href="{{ url_for('main.game_nmap')}}?user=All">端口扫描</a></li>
+                                                                        <li><a href="{{ url_for('main.report_files')}}?page=1">文件记录</a></li>
+									<li><a href="{{ url_for('main.report_traffic')}}">老马查询</a></li>
+									<li><a href="{{ url_for('main.game_distribution')}}">游戏分配</a></li>
+									<li><a href="#">维护计划</a></li>
+									<li class="divider"></li>
+									{% if current_user.role_permissions %}
+										<li><a href="{{ url_for('main.config') }}">基本配置管理</a></li>
+				                                                <li><a href="{{ url_for('main.monitor_file') }}">监控脚本管理</a></li>
+                                				                <li><a href="{{ url_for('main.manager_dns') }}">域名DNS管理</a></li>
+				                                                <li><a href="{{ url_for('main.manager_en2cn') }}">中英对照表</a></li>
+									{% endif %}
+                                                                </ul>
+                                                        </li>
+						</ul>
+						<ul class="nav pull-right">
+							{% if current_user.username %}
+								<li><a href="#">{{ current_user.username }}</a></li>
+							{% endif %}
+                                                        <li><a href="{{ url_for('auth.change_password') }}">修改密码</a></li>
+                                                        <li><a href="{{ url_for('auth.logout')}}">退出</a></li>
+						</ul>
+				</div>
+			</div>
+		</div>
+		{% block indexpage %}
+
+		<div class="row-fluid">
+			<div class="span2">
+				<ul class="nav nav-list">
+					{% if current_user.role_permissions %}
+						<li class="nav-header">监控</li>
+						<li><a href="{{ url_for('main.add_machine_2') }}">手动监控添加</a></li>
+						<li><a href="{{ url_for('main.check_pc')}}">自动添加监控</a></li>
+						<li><a href="{{ url_for('main.monitor_host')}}?page=1">批量修改主机</a></li>
+	                                        <li><a href="{{ url_for('main.ssh_history') }}">操作历史记录</a></li>
+					{% endif %}
+					<li class="nav-header">报告</li>
+					<li><a href="{{ url_for('main.report_dns')}}?page=1">DNS记录</a></li>
+					<li><a href="{{ url_for('main.report_fault')}}?page=1">故障报告</a></li>
+					<li><a href="{{ url_for('main.game_nmap')}}?user=All">端口扫描</a></li>
+					<li><a href="{{ url_for('main.game_openvas')}}?user=All">漏洞扫描</a></li>
+                                        <li><a href="{{ url_for('main.report_files')}}?page=1">文件记录</a></li>
+					<li><a href="{{ url_for('main.report_traffic')}}">老马查询</a></li>
+					<li><a href="{{ url_for('main.game_distribution')}}">游戏分配</a></li>
+					<li><a href="#">维护计划</a></li>
+					{% if current_user.role_permissions %}
+						<li class="nav-header">设置</li>
+						<li><a href="{{ url_for('main.config') }}">基本配置管理</a></li>
+						<li><a href="{{ url_for('main.monitor_file') }}">监控脚本管理</a></li>
+						<li><a href="{{ url_for('main.manager_dns') }}">域名DNS管理</a></li>
+						<li><a href="{{ url_for('main.manager_en2cn') }}">中英对照表</a></li>
+						<li><a href="{{ url_for('main.qy_qq')}}">企业QQ测试</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		<div class="span8">
+
+		<!-- 用于flask 弹窗 开始-->
+		{% block content %}
+		<div class="container">
+			{% for message in get_flashed_messages() %}
+				<div class="alert alert-warning">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ message }}
+				</div>
+			{% endfor %}
+		</div>
+		{% endblock %}
+		<!-- 用于flask 弹窗 结束-->
+
+	
+		<!-- 页面内容 -->
+		{% block page_content %}{% endblock %}
+		<!-- 页面内容结束 -->
+
+
+		{% endblock %}
+		{% endblock %}
+
+		<script src="../static/js/jquery.js"></script>
+		<script src="../static/js/bootstrap.min.js"></script>
+		<script src="../static/js/efun.js"></script>
+
+<!--	/* 用于修改td中的class，将关键字标红 */-->
+	<script type="text/javascript">
+	function Tr_Click(){
+		var obj = document.all("PortList");
+		for(var y=0; y<obj.length; y++){
+			var trobj = document.all("InfoTr");
+			for(var x=0; x<trobj.length; x++ ){
+				if(trobj[x].innerText.indexOf(obj[y].value) >= 0){
+					trobj[x].setAttribute("class", "error");
+				}
+			}
+		}
+	}
+	</script>
+
+<!-- 全选第二种 -->
+	<script type="text/javascript">
+	var params = window.location.pathname;
+	var arr = params.substring(1).split("/");
+	if(arr[0] == "game" || arr[0] == "nmap"){
+		document.getElementById("CheckAll").addEventListener("click",function(){
+			var ScanMonitor = document.all('ScanMonitor');
+			if(ScanMonitor == undefined){
+				var ScanMonitor = document.all('ZabbixCheckbox');
+			}else{
+				var ScanMonitor = document.all('ScanMonitor');
+			}
+			if(ScanMonitor.length == undefined){
+				ScanMonitor.checked = this.checked;
+			}else{
+				for(var x=0; x<ScanMonitor.length; x++){
+					if(ScanMonitor[x].disabled == false){
+						ScanMonitor[x].checked = this.checked;
+					}
+				}
+			}
+		},false)
+	}
+	</script>
+
+
+<!-- 添加input表单 -->
+	<script type="text/javascript">
+	var att = 0;
+	var params = window.location.pathname;
+	var arr = params.substring(1).split("/");
+
+	function AddInput(){
+		att ++
+		var notinput = document.getElementById("NoteInput");
+		notinput.innerHTML += "<input class=span6 name=Newinput id=Newinput" + att + "></input><a class=btn onclick=DelInput(" + att + ") id=DelBut" + att + ">" + "删除" +"</a>";
+	}
+
+	function DelInput(a){
+		var id = "Newinput" + a
+		var e1 = document.getElementById("Newinput" + a);
+		var b1 = document.getElementById("DelBut" + a);
+		e1.parentNode.removeChild(e1);
+		b1.parentNode.removeChild(b1);
+
+	}
+
+	function SaveDate(){
+		var obj = document.all("Newinput");
+		var result = ""
+		if(obj.length == undefined){
+			result = obj.value
+		}else{
+			for(var x=0; x<obj.length; x++){
+				if(result == ""){
+					result = obj[x].value
+				}else{
+					result = result + "," + obj[x].value
+				}
+			}
+		}
+		var url = "{{ url_for('main.save_port')}}?" + "ports=" + result + "&page=" + arr[0];
+		window.location.href = url;
+	}
+
+	function DelPort(b){
+		var url = "{{ url_for('main.delete_nmap',id_num="" ) }}" + b + "page=" + arr[0];
+		window.location.href = url;
+	}
+	</script>
+	</body>
+</html>
+

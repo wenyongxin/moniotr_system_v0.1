@@ -1,0 +1,441 @@
+<report content_type="text/xml" extension="xml" format_id="a994b278-1f62-11e1-96ac-406186ea4fc5" id="9128feec-00fd-4cc4-8f40-dffc31b70ebf" type="scan"><owner><name /></owner><name>2016-11-06T12:04:35Z</name><comment /><creation_time>2016-11-06T12:04:35Z</creation_time><modification_time>2016-11-06T12:31:49Z</modification_time><writable>0</writable><in_use>0</in_use><report id="9128feec-00fd-4cc4-8f40-dffc31b70ebf"><report_format /><sort><field>type<order>descending</order></field></sort><filters id="0"><term>sort-reverse=ROWID result_hosts_only=1 min_cvss_base= levels=hmlgd autofp=0 notes=0 overrides=0 first=1 rows=-1 delta_states=cgns</term>hmlgd<phrase /><autofp>0</autofp><notes>0</notes><overrides>0</overrides><apply_overrides>0</apply_overrides><result_hosts_only>1</result_hosts_only><min_cvss_base /><filter>High</filter><filter>Medium</filter><filter>Low</filter><filter>Log</filter><filter>Debug</filter></filters><severity_class id="d4c74cda-89e1-11e3-9c29-406186ea4fc5"><name>nist</name><full_name>NVD Vulnerability Severity Ratings</full_name><severity_range><name>None</name><min>0.0</min><max>0.0</max></severity_range><severity_range><name>Low</name><min>0.1</min><max>3.9</max></severity_range><severity_range><name>Medium</name><min>4.0</min><max>6.9</max></severity_range><severity_range><name>High</name><min>7.0</min><max>10.0</max></severity_range></severity_class><user_tags><count>0</count></user_tags><scan_run_status>Done</scan_run_status><hosts><count>1</count></hosts><closed_cves><count>0</count></closed_cves><vulns><count>23</count></vulns><os><count>1</count></os><apps><count>1</count></apps><ssl_certs><count>1</count></ssl_certs><task id="32299132-2bb9-4e7c-a20e-afcbbcdfc621"><name>openvas_lib_scan_218.32.1.71_wjK9Yq0dLe7wKZuz9ko4</name><comment>scan from OpenVAS lib</comment><target id="4d98887a-5b30-403c-8ce6-c3a0d0ccef45"><trash>0</trash></target><progress>-1</progress></task><scan><task><slave id=""><name /><host /><port>0</port></slave><preferences><preference><name>Network Source Interface</name><scanner_name>source_iface</scanner_name><value /></preference></preferences></task></scan><timestamp>2016-11-06T12:04:09Z</timestamp><scan_start>2016-11-06T12:04:35Z</scan_start><timezone>Coordinated Universal Time</timezone><timezone_abbrev>UTC</timezone_abbrev><ports max="-1" start="1"><count>10</count><port><host>218.32.1.71</host>3389/tcp<severity>5.0</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>135/tcp<severity>5.0</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>3309/tcp<severity>4.3</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>3308/tcp<severity>4.3</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>3307/tcp<severity>4.3</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>3306/tcp<severity>4.3</severity><threat>Medium</threat></port><port><host>218.32.1.71</host>general/tcp<severity>2.6</severity><threat>Low</threat></port><port><host>218.32.1.71</host>general/icmp<severity>0.0</severity><threat>Log</threat></port><port><host>218.32.1.71</host>general/SMBClient<severity>0.0</severity><threat>Log</threat></port><port><host>218.32.1.71</host>general/CPE-T<severity>0.0</severity><threat>Log</threat></port><port><host>218.32.1.71</host>9000/tcp<severity>0.0</severity><threat>Log</threat></port><port><host>218.32.1.71</host>445/tcp<severity>0.0</severity><threat>Log</threat></port><port><host>218.32.1.71</host>139/tcp<severity>0.0</severity><threat>Log</threat></port></ports><results max="-1" start="1"><result id="737aa997-3d50-423c-b288-444c4058f602"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>135/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.10736"><name>DCE Services Enumeration</name><family>Windows</family><cvss_base>5.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:P|qod_type=remote_banner|solution=filter incoming traffic to this port.|summary=Distributed Computing Environment (DCE) services running on the remote host 
+can be enumerated by connecting on port 135 and doing the appropriate queries. 
+
+An attacker may use this fact to gain more knowledge
+about the remote host.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 2837 $</scan_nvt_version><threat>Medium</threat><severity>5.0</severity><description /></result><result id="7c9b04f7-1bbd-4084-9060-e4321f894e14"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>135/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.10736"><name>DCE Services Enumeration</name><family>Windows</family><cvss_base>5.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:P|qod_type=remote_banner|solution=filter incoming traffic to this port.|summary=Distributed Computing Environment (DCE) services running on the remote host 
+can be enumerated by connecting on port 135 and doing the appropriate queries. 
+
+An attacker may use this fact to gain more knowledge
+about the remote host.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 2837 $</scan_nvt_version><threat>Medium</threat><severity>5.0</severity><description>Distributed Computing Environment (DCE) services running on the remote host
+can be enumerated by connecting on port 135 and doing the appropriate queries.
+
+An attacker may use this fact to gain more knowledge
+about the remote host.
+
+
+Here is the list of DCE services running on this host:
+
+Port: 49152/tcp
+
+     UUID: d95afe70-a6d5-4259-822e-2c84da1ddb0d, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49152]
+
+Port: 49153/tcp
+
+     UUID: f6beaff7-1e19-4fbb-9f8f-b89e2018337c, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49153]
+     Annotation: Event log TCPIP
+
+     UUID: 30adc50c-5cbc-46ce-9a0e-91914789e23c, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49153]
+     Annotation: NRP server endpoint
+
+     UUID: 3c4728c5-f0ab-448b-bda1-6ce01eb0a6d6, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49153]
+     Annotation: DHCPv6 Client LRPC Endpoint
+
+     UUID: 3c4728c5-f0ab-448b-bda1-6ce01eb0a6d5, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49153]
+     Annotation: DHCP Client LRPC Endpoint
+
+Port: 49154/tcp
+
+     UUID: 86d35949-83c9-4044-b424-db363231fd0c, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+
+     UUID: a398e520-d59a-4bdd-aa7a-3c1e0303a511, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+     Annotation: IKE/Authip API
+
+     UUID: 552d076a-cb29-4e44-8b6a-d15e59e2c0af, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+     Annotation: IP Transition Configuration endpoint
+
+     UUID: 98716d03-89ac-44c7-bb8c-285824e51c4a, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+     Annotation: XactSrv service
+
+     UUID: c9ac6db5-82b7-4e55-ae8a-e464ed7b4277, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+     Annotation: Impl friendly name
+
+     UUID: 30b044a5-a225-43f0-b3a4-e060df91f9c1, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49154]
+
+Port: 49155/tcp
+
+     UUID: 12345778-1234-abcd-ef00-0123456789ac, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49155]
+     Named pipe : lsass
+     Win32 service or process : lsass.exe
+     Description : SAM access
+
+Port: 49157/tcp
+
+     UUID: 367abb81-9844-35f1-ad32-98f038001003, version 2
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49157]
+
+Port: 49158/tcp
+
+     UUID: 6b5bdd1e-528c-422c-af8c-a4079be4fe48, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49158]
+     Annotation: Remote Fw APIs
+
+     UUID: 12345678-1234-abcd-ef00-0123456789ab, version 1
+     Endpoint: ncacn_ip_tcp:218.32.1.71[49158]
+     Annotation: IPSec Policy agent endpoint
+     Named pipe : spoolss
+     Win32 service or process : spoolsv.exe
+     Description : Spooler service
+
+
+
+Solution : filter incoming traffic to this port(s).</description></result><result id="5ba92f07-3789-4771-bdec-d94f25632cba"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.103440"><name>Check for SSL Weak Ciphers</name><family>General</family><cvss_base>5.0</cvss_base><cve>CVE-2013-2566, CVE-2015-4000, CVE-2016-2183</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:P/I:N/A:N|summary=This routine search for weak SSL ciphers offered by a service.|solution=The configuration of this services should be changed so
+  that it does not support the listed weak ciphers anymore.|insight=These rules are applied for the evaluation of the cryptographic strength:
+
+  - Any SSL/TLS using no cipher is considered weak.
+
+  - All SSLv2 ciphers are considered weak due to a design flaw within the SSLv2 protocol.
+
+  - RC4 is considered to be weak (CVE-2013-2566).
+
+  - 64-bit block cipher 3DES vulnerable to SWEET32 attack (CVE-2016-2183).
+
+  - Ciphers using 64 bit or less are considered to be vulnerable to brute force methods
+  and therefore considered as weak (CVE-2015-4000).
+
+  - 1024 bit RSA authentication is considered to be insecure and therefore as weak.
+
+  - CBC ciphers in TLS &lt; 1.2 are considered to be vulnerable to the BEAST or Lucky 13 attacks
+
+  - Any cipher considered to be secure for only the next 10 years is considered as medium
+
+  - Any other cipher is considered as strong|qod_type=remote_app</tags><cert><cert_ref id="DFN-CERT-2015-1679" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1632" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1608" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1542" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1518" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1406" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1341" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1194" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1144" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1113" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1078" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1067" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1016" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0980" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0977" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0976" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0960" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0956" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0944" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0925" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0879" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0844" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0737" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0977" type="DFN-CERT" /></cert><xref>URL:https://www.bsi.bund.de/SharedDocs/Warnmeldungen/DE/CB/warnmeldung_cb-k16-1465_update_6.html, URL:https://bettercrypto.org/</xref></nvt><scan_nvt_version>$Revision: 4281 $</scan_nvt_version><threat>Medium</threat><severity>5.0</severity><description>Weak ciphers offered by this service:
+  TLS1_0_RSA_WITH_RC4_128_MD5
+  TLS1_0_RSA_WITH_RC4_128_SHA
+  TLS1_0_RSA_WITH_3DES_EDE_CBC_SHA</description></result><result id="7ae2efc5-30a0-4447-9418-f1ea0f555d52"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.808063"><name>Oracle MySQL Backronym Vulnerability June16 (Windows)</name><family>Databases</family><cvss_base>4.3</cvss_base><cve>CVE-2015-3152</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:M/Au:N/C:N/I:P/A:N|qod_type=remote_banner|summary=This host is running Oracle MySQL and is
+  prone to the backronym vulnerability.|vuldetect=Get the installed version with the help of
+  detect NVT and check the version is vulnerable or not.|insight=The flaw exist due to improper validation
+  of MySQL client library when establishing a secure connection to a MySQL
+  server using the --ssl option.|impact=Successful exploitation will allow
+  man-in-the-middle attackers to spoof servers via a cleartext-downgrade
+  attack.
+
+  Impact Level: Application|affected=Oracle MySQL Server 5.7.2 and earlier
+  on Windows.|solution=Upgrade to version Oracle MySQL Server 5.7.3 or
+  later. For updates refer to http://www.oracle.com|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1105" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1096" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1071" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1051" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1016" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0942" type="DFN-CERT" /></cert><xref>URL:http://www.ocert.org/advisories/ocert-2015-003.html, URL:https://duo.com/blog/backronym-mysql-vulnerability</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.3</severity><description>Installed version: 5.1.67-community
+Fixed version:     5.7.3</description></result><result id="98a967c2-ac94-4e1f-acca-80abe64482cb"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.808063"><name>Oracle MySQL Backronym Vulnerability June16 (Windows)</name><family>Databases</family><cvss_base>4.3</cvss_base><cve>CVE-2015-3152</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:M/Au:N/C:N/I:P/A:N|qod_type=remote_banner|summary=This host is running Oracle MySQL and is
+  prone to the backronym vulnerability.|vuldetect=Get the installed version with the help of
+  detect NVT and check the version is vulnerable or not.|insight=The flaw exist due to improper validation
+  of MySQL client library when establishing a secure connection to a MySQL
+  server using the --ssl option.|impact=Successful exploitation will allow
+  man-in-the-middle attackers to spoof servers via a cleartext-downgrade
+  attack.
+
+  Impact Level: Application|affected=Oracle MySQL Server 5.7.2 and earlier
+  on Windows.|solution=Upgrade to version Oracle MySQL Server 5.7.3 or
+  later. For updates refer to http://www.oracle.com|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1105" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1096" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1071" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1051" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1016" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0942" type="DFN-CERT" /></cert><xref>URL:http://www.ocert.org/advisories/ocert-2015-003.html, URL:https://duo.com/blog/backronym-mysql-vulnerability</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.3</severity><description>Installed version: 5.1.67-community
+Fixed version:     5.7.3</description></result><result id="421e5a44-8d97-4aef-b19c-00fbb7b41f89"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.808063"><name>Oracle MySQL Backronym Vulnerability June16 (Windows)</name><family>Databases</family><cvss_base>4.3</cvss_base><cve>CVE-2015-3152</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:M/Au:N/C:N/I:P/A:N|qod_type=remote_banner|summary=This host is running Oracle MySQL and is
+  prone to the backronym vulnerability.|vuldetect=Get the installed version with the help of
+  detect NVT and check the version is vulnerable or not.|insight=The flaw exist due to improper validation
+  of MySQL client library when establishing a secure connection to a MySQL
+  server using the --ssl option.|impact=Successful exploitation will allow
+  man-in-the-middle attackers to spoof servers via a cleartext-downgrade
+  attack.
+
+  Impact Level: Application|affected=Oracle MySQL Server 5.7.2 and earlier
+  on Windows.|solution=Upgrade to version Oracle MySQL Server 5.7.3 or
+  later. For updates refer to http://www.oracle.com|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1105" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1096" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1071" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1051" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1016" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0942" type="DFN-CERT" /></cert><xref>URL:http://www.ocert.org/advisories/ocert-2015-003.html, URL:https://duo.com/blog/backronym-mysql-vulnerability</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.3</severity><description>Installed version: 5.1.67-community
+Fixed version:     5.7.3</description></result><result id="2d371cf5-9f52-4035-abaf-02c904aa3898"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.808063"><name>Oracle MySQL Backronym Vulnerability June16 (Windows)</name><family>Databases</family><cvss_base>4.3</cvss_base><cve>CVE-2015-3152</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:M/Au:N/C:N/I:P/A:N|qod_type=remote_banner|summary=This host is running Oracle MySQL and is
+  prone to the backronym vulnerability.|vuldetect=Get the installed version with the help of
+  detect NVT and check the version is vulnerable or not.|insight=The flaw exist due to improper validation
+  of MySQL client library when establishing a secure connection to a MySQL
+  server using the --ssl option.|impact=Successful exploitation will allow
+  man-in-the-middle attackers to spoof servers via a cleartext-downgrade
+  attack.
+
+  Impact Level: Application|affected=Oracle MySQL Server 5.7.2 and earlier
+  on Windows.|solution=Upgrade to version Oracle MySQL Server 5.7.3 or
+  later. For updates refer to http://www.oracle.com|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1105" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1096" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1071" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1051" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-1016" type="DFN-CERT" /><cert_ref id="DFN-CERT-2015-0942" type="DFN-CERT" /></cert><xref>URL:http://www.ocert.org/advisories/ocert-2015-003.html, URL:https://duo.com/blog/backronym-mysql-vulnerability</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.3</severity><description>Installed version: 5.1.67-community
+Fixed version:     5.7.3</description></result><result id="f4ba8990-b827-44ba-b86f-8f9aa8abd5d4"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804033"><name>Oracle MySQL Server Component 'Optimizer' Unspecified vulnerability Oct-2013 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2013-3839</cve><bid>63109</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to unspecified vulnerability.|vuldetect=Get the installed version of MySQL with the help of detect NVT and check
+it is vulnerable or not.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html|insight=Unspecified error in the MySQL Server component via unknown vectors related
+to Optimizer.|affected=Oracle MySQL versions 5.1.51 through 5.1.70, 5.5.10 through 5.5.32, and 5.6.x
+through 5.6.12 on Windows.|impact=Successful exploitation will allow remote attackers to disclose sensitive
+information, manipulate certain data, cause a DoS (Denial of Service) and
+bypass certain security restrictions.
+
+Impact Level: Application|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-2099" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1846" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1815" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1795" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/55327, URL:http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="17a6f85d-cd3c-48b8-8174-66228a969caa"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804075"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 04 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0401, CVE-2014-0412, CVE-2014-0437, CVE-2013-5908</cve><bid>64898, 64880, 64849, 64896</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to InnoDB, Optimizer, Error Handling, and some unknow vectors.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.72 and earlier, 5.5.34 and earlier, and 5.6.14
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1604" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="55758baa-5523-48e8-8cc5-85a2a955777e"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804076"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 05 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0386, CVE-2014-0393, CVE-2014-0402</cve><bid>64904, 64877, 64908</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to Optimizer, InnoDB, and Locking.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.71 and earlier, 5.5.33 and earlier, and 5.6.13
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="dd79b900-e696-448e-a4f4-481eabbed2ec"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804033"><name>Oracle MySQL Server Component 'Optimizer' Unspecified vulnerability Oct-2013 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2013-3839</cve><bid>63109</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to unspecified vulnerability.|vuldetect=Get the installed version of MySQL with the help of detect NVT and check
+it is vulnerable or not.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html|insight=Unspecified error in the MySQL Server component via unknown vectors related
+to Optimizer.|affected=Oracle MySQL versions 5.1.51 through 5.1.70, 5.5.10 through 5.5.32, and 5.6.x
+through 5.6.12 on Windows.|impact=Successful exploitation will allow remote attackers to disclose sensitive
+information, manipulate certain data, cause a DoS (Denial of Service) and
+bypass certain security restrictions.
+
+Impact Level: Application|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-2099" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1846" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1815" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1795" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/55327, URL:http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="4b010d8d-1e47-4fa5-aa42-14a37f19dcc6"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804075"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 04 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0401, CVE-2014-0412, CVE-2014-0437, CVE-2013-5908</cve><bid>64898, 64880, 64849, 64896</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to InnoDB, Optimizer, Error Handling, and some unknow vectors.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.72 and earlier, 5.5.34 and earlier, and 5.6.14
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1604" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="3fe1b8b9-09ce-4625-aaac-1d83d2ba71fb"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804076"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 05 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0386, CVE-2014-0393, CVE-2014-0402</cve><bid>64904, 64877, 64908</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to Optimizer, InnoDB, and Locking.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.71 and earlier, 5.5.33 and earlier, and 5.6.13
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="529f56f2-70f4-44ec-80fd-409d0897f5cb"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804033"><name>Oracle MySQL Server Component 'Optimizer' Unspecified vulnerability Oct-2013 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2013-3839</cve><bid>63109</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to unspecified vulnerability.|vuldetect=Get the installed version of MySQL with the help of detect NVT and check
+it is vulnerable or not.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html|insight=Unspecified error in the MySQL Server component via unknown vectors related
+to Optimizer.|affected=Oracle MySQL versions 5.1.51 through 5.1.70, 5.5.10 through 5.5.32, and 5.6.x
+through 5.6.12 on Windows.|impact=Successful exploitation will allow remote attackers to disclose sensitive
+information, manipulate certain data, cause a DoS (Denial of Service) and
+bypass certain security restrictions.
+
+Impact Level: Application|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-2099" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1846" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1815" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1795" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/55327, URL:http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="6a72f6b9-8a20-48fa-9544-ae9b0f393fa5"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804075"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 04 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0401, CVE-2014-0412, CVE-2014-0437, CVE-2013-5908</cve><bid>64898, 64880, 64849, 64896</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to InnoDB, Optimizer, Error Handling, and some unknow vectors.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.72 and earlier, 5.5.34 and earlier, and 5.6.14
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1604" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="d089b4a9-05fb-47f3-8c6d-fe4ab768bf62"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804076"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 05 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0386, CVE-2014-0393, CVE-2014-0402</cve><bid>64904, 64877, 64908</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to Optimizer, InnoDB, and Locking.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.71 and earlier, 5.5.33 and earlier, and 5.6.13
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="04c24b7c-f35a-49db-99c3-db671c1defbc"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804033"><name>Oracle MySQL Server Component 'Optimizer' Unspecified vulnerability Oct-2013 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2013-3839</cve><bid>63109</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to unspecified vulnerability.|vuldetect=Get the installed version of MySQL with the help of detect NVT and check
+it is vulnerable or not.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html|insight=Unspecified error in the MySQL Server component via unknown vectors related
+to Optimizer.|affected=Oracle MySQL versions 5.1.51 through 5.1.70, 5.5.10 through 5.5.32, and 5.6.x
+through 5.6.12 on Windows.|impact=Successful exploitation will allow remote attackers to disclose sensitive
+information, manipulate certain data, cause a DoS (Denial of Service) and
+bypass certain security restrictions.
+
+Impact Level: Application|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-2099" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1846" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1815" type="DFN-CERT" /><cert_ref id="DFN-CERT-2013-1795" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/55327, URL:http://www.oracle.com/technetwork/topics/security/cpuoct2013-1899837.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="448985a7-2fa7-4d63-b5ea-6428c51d29fa"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804075"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 04 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0401, CVE-2014-0412, CVE-2014-0437, CVE-2013-5908</cve><bid>64898, 64880, 64849, 64896</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to InnoDB, Optimizer, Error Handling, and some unknow vectors.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.72 and earlier, 5.5.34 and earlier, and 5.6.14
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2015-1604" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="17e48f68-7f2b-431c-923d-e26c5b069eb5"><user_tags><count>0</count></user_tags><detection><result id="14090746-516f-4cb8-a53c-1ae583264de8"><details><detail><name>product</name><value>cpe:/a:oracle:mysql:5.1.67-community</value></detail><detail><name>location</name><value>3306/tcp</value></detail><detail><name>source_oid</name><value>1.3.6.1.4.1.25623.1.0.100152</value></detail><detail><name>source_name</name><value>MySQL/MariaDB Detection</value></detail></details></result></detection><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.804076"><name>Oracle MySQL Multiple Unspecified vulnerabilities - 05 Jan14 (Windows)</name><family>Databases</family><cvss_base>4.0</cvss_base><cve>CVE-2014-0386, CVE-2014-0393, CVE-2014-0402</cve><bid>64904, 64877, 64908</bid><tags>cvss_base_vector=AV:N/AC:L/Au:S/C:N/I:N/A:P|summary=This host is running Oracle MySQL and is prone to multiple unspecified
+vulnerabilities.|vuldetect=Get the installed version with the help of detect NVT and check the version
+is vulnerable or not.|insight=Unspecified errors in the MySQL Server component via unknown vectors related
+to Optimizer, InnoDB, and Locking.|impact=Successful exploitation will allow attackers to manipulate certain data
+and cause a DoS (Denial of Service).
+
+Impact Level: Application|affected=Oracle MySQL version 5.1.71 and earlier, 5.5.33 and earlier, and 5.6.13
+and earlier on Windows.|solution=Apply the patch from below link,
+http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html|qod_type=remote_banner|solution_type=VendorFix</tags><cert><cert_ref id="DFN-CERT-2014-0742" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0190" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0180" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0085" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0074" type="DFN-CERT" /><cert_ref id="DFN-CERT-2014-0048" type="DFN-CERT" /></cert><xref>URL:http://secunia.com/advisories/56491, URL:http://www.oracle.com/technetwork/topics/security/cpujan2014-1972949.html</xref></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description /></result><result id="4fd805ab-f592-477b-acb5-ccf0194333cb"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.105880"><name>SSL Certificate Signed Using A Weak Signature Algorithm</name><family>General</family><cvss_base>4.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:H/Au:N/C:P/I:P/A:N|qod_type=remote_banner|insight=Secure Hash Algorithm 1 (SHA-1) is considered cryptographically weak and not secure enough for ongoing use. Beginning as late as January 2017
+and as early as June 2016, browser developers such as Microsoft and Google will begin warning users when users visit web sites that use SHA-1 signed Secure Socket Layer (SSL)
+certificates. Servers that use SSL certificates signed using an SHA-1 signature will need to obtain new SHA-2 signed SSL certificates to avoid these web browser SSL certificate warnings.|vuldetect=Check which algorithm was used to sign the remote SSL Certificate.|summary=The remote service is using a SSL certificate chain that has been signed using a cryptographically weak hashing algorithm.</tags><cert /><xref>URL:https://blog.mozilla.org/security/2014/09/23/phasing-out-certificates-with-sha-1-based-signature-algorithms/</xref></nvt><scan_nvt_version>$Revision: 4061 $</scan_nvt_version><threat>Medium</threat><severity>4.0</severity><description>The following certificates are part of the certificate chain but using insecure signature algorithms:
+
+Subject:              CN=WIN-9NAUTP0UL3T
+Signature Algorithm:  sha1WithRSAEncryption</description></result><result id="e3c2d54c-e27a-4985-adfe-4dd1d9f79d76"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.80091"><name>TCP timestamps</name><family>General</family><cvss_base>2.6</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:H/Au:N/C:P/I:N/A:N|summary=The remote host implements TCP timestamps and therefore allows to compute
+  the uptime.|vuldetect=Special IP packets are forged and sent with a little delay in between to the
+  target IP. The responses are searched for a timestamps. If found, the timestamps are reported.|solution=To disable TCP timestamps on linux add the line 'net.ipv4.tcp_timestamps = 0' to
+  /etc/sysctl.conf. Execute 'sysctl -p' to apply the settings at runtime.
+
+  To disable TCP timestamps on Windows execute 'netsh int tcp set global timestamps=disabled'
+
+  Starting with Windows Server 2008 and Vista, the timestamp can not be completely disabled.
+
+  The default behavior of the TCP/IP stack on this Systems is, to not use the 
+  Timestamp options when initiating TCP connections, but use them if the TCP peer 
+  that is initiating communication includes them in their synchronize (SYN) segment.
+
+  See also: http://www.microsoft.com/en-us/download/details.aspx?id=9152|affected=TCP/IPv4 implementations that implement RFC1323.|insight=The remote host implements TCP timestamps, as defined by RFC1323.|impact=A side effect of this feature is that the uptime of the remote
+  host can sometimes be computed.|qod_type=remote_banner</tags><cert /><xref>URL:http://www.ietf.org/rfc/rfc1323.txt</xref></nvt><scan_nvt_version>$Revision: 4048 $</scan_nvt_version><threat>Low</threat><severity>2.6</severity><description>It was detected that the host implements RFC1323.
+
+The following timestamps were retrieved with a delay of 1 seconds in-between:
+Paket 1: 1819040088
+Paket 2: 1819040194</description></result><result id="0353e1e3-4aa1-44bb-aa1d-88b2dcd27a09"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/CPE-T</port><nvt oid="1.3.6.1.4.1.25623.1.0.810002"><name>CPE Inventory</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=This routine uses information collected by other routines about
+CPE identities (http://cpe.mitre.org/) of operating systems, services and
+applications detected during the scan.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 2837 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>218.32.1.71|cpe:/a:oracle:mysql:5.1.67-community
+218.32.1.71|cpe:/o:microsoft:windows</description></result><result id="c815fe03-10b3-4fe1-a80e-6026c5ef1ea9"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/SMBClient</port><nvt oid="1.3.6.1.4.1.25623.1.0.90011"><name>SMB Test</name><family>Windows</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=executable_version|summary=Test remote host SMB Functions</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 3376 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>The tool "smbclient" is not available for OpenVAS.
+Therefore none of the tests using smbclient are executed.</description></result><result id="45273162-2150-478a-a2a9-461b7519873d"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/icmp</port><nvt oid="1.3.6.1.4.1.25623.1.0.103190"><name>ICMP Timestamp Detection</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>CVE-1999-0524</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:L/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=The remote host responded to an ICMP timestamp request. The Timestamp Reply is
+an ICMP message which replies to a Timestamp message. It consists of the
+originating timestamp sent by the sender of the Timestamp as well as a receive
+timestamp and a transmit timestamp. This information could theoretically be used
+to exploit weak time-based random number generators in other services.</tags><cert><cert_ref id="DFN-CERT-2014-0658" type="DFN-CERT" /></cert><xref>URL:http://www.ietf.org/rfc/rfc0792.txt</xref></nvt><scan_nvt_version>$Revision: 3115 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description /></result><result id="dcc7ad3b-fd09-45d4-959b-23bdbcf53d77"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.105937"><name>OS Detection Consolidation</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This script consolidates the OS information detected by several NVTs and tries to find the best matching OS.|qod_type=remote_active</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4259 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Best matching OS:
+cpe:/o:microsoft:windows
+Found by NVT 1.3.6.1.4.1.25623.1.0.102011 (SMB NativeLanMan)
+
+Other OS detections (in order of reliability):
+OS: cpe:/o:microsoft:windows found by NVT 1.3.6.1.4.1.25623.1.0.102002 (ICMP based OS Fingerprinting)</description></result><result id="550841c4-5c3e-4e31-a28c-df0993a0ad55"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>general/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.51662"><name>Traceroute</name><family>General</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|solution=Block unwanted packets from escaping your network.|summary=A traceroute from the scanning server to the target system was
+  conducted. This traceroute is provided primarily for informational
+  value only. In the vast majority of cases, it does not represent a
+  vulnerability. However, if the displayed traceroute contains any
+  private addresses that should not have been publicly visible, then you
+  have an issue you need to correct.|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4048 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Here is the route from 58.229.184.39 to 218.32.1.71:
+
+58.229.184.39
+10.13.5.5
+219.240.11.77
+58.229.19.69
+218.50.5.221
+58.229.10.9
+39.115.132.63
+58.229.92.150
+175.41.60.117
+175.41.61.174
+175.41.61.126
+192.72.155.5
+218.32.1.71</description></result><result id="6a92c4fd-68c9-4f2f-b26d-f16179546f07"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>139/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.11011"><name>SMB/CIFS Server Detection</name><family>Windows</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This script detects wether port 445 and 139 are open and
+  if they are running a CIFS/SMB server.|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4261 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>A SMB server is running on this port</description></result><result id="5b129acf-3a8f-4f7e-8556-0e1bf781ac63"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>445/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.102011"><name>SMB NativeLanMan</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=It is possible to extract OS, domain and SMB server information
+  from the Session Setup AndX Response packet which is generated during NTLM authentication.|qod_type=remote_active</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4391 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Detected SMB workgroup: WORKGROUP
+Detected SMB server: Windows Server 2008 R2 Enterprise 6.1
+Detected OS: Windows Server 2008 R2 Enterprise 7601 Service Pack 1</description></result><result id="ac53f9fc-f815-42bf-af80-19b5c2665c2b"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>445/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.11011"><name>SMB/CIFS Server Detection</name><family>Windows</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This script detects wether port 445 and 139 are open and
+  if they are running a CIFS/SMB server.|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4261 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>A CIFS server is running on this port</description></result><result id="4cc9ed07-1c8e-4a3f-b89c-24e1c04ebb30"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>445/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.807830"><name>SMB Remote Version Detection</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=Detection of Server Message Block(SMB).
+
+  This script sends SMB Negotiation request and try to get the version from the
+  response.|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4262 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>SMBv1 and SMBv2 are enabled on remote target</description></result><result id="14090746-516f-4cb8-a53c-1ae583264de8"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.100152"><name>MySQL/MariaDB Detection</name><family>Product detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=Detection of installed version of
+  MySQL/MariaDB.
+
+  Detect a running MySQL/MariaDB by getting the banner, Extract the version
+  from the banner and store the information in KB|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4135 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Detected MySQL
+Version: 5.1.67-community-log
+Location: 3306/tcp
+CPE: cpe:/a:oracle:mysql:5.1.67-community
+
+Concluded from version identification result:
+
+5.1.67-community-log &gt;   (j^ydjiN ÿ÷!               -3X@yb^2z2*z</description></result><result id="05dbfb89-2a82-4c0b-9fc3-2b43e3c87ca0"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.10330"><name>Services</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=This routine attempts to guess which
+service is running on the remote ports. For instance,
+it searches for a web server which could listen on
+another port than 80 or 443 and makes this information
+available for other check routines.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 3923 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>An unknown service is running on this port.
+It is usually reserved for MySQL</description></result><result id="bb829592-e541-4805-a37c-37f712ed0694"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3306/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.902799"><name>Database Open Access Vulnerability</name><family>Databases</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|impact=Successful exploitation could allow an attacker to obtain the sensitive
+  information of the database.
+
+  Impact Level: Application|insight=Do not restricting direct access of databases to the remote systems.|summary=The host is running a Database server and is prone to information
+  disclosure vulnerability.|affected=MySQL
+  IBM DB2
+  PostgreSQL
+  IBM solidDB
+  Oracle Database
+  Microsoft SQL Server|solution=Restrict Database access to remote systems.|solution_type=Workaround|qod_type=remote_banner</tags><cert /><xref>URL:https://www.pcisecuritystandards.org/security_standards/index.php?id=pci_dss_v1-2.pdf</xref></nvt><scan_nvt_version>$Revision: 4043 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>MySQL can be accessed by remote attackers</description></result><result id="8fde1a0b-0944-421f-a66d-3a21ac4adc75"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.100152"><name>MySQL/MariaDB Detection</name><family>Product detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=Detection of installed version of
+  MySQL/MariaDB.
+
+  Detect a running MySQL/MariaDB by getting the banner, Extract the version
+  from the banner and store the information in KB|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4135 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Detected MySQL
+Version: 5.1.67-community-log
+Location: 3307/tcp
+CPE: cpe:/a:oracle:mysql:5.1.67-community
+
+Concluded from version identification result:
+
+5.1.67-community-log G   D&gt;H/R1&gt;! ÿ÷!               *O1C?PU=n3Py</description></result><result id="68f71e06-5190-4bcc-85de-7418db1188d6"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3307/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.902799"><name>Database Open Access Vulnerability</name><family>Databases</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|impact=Successful exploitation could allow an attacker to obtain the sensitive
+  information of the database.
+
+  Impact Level: Application|insight=Do not restricting direct access of databases to the remote systems.|summary=The host is running a Database server and is prone to information
+  disclosure vulnerability.|affected=MySQL
+  IBM DB2
+  PostgreSQL
+  IBM solidDB
+  Oracle Database
+  Microsoft SQL Server|solution=Restrict Database access to remote systems.|solution_type=Workaround|qod_type=remote_banner</tags><cert /><xref>URL:https://www.pcisecuritystandards.org/security_standards/index.php?id=pci_dss_v1-2.pdf</xref></nvt><scan_nvt_version>$Revision: 4043 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>MySQL can be accessed by remote attackers</description></result><result id="97a1089a-9a69-47a5-a67b-904236a9194f"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.100152"><name>MySQL/MariaDB Detection</name><family>Product detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=Detection of installed version of
+  MySQL/MariaDB.
+
+  Detect a running MySQL/MariaDB by getting the banner, Extract the version
+  from the banner and store the information in KB|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4135 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Detected MySQL
+Version: 5.1.67-community-log
+Location: 3308/tcp
+CPE: cpe:/a:oracle:mysql:5.1.67-community
+
+Concluded from version identification result:
+
+5.1.67-community-log S   9(Zl2P}G ÿ÷!               )6r`gc&gt;H1YPd</description></result><result id="91d2db50-5991-4289-b9be-46d343cf767b"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3308/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.902799"><name>Database Open Access Vulnerability</name><family>Databases</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|impact=Successful exploitation could allow an attacker to obtain the sensitive
+  information of the database.
+
+  Impact Level: Application|insight=Do not restricting direct access of databases to the remote systems.|summary=The host is running a Database server and is prone to information
+  disclosure vulnerability.|affected=MySQL
+  IBM DB2
+  PostgreSQL
+  IBM solidDB
+  Oracle Database
+  Microsoft SQL Server|solution=Restrict Database access to remote systems.|solution_type=Workaround|qod_type=remote_banner</tags><cert /><xref>URL:https://www.pcisecuritystandards.org/security_standards/index.php?id=pci_dss_v1-2.pdf</xref></nvt><scan_nvt_version>$Revision: 4043 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>MySQL can be accessed by remote attackers</description></result><result id="3b7545ab-61ac-400d-a8a9-3b1a6ba4b014"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.100152"><name>MySQL/MariaDB Detection</name><family>Product detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=Detection of installed version of
+  MySQL/MariaDB.
+
+  Detect a running MySQL/MariaDB by getting the banner, Extract the version
+  from the banner and store the information in KB|qod_type=remote_banner</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 4135 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Detected MySQL
+Version: 5.1.67-community-log
+Location: 3309/tcp
+CPE: cpe:/a:oracle:mysql:5.1.67-community
+
+Concluded from version identification result:
+
+5.1.67-community-log K   s04R#Vf~ ÿ÷!               ffL+1Q&amp;gW]NM</description></result><result id="4eba542a-9a26-4d4a-8ac5-ce3b991dca64"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3309/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.902799"><name>Database Open Access Vulnerability</name><family>Databases</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|impact=Successful exploitation could allow an attacker to obtain the sensitive
+  information of the database.
+
+  Impact Level: Application|insight=Do not restricting direct access of databases to the remote systems.|summary=The host is running a Database server and is prone to information
+  disclosure vulnerability.|affected=MySQL
+  IBM DB2
+  PostgreSQL
+  IBM solidDB
+  Oracle Database
+  Microsoft SQL Server|solution=Restrict Database access to remote systems.|solution_type=Workaround|qod_type=remote_banner</tags><cert /><xref>URL:https://www.pcisecuritystandards.org/security_standards/index.php?id=pci_dss_v1-2.pdf</xref></nvt><scan_nvt_version>$Revision: 4043 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>MySQL can be accessed by remote attackers</description></result><result id="b804188f-f4be-4c24-954c-7ea6262740d4"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.103140"><name>SSL Certificate - Self-Signed Certificate Detection</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=The SSL certificate on this port is self-signed.|qod_type=remote_app</tags><cert /><xref>URL:http://en.wikipedia.org/wiki/Self-signed_certificate</xref></nvt><scan_nvt_version>$Revision: 3955 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description /></result><result id="f42d9be5-c1ce-4302-9ed8-72264cb1ff72"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.10330"><name>Services</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=This routine attempts to guess which
+service is running on the remote ports. For instance,
+it searches for a web server which could listen on
+another port than 80 or 443 and makes this information
+available for other check routines.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 3923 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>A TLScustom server answered on this port</description></result><result id="20485d15-8f6e-44dd-9980-8c9f77db45e9"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.66286"><name>Identify unknown services with nmap</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=This plugin performs service detection by launching nmap's
+service probe against ports running unidentified services.
+
+Description :
+
+This plugin is a complement of find_service.nasl. It launches
+nmap -sV (probe requests) against ports that are running
+unidentified services.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 2752 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Nmap service detection result for this port: ms-wbt-server
+This is a guess. A confident identification of the service was not possible.</description></result><result id="e2572ad8-c48b-471f-9032-db79e989ca30"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.802067"><name>Check for SSL Ciphers</name><family>General</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This routine search for SSL ciphers offered by a service.|qod_type=remote_app</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 3989 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Service supports TLSv1 ciphers.
+
+Medium ciphers offered by this service:
+  TLS1_0_ECDHE_RSA_WITH_AES_256_CBC_SHA
+  TLS1_0_ECDHE_RSA_WITH_AES_128_CBC_SHA
+  TLS1_0_RSA_WITH_AES_256_CBC_SHA
+  TLS1_0_RSA_WITH_AES_128_CBC_SHA
+
+Weak ciphers offered by this service:
+  TLS1_0_RSA_WITH_RC4_128_MD5
+  TLS1_0_RSA_WITH_RC4_128_SHA
+  TLS1_0_RSA_WITH_3DES_EDE_CBC_SHA
+
+No non-ciphers are supported by this service</description></result><result id="f4e7ca75-9aca-4fc8-b6d4-d51603df829c"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>3389/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.902816"><name>Check for SSL Medium Ciphers</name><family>General</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|summary=This Plugin reports about SSL Medium Ciphers.|qod_type=remote_app</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 3989 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Medium ciphers offered by this service:
+  TLS1_0_ECDHE_RSA_WITH_AES_256_CBC_SHA
+  TLS1_0_ECDHE_RSA_WITH_AES_128_CBC_SHA
+  TLS1_0_RSA_WITH_AES_256_CBC_SHA
+  TLS1_0_RSA_WITH_AES_128_CBC_SHA</description></result><result id="a124525f-0edc-43bc-b77f-12672feb89b8"><user_tags><count>0</count></user_tags><host>218.32.1.71</host><port>9000/tcp</port><nvt oid="1.3.6.1.4.1.25623.1.0.66286"><name>Identify unknown services with nmap</name><family>Service detection</family><cvss_base>0.0</cvss_base><cve>NOCVE</cve><bid>NOBID</bid><tags>cvss_base_vector=AV:N/AC:L/Au:N/C:N/I:N/A:N|qod_type=remote_banner|summary=This plugin performs service detection by launching nmap's
+service probe against ports running unidentified services.
+
+Description :
+
+This plugin is a complement of find_service.nasl. It launches
+nmap -sV (probe requests) against ports that are running
+unidentified services.</tags><cert /><xref>NOXREF</xref></nvt><scan_nvt_version>$Revision: 2752 $</scan_nvt_version><threat>Log</threat><severity>0.0</severity><description>Nmap service detection result for this port: cslistener
+This is a guess. A confident identification of the service was not possible.</description></result></results><result_count>45<full>45</full><filtered>45</filtered><debug><full>0</full><filtered>0</filtered></debug><hole><full>0</full><filtered>0</filtered></hole><info><full>1</full><filtered>1</filtered></info><log><full>24</full><filtered>24</filtered></log><warning><full>20</full><filtered>20</filtered></warning><false_positive><full>0</full><filtered>0</filtered></false_positive></result_count><severity><full>5.0</full><filtered>5.0</filtered></severity><host><ip>218.32.1.71</ip><start>2016-11-06T12:05:53Z</start><end>2016-11-06T12:31:27Z</end><detail><name>Cert:F1AF4A588CC1897EC6EA30AFE0F7783162A604DDC28A26906D8D01C032278AD6</name><value>x509:MIIC4jCCAcqgAwIBAgIQPW9hBIXZ5IxGf2RgJ5VNajANBgkqhkiG9w0BAQUFADAaMRgwFgYDVQQDEw9XSU4tOU5BVVRQMFVMM1QwHhcNMTYwNzI1MTcwMDMwWhcNMTcwMTI0MTcwMDMwWjAaMRgwFgYDVQQDEw9XSU4tOU5BVVRQMFVMM1QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5j/ohS9Rwnsn0Ug9+R7vKTLVTgqd7fyYIQCh3w2Lpl81/a+8w7S3KSm7tdmPz3PkH0BFM/R1e0/fiNjfI+9TPknn/FgyU0L2vtEehZtr7B/8vzr4YEomLbNsA8Nx7ImWdemZDBLTCeoMOrXZ2et6ciXo3gAgCFdfAII0S8q7V5CbJf/4kdJ+UQC6Pp93trPpYvsmMKnXap0BgiJ4oC5O9o2gd2AVAVVd2qNXssCUY8xmKpEbUYohLQ7PuR+I6E5r4O+mg+eoSasTcLYj+NCkxGaXbqh2HG/5yPRLe6bKCymDLSYZ6ZE3o4BFk24ARQlwPZuSGX0w/MWAa05TMZUaTAgMBAAGjJDAiMBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIEMDANBgkqhkiG9w0BAQUFAAOCAQEAZqYwMvo7kCopM6uIQH6wBl2S8RGZKe88FtmHPksqZwP1FaPZY2WpWYkl0Yl04LfmC8wkAyswr+QEC9r4SdkurWdNKN420dE4RMhabjjQR7MIsGCUotZWHTQcRRzQP+zzDMbNu/C5wZWDMbkwfiukNcFq7/oWr0LtiecWGXOVqlgNFp99NbZjaLwXlMeRY/AwAmjg1p6vBUTlntAqcnmeD5yfXfA0jXTxWsKvhg7e8bweKFH3Nk6MDWisCay4t9VHYYYLLj4MA1Yc2241ywrBiFgZKaSEhmZsVzJArySufAdGOiTS2M4iqGPm+4ceaL7mWy0dBGXgQXfUHqSpvoxIeg==</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103692</name><description>SSL Certificate</description></source><extra /></detail><detail><name>SSLDetails:F1AF4A588CC1897EC6EA30AFE0F7783162A604DDC28A26906D8D01C032278AD6</name><value>issuer:CN=WIN-9NAUTP0UL3T|serial:3D6F610485D9E48C467F646027954D6A|notBefore:20160725T170030|notAfter:20170124T170030</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103692</name><description>SSL Certificate Details</description></source><extra /></detail><detail><name>SSLInfo</name><value>3389::F1AF4A588CC1897EC6EA30AFE0F7783162A604DDC28A26906D8D01C032278AD6</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103692</name><description>SSL Certificate Information</description></source><extra /></detail><detail><name>ports</name><value>445,9009,135,3389,3306,139,3307,9000,3308,9001,3309</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.900239</name><description>Check Open TCP Ports</description></source><extra /></detail><detail><name>tcp_ports</name><value>445,9009,135,3389,3306,139,3307,9000,3308,9001,3309</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.900239</name><description>Check Open TCP Ports</description></source><extra /></detail><detail><name>traceroute</name><value>58.229.184.39,10.13.5.5,219.240.11.77,58.229.19.69,218.50.5.221,58.229.10.9,39.115.132.63,58.229.92.150,175.41.60.117,175.41.61.174,175.41.61.126,192.72.155.5,218.32.1.71</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.51662</name><description>Traceroute</description></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11913</name><description /></source><extra /></detail><detail><name>OS</name><value>Windows Server 2008 R2 Enterprise 7601 Service Pack 1</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102011</name><description>SMB NativeLanMan</description></source><extra /></detail><detail><name>OS</name><value>cpe:/o:microsoft:windows</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102011</name><description>SMB NativeLanMan</description></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.18262</name><description /></source><extra /></detail><detail><name>OS</name><value>Microsoft Windows</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102002</name><description>ICMP based OS Fingerprinting</description></source><extra /></detail><detail><name>OS</name><value>cpe:/o:microsoft:windows</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102002</name><description>ICMP based OS Fingerprinting</description></source><extra /></detail><detail><name>App</name><value>cpe:/a:oracle:mysql:5.1.67-community</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.100152</name><description /></source><extra /></detail><detail><name>cpe:/a:oracle:mysql:5.1.67-community</name><value>3306/tcp</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.100152</name><description /></source><extra /></detail><detail><name>cpe:/a:oracle:mysql:5.1.67-community</name><value>3307/tcp</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.100152</name><description /></source><extra /></detail><detail><name>cpe:/a:oracle:mysql:5.1.67-community</name><value>3308/tcp</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.100152</name><description /></source><extra /></detail><detail><name>cpe:/a:oracle:mysql:5.1.67-community</name><value>3309/tcp</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.100152</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.105071</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103957</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103958</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103956</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.803021</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.802726</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.12638</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.15405</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.10731</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.10876</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.106223</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.111012</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.18183</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11367</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.105042</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103936</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.802258</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.802454</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.902935</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.802618</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.802455</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17575</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.15583</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103549</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11864</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11860</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17292</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11859</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11862</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17290</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11861</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17291</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17293</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.11863</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.10673</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17294</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.17289</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.12116</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.805142</name><description /></source><extra /></detail><detail><name>EXIT_CODE</name><value>EXIT_NOTVULN</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.805188</name><description /></source><extra /></detail><detail><name>scanned_with_scanner</name><value>7.0.9</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103739</name><description>Host Scan End</description></source><extra /></detail><detail><name>scanned_with_feedversion</name><value>201611020916</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103739</name><description>Host Scan End</description></source><extra /></detail><detail><name>scanned_with_feedtype</name><value>OpenVAS NVT Feed</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.103739</name><description>Host Scan End</description></source><extra /></detail><detail><name>best_os_cpe</name><value>cpe:/o:microsoft:windows</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102011;</name><description>SMB NativeLanMan</description></source><extra /></detail><detail><name>best_os_txt</name><value>Windows Server 2008 R2 Enterprise 7601 Service Pack 1</value><source><type>nvt</type><name>1.3.6.1.4.1.25623.1.0.102011</name><description>SMB NativeLanMan</description></source><extra /></detail></host><host_start><host>218.32.1.71</host>2016-11-06T12:05:53Z</host_start><host_end><host>218.32.1.71</host>2016-11-06T12:31:27Z</host_end><scan_end>2016-11-06T12:31:49Z</scan_end><errors><count>3</count><error><host>218.32.1.71</host><port>22/tcp</port><description>Failed to connect despite port was reported open (1).</description><nvt oid="1.3.6.1.4.1.25623.1.0.10267"><name>SSH Server type and version</name><cvss_base>0.0</cvss_base></nvt><scan_nvt_version>$Revision: 4224 $</scan_nvt_version><severity>-3.0</severity></error><error><host>218.32.1.71</host><port>general/tcp</port><description>NVT timed out after 320 seconds.</description><nvt oid="1.3.6.1.4.1.25623.1.0.103492"><name>MySQL Authentication Bypass</name><cvss_base>5.1</cvss_base></nvt><scan_nvt_version>$Revision: 3911 $</scan_nvt_version><severity>-3.0</severity></error><error><host>218.32.1.71</host><port>general/tcp</port><description>NVT timed out after 320 seconds.</description><nvt oid="1.3.6.1.4.1.25623.1.0.902269"><name>Microsoft Windows SMB Server NTLM Multiple Vulnerabilities (971468)</name><cvss_base>10.0</cvss_base></nvt><scan_nvt_version>$Revision: 4161 $</scan_nvt_version><severity>-3.0</severity></error></errors></report></report>

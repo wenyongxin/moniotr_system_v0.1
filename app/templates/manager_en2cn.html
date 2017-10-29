@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+
+<style type="text/css">
+	.cn{float:left; width:100%;} 
+	.cn .cn_text{color:#A5A4A4; text-decoration:none;}
+	.cn .ChangInput{width:100%;}
+	.cn .SaveButton{color:red;}
+
+	.num_line{width:100%; border-bottom:1px solid #DDD7D7; margin-top:10px; float:left;}
+	.num_line:hover{background:#D0CFCF;}
+	.num_line .n_title{float:left; margin:1px; color:#000; display:block; background:#666; width:40px; border-radius:40px; text-align:center; color:#fff;}
+	.num_line .n_title:hover{background:#000;}
+	.num_line .n_btn{float:right;}
+
+
+</style>
+
+{% for table in en2cn %}
+	<div class="num_line">
+		<div class="en" id="openvas_en{{ table.id }}">{{ table.en }}</div>
+		<div class="cn"><a id="openvas_cn{{ table.id }}">{{ table.cn }}</a></div>
+		<p class="n_title">{{ loop.index }}</p>
+		<a class="n_btn" id="SaveButton{{ table.id }}"></a>
+		<a class="n_btn" id="ChangButton{{ table.id }}" onclick="ChangButton({{ table.id }})">纠正</a>
+	</div>
+{% endfor %}
+
+
+<script type="text/javascript">
+	onblur="setEditable(this)"
+	function setEditable(obj){
+		$(obj).attr("contenteditable","true");
+	}
+</script>
+
+<!--纠错按钮 ChangeError() 开始 -->
+<script type="text/javascript">
+	function ChangButton(id){
+		var openvas_cn = document.getElementById("openvas_cn" + id);
+		var ChangButton = document.getElementById("ChangButton" + id);
+		var SaveButton = document.getElementById("SaveButton" + id);
+		openvas_cn.innerHTML = '<input type="txt" class="ChangInput" id="NewOpenvas_cn'+id+'" value="'+openvas_cn.innerHTML+'">';
+		ChangButton.style.display = "none";
+		SaveButton.innerHTML = '<a style="color:red;" onclick="SaveError(\''+id+'\')">保存</a>';
+	}
+</script>
+<!--纠错按钮 ChangeError() 结束 -->
+
+<!--保存按钮 SaveError() 开始-->
+<script type="text/javascript">
+	function SaveError(id){
+		var datas = {};
+		var openvas_en = document.getElementById("openvas_en" + id);	
+		var NewOpenvas_cn = document.getElementById("NewOpenvas_cn" + id);
+		datas['en'] = openvas_en.innerHTML
+		datas['cn'] = NewOpenvas_cn.value 
+                var data = new XMLHttpRequest(); 
+                data.open("POST", "{{ url_for('main.game_openvas_save') }}", true);
+                data.send(JSON.stringify(datas))
+                location.reload()   
+	}
+</script>
+<!--保存按钮 SaveError() 结束-->
+
+
+
+
+
+{% endblock %}
+
+
+
+
+

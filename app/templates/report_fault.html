@@ -1,0 +1,935 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+{% block page_content %}
+<style type="text/css">
+	.checkinputname{width:200;height:116;border:1px;solid:#F0F0F0;}
+	#modal-container{margin: 30px 0 0 -740px;width:1300px;}
+	.test{width:600px;border:1px solid #ccc;}
+</style>
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<link href="../static/css/report_fault.css" rel="stylesheet">
+
+{% if filename != "None" %}
+        <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+        </div>
+{% endif %}
+
+
+
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span8">
+			<div id="fault_center">Loading graph...</div>
+		</div>
+		<div class="span4">
+			<div id="fault_type">Loading...</div>
+		</div>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span1">
+		<input type="text" id="SelectStart" style="width:90px;" placeholder="开始日期" onclick="WdatePicker()">
+	</div>
+	<div class="span1">
+		<input type="text" id="SelectEnd" style="width:90px;" placeholder="结束日期" onclick="WdatePicker()">
+	</div>
+	<div class="span1">
+		<button class="btn btn-primary" type="button" onclick="SelectTime()">查找</button>
+	</div>
+
+	<div class="span2">
+		核心故障时间: <span class="badge" id="core">{{ cores_data['core'][1] | e }}分钟</span>
+	</div>
+	<div class="span2">
+		核心稳定性：<span class="badge" id="core">{{ cores_data['core'][0] | e }}%</span>
+	</div>
+	<div class="span2">
+		非核心故障时间: <span class="badge" id="core">{{ cores_data['uncore'][1] | e }}分钟</span><br>
+	</div>
+	<div class="span2">
+		非核心稳定性：<span class="badge" id="uncore">{{ cores_data['uncore'][0] | e }}%</span>
+	</div>
+
+	<div class="span1">
+		<div class="btn-group">
+			<button type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown">
+				<span class="multiselect-selected-text">隐藏选择</span> 
+					<b class="caret"></b>
+			</button>
+			<ul class="multiselect-container dropdown-menu">
+				{% for t in title %}
+					<li><a tabindex="{{ loop.index }}"><input type="checkbox" id="tabindex{{ loop.index }}"  onclick="SelectCheck({{ loop.index }})" value="{{ t }}">{{ t }}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+<br />
+
+
+
+<div class="row-fluid">
+	<div class="span4">
+		<div style="overflow:scroll;width:1280px;heigth:700px;"> 
+			<table id="FaultReport" class="table table-bordered table-hover">
+				<th id="th0"><input type="checkbox" id="CheckBoxReportAll"></th>
+				<th id="th1"><div class="btn-group"><button class="btn btn-link" style="color:#000000">日期</button></div></th>
+				<th id="th2"><div class="btn-group"><button class="btn btn-link" style="color:#000000">故障描述</button></div></th>
+				<th id="th3"><div class="btn-group"><button class="btn btn-link" style="color:#000000">影响范围</button></div></th>
+				<th id="th4"><div class="btn-group"><button class="btn btn-link" style="color:#000000">影响时长(分钟)</button></div></th>
+				<th id="th5"><div class="btn-group"><button class="btn btn-link" style="color:#000000">是否影响用户体验</button></div></th>
+				<th id="th6"><div class="btn-group"><button class="btn btn-link" style="color:#000000">影响用户</button></div></th>
+				<th id="th7"><div class="btn-group"><button class="btn btn-link" style="color:#000000">直接经济损失（美元）</button></div></th>
+				<th id="th8"><div class="btn-group"><button class="btn btn-link" style="color:#000000">数据来源</button></div></th>
+				<th id="th9"><div class="btn-group"><button class="btn btn-link" style="color:#000000">是否核心服务</button></div></th>
+				<th id="th10"><div class="btn-group"><button class="btn btn-link" style="color:#000000">业务模块</button></div></th>
+				<th id="th11"><div class="btn-group">
+					<button class="btn btn-link" data-toggle="dropdown" style="color:#000000">运营中心<span class="caret"></span></button>
+					<ul class="dropdown-menu">
+						{% for center in fcenter %}
+                  					<li><a>{{ center.fcenter }}</a></li>
+						{% endfor %}
+						<li class="divider"></li>
+                                                <li><a href="#add_center" role="button" data-toggle="modal">添加 | 删除</a></li>
+					</ul>
+				</div></th>
+				<th id="th12"><div class="btn-group">
+                                        <button class="btn btn-link" data-toggle="dropdown" style="color:#000000">故障类型<span class="caret"></span></button>
+                                        <ul class="dropdown-menu"> 
+						{% for type in ftype %}
+	                                                <li><a>{{ type.ftype }}</a></li>
+						{% endfor %}
+                                                <li class="divider"></li>
+                                                <li><a href="#add_type" role="button" data-toggle="modal">添加 | 删除</a></li>
+                                        </ul>
+                                </div></th>
+				<th id="th13"><div class="btn-group"><button class="btn btn-link" style="color:#000000">处理负责人</button></div></th>
+				<th id="th14"><div class="btn-group">
+                                        <button class="btn btn-link" data-toggle="dropdown" style="color:#000000">归属<span class="caret"></span></button>
+                                        <ul class="dropdown-menu"> 
+                                                {% for attribution in fattribution %}
+                                                        <li><a>{{ attribution.fattribution }}</a></li>
+                                                {% endfor %}
+                                                <li class="divider"></li>
+                                                <li><a href="#add_attribution" role="button" data-toggle="modal">添加 | 删除</a></li>
+                                        </ul>
+                                </div></th>
+				<th id="th15"><div class="btn-group"><button class="btn btn-link" style="color:#000000">状态</button></div></th>
+				<th id="th16"><div class="btn-group"><button class="btn btn-link" style="color:#000000">故障原因与处理</button></div></th>
+				<th id="th17"><div class="btn-group"><button class="btn btn-link" style="color:#000000">教训总结</button></div></th>
+				<th id="th18"><div class="btn-group"><button class="btn btn-link" style="color:#000000">改进</button></div></th>
+				<th id="th19"><div class="btn-group"><button class="btn btn-link" style="color:#000000">故障属性</button></div></th>
+			{% if fault %}
+				{% for b in fault %}
+					{% if b.fault_status %}
+						<tr>
+					{% else %}
+						<tr class="success">
+					{% endif %}
+						<td id="td_{{ b.id }}_0"><input type="checkbox" id="CheckBoxReport" value="{{ b.id }}" ></td>
+						<td id="td_{{ b.id }}_1"><input id="ResultInput{{ b.id }}" type="text" style="width:99px" disabled="true" onclick="WdatePicker()" value={{ b.fault_date }}></td>
+						<td id="td_{{ b.id }}_2"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_describe }}"></td>
+						<td id="td_{{ b.id }}_3"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_range }}"></td>
+						<td id="td_{{ b.id }}_4"><input id="ResultInput{{ b.id }}" type="text" style="width:100px" disabled="true" value="{{ b.fault_impact_time }}"></td>
+						<td id="td_{{ b.id }}_5"><select id="ResultInput{{ b.id }}" style="width:130px" disabled="true">
+							{% if b.fault_user_experience == true %}
+								<option value="1">是</option>
+								<option value="0">否</option>
+							{% else %}
+								<option value="0">否</option>
+								<option value="1">是</option>
+							{% endif %}
+						</select></td>
+						<td id="td_{{ b.id }}_6">
+							<div class="input-prepend input-append">
+								<input type="text" id="ResultInput{{ b.id }}" class="span2" style="width:70px" disabled="true" value="{{ b.fault_affect_user }}">
+								<span class="add-on">人</span>
+							</div>
+						</td>
+						<td id="td_{{ b.id }}_7">
+							<div class="input-prepend input-append">
+								<input type="text" id="ResultInput{{ b.id }}" class="span2" style="width:150px" disabled="true" value="{{ b.fault_economic_losses }}">
+								<span class="add-on">$</span>
+							</div>
+						</td>
+						<td id="td_{{ b.id }}_8"><input type="text" id="ResultInput{{ b.id }}" style="width:100px" disabled="true" value="{{ b.fault_data_form }}"></td>
+						<td id="td_{{ b.id }}_9"><select id="ResultInput{{ b.id }}" style="width:130px" disabled="true">
+							{% if b.fault_core_business == true %}
+								<option value="1">是</option>
+								<option value="0">否</option>
+							{% else %}
+								<option value="0">否</option>
+								<option value="1">是</option>
+							{% endif %}
+						</select></td>
+						
+						<td id="td_{{ b.id }}_10">
+							<div class="input-append">
+								<input type="text" id="ResultInput{{ b.id }}"  disabled="true" value="{{ b.fault_business_module }}">
+								<div class="btn-group">
+									<button class="btn dropdown-toggle" id="Buttion{{ b.id}}" disabled="true" data-toggle="dropdown"><span class="caret"></span></button>
+									<ul class="dropdown-menu" id="SelectUl{{ b.id }}1" onclick="BussionModule(1,10,{{ b.id }})">
+										{% if b.fault_operations_center == "港台运营中心" %}
+											{% for group in new_center_dict['tw'] %}
+												<li><a>{{ group }}</a></li>
+											{% endfor %}
+										{% elif b.fault_operations_center == "亚欧运营中心" %}
+											{% for group in new_center_dict['ae'] %}
+												<li><a>{{ group }}</a></li>
+											{% endfor %}
+										{% elif b.fault_operations_center == "国内运营中心"%}
+											{% for group in new_center_dict['cn'] %}
+												<li><a>{{ group }}</a></li>
+											{% endfor %}
+										{% elif b.fault_operations_center == "韩国运营中心"%}
+											{% for group in new_center_dict['kr'] %}
+												<li><a>{{ group }}</a></li>
+											{% endfor %}
+										{% elif b.fault_operations_center == "技术中心"%}
+											{% for group in new_center_dict['it'] %}
+												<li><a>{{ group }}</a></li>
+											{% endfor %}
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+						</td>
+
+						<td id="td_{{ b.id }}_11">
+							<div class="input-append">
+								<input type="text" id="ResultInput{{ b.id }}" style="width:100px" disabled="true" value="{{ b.fault_operations_center }}">
+								<div class="btn-group">
+									<button class="btn dropdown-toggle" id="Buttion{{ b.id}}" disabled="true" data-toggle="dropdown"><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu" id="SelectUl{{ b.id }}2" onclick="BussionModule(2,11,{{ b.id }})">
+										{% for center in fcenter %}
+											<li><a>{{ center.fcenter }}</a></li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>	
+						</td>
+
+						<td id="td_{{ b.id }}_12">
+							<div class="input-append">
+								<input type="text" id="ResultInput{{ b.id }}" disabled="true" style="width:100px" value="{{ b.fault_type }}">
+								<div class="btn-group">
+									<button class="btn dropdown-toggle" id="Buttion{{ b.id}}" disabled="true" data-toggle="dropdown"><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu" id="SelectUl{{ b.id }}3" onclick="BussionModule(3,12,{{ b.id }})">
+										{% for type in ftype %}
+                                                                                        <li><a>{{ type.ftype }}</a></li>
+                                                                                {% endfor %}
+									</ul>
+								</div>
+							</div>
+						</td>
+						<td id="td_{{ b.id }}_13"><input type="text" id="ResultInput{{ b.id }}" disabled="true" value="{{ b.fault_head }}"></td>
+						<td id="td_{{ b.id }}_14">
+							<div class="input-append">
+								<input type="text" id="ResultInput{{ b.id }}" style="width:100px" disabled="true" value="{{ b.fault_attribution }}">
+								<div class="btn-group">
+                                                                        <button class="btn dropdown-toggle" id="Buttion{{ b.id}}" disabled="true" data-toggle="dropdown"><span class="caret"></span></button>
+                                                                        <ul class="dropdown-menu" id="SelectUl{{ b.id }}4" onclick="BussionModule(4,14,{{ b.id }})">
+                                                                                {% for attribution in fattribution %}
+                                                                                        <li><a>{{ attribution.fattribution }}</a></li>
+                                                                                {% endfor %}
+                                                                        </ul>
+                                                                </div>
+                                                        </div>
+						</td>
+						<td id="td_{{ b.id }}_15"><select id="ResultInput{{ b.id }}" style="width:130px" disabled="true">
+							{% if b.fault_status == true %}
+								<option value="1">完成</option>
+								<option value="0">跟进</option>
+							{% else %}
+								<option value="0">跟进</option>
+								<option value="1">完成</option>
+							{% endif %}
+						</select></td>
+						<td id="td_{{ b.id }}_16"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_cause_problem }}"></td>
+						<td id="td_{{ b.id }}_17"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_clusion }}"></td>
+						<td id="td_{{ b.id }}_18"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_improve }}"></td>
+						<td id="td_{{ b.id }}_19"><input id="ResultInput{{ b.id }}" type="text" disabled="true" value="{{ b.fault_app_type }}"></td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- 故障类型添加 -->
+<div id="add_type" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <h3 id="myModalLabel">故障类型添加</h3>
+        </div>
+        <div class="modal-body">
+		<div class="text-center">
+			{% for type in ftype %}
+				<form>
+					<input type="text" id="TKtype{{ type.id }}" value="{{ type.ftype }}">
+					<a class="btn btn-danger" id="portid" value="{{ type.id }}" onclick="ReportDelData({{ type.id }},'type')">删除</a>	
+				</form>
+			{% endfor %}
+			<hr>
+			<span id="NoteInput_type">
+		</div>
+        </div>
+        <div class="modal-footer">
+		<button class="btn btn btn-success" contenteditable="true" onclick="ReportAddInput('type')">添加</button>
+                <button class="btn btn-primary" contenteditable="true" onclick="ReportSaveDate('type')">保存设置</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+</div>
+
+
+
+<!-- 运营中心添加 -->
+<div id="add_center" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <h3 id="myModalLabel">运营中心添加</h3>
+        </div>
+        <div class="modal-body">
+                <div class="text-center">
+                        {% for center in fcenter %}
+                                <form>
+                                        <input type="text" id="TKtype{{ center.id }}" value="{{ center.fcenter }}">
+                                        <a class="btn btn-danger" id="portid" value="{{ center.id }}" onclick="ReportDelData({{ center.id }},'center')">删除</a>      
+                                </form>
+                        {% endfor %}
+                        <hr>
+                        <span id="NoteInput_center">
+                </div>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn btn-success" contenteditable="true" onclick="ReportAddInput('center')">添加</button>
+                <button class="btn btn-primary" contenteditable="true" onclick="ReportSaveDate('center')">保存设置</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+</div>
+
+
+<!-- 故障归属添加 -->
+<div id="add_attribution" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+                <h3 id="myModalLabel">故障归属添加</h3>
+        </div>
+        <div class="modal-body">
+                <div class="text-center">
+                        {% for attribution in fattribution %}
+                                <form>
+                                        <input type="text" id="TKtype{{ attribution.id }}" value="{{ attribution.fattribution }}">
+                                        <a class="btn btn-danger" id="portid" value="{{ attribution.id }}" onclick="ReportDelData({{ attribution.id }},'attribution')">删除</a>
+                                </form>
+                        {% endfor %}
+                        <hr>            
+                        <span id="NoteInput_attribution">
+                </div>          
+        </div>          
+        <div class="modal-footer">
+                <button class="btn btn btn-success" contenteditable="true" onclick="ReportAddInput('attribution')">添加</button>
+                <button class="btn btn-primary" contenteditable="true" onclick="ReportSaveDate('attribution')">保存设置</button>
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+</div>
+
+
+{% if all_page > 1 %}
+	{% if total_data %}
+		<div class="pagination" style="text-align:center;">
+			<ul>
+				<li><a onclick="PageUp()">上一页</a></li>
+				{% for c in total_data %}
+					<li id="page_num{{ loop.index }}"><a onclick="Page({{ loop.index }})">{{ loop.index }}</a></li>
+				{% endfor %}
+				<li><a onclick="PageDown()">下一页</a></li>
+			</ul>
+		</div>
+	{% endif %}
+{% endif %}
+
+<div class="row-fluid">
+        <div class="span12">
+                <div class="text-right">
+                        <button class="btn btn-info" type="button" href="#modal-container" data-toggle="modal">添加</button>
+                        <button class="btn btn-success" type="button" onclick="DelData()">删除</button>
+                        <button class="btn btn-primary" type="button" onclick="ReportSave()">保存</button>
+	                <button class="btn btn-warning" type="button" onclick="ToExcel()">导出Excel</button>
+                </div>
+		<div class="text-right">
+			<label class="checkbox inline">月度报告<input type="checkbox" id="ReportMonth"></label>
+		</div>
+        </div>
+</div>
+
+<div id="modal-container" class="modal fade" style="display: none;"><!-- 弹窗开始 -->
+        <div class="modal-header">
+                <a class="close" data-dismiss="modal"></a>
+                        <h3>故障报告添加</h3>
+        </div>
+        <div class="modal-body">
+		<div class="container">
+			<div class="row">
+				<div class="span2">
+					<label>日期</label>
+					<input type="text" id="Insert_data" style="width:158px;" class="form-control" onclick="WdatePicker()">
+				</div>
+				<div class="span2">
+					<label>影响时长(分钟)</label>
+					<div class="input-append">
+						<input type="text" id="Insert_data" class="form-control" style="width:140px;">
+						<span class="add-on">分钟</span>
+					</div>
+				</div>
+				<div class="span2">
+					<label>是否影响用户体验</label>
+					<select id="Insert_data" style="width:180px;">
+						<option value="1">是</option>
+						<option value="0">否</option>
+					</select>
+				</div>
+				<div class="span2">
+					<label>影响用户</label>
+					<div class="input-append">
+						<input type="text" id="Insert_data" class="form-control" style="width:140px;">
+						<span class="add-on">人</span>
+					</div>
+				</div>
+				<div class="span2">
+					<label>直接经济损失(美元)</label>
+					<div class="input-append">
+						<input type="text" id="Insert_data" class="form-control" style="width:140px;">
+						<span class="add-on">$</span>
+					</div>
+				</div>
+				<div class="span2">
+					<label>数据来源</label>
+					<input type="text" id="Insert_data"class="form-control" style="width:158px;"value="后台">
+				</div>
+			</div>
+			<div class="row">
+				<div class="span5">
+					<label>故障描述</label>
+					<textarea id="Insert_data" style="margin: 0px; width: 480px; height: 72px;"></textarea>
+				</div>
+				<div class="span5">
+					<div class="form-group">	
+						<label>影响范围</label>	
+						<textarea id="Insert_data" rows="3" style="margin: 0px; width: 480px; height: 72px;"></textarea>
+					</div>
+				</div>
+				<div class="span2">
+					<label>是否核心服务</label>
+					<select id="Insert_data" style="width:175px;">
+						<option value="1">是</option>
+						<option value="0">否</option>
+					</select>
+					<label>业务模块</label>
+					<select id="Insert_data" style="width:175px;">
+						{% for group in list_info %}
+							<option value="{{ group }}">{{ group }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span2">
+					<label>运营中心</label>
+					<select id="Insert_data" style="width:189px;">
+						{% for center in fcenter %}
+							<option value="{{ center.fcenter }}">{{ center.fcenter }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="span2">
+					<label>故障类型</label>
+					<select id="Insert_data" style="width:189px;">
+					{% for type in ftype %}
+						<option value="{{ type.ftype }}">{{ type.ftype }}</option>
+					{% endfor %}
+					</select>	
+				</div>
+				<div class="span2">
+					<label>处理负责人</label>
+					<input id="Insert_data" type="text" style="width:189px;">
+				</div>
+				<br>
+				<div class="span6 test">
+					{% for user in users %}
+						<input type="checkbox" id="SelectUser" value="{{ user }}" onclick="InputUser()">{{ user }}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="span5">
+					<label>故障原因与处理</label>
+					<textarea rows="3" id="Insert_data" style="margin: 0px; width: 480px; height: 72px;"></textarea>
+				</div>
+				<div class="span5">
+					<label>教训总结</label>
+					<textarea rows="3" id="Insert_data" style="margin: 0px; width: 480px; height: 72px;"></textarea>
+				</div>
+				<div class="span2">
+					<label>归属</label>
+					<select id="Insert_data" style="width:175px;">
+					{% for attribution in fattribution %}
+						<option value="{{ attribution.fattribution }}">{{ attribution.fattribution }}</option>
+					{% endfor %}
+					</select>
+					<label>状态</label>
+					<select id="Insert_data" style="width:175px;">
+						<option value="1">完成</option>
+						<option value="0">未完成</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span10">
+					<label>改进</label>
+					<textarea  id="Insert_data" style="margin: 0px; width: 990px;"></textarea>
+				</div>
+				<div class="span2">
+					<label>故障属性</label>
+					<select id="Insert_data" style="width:175px;">
+						<option value="登录">登录</option>
+						<option value="储值">储值</option>
+						<option value="注册">注册</option>
+						<option value="游戏故障">游戏故障</option>
+						<option value="部门业务故障">部门业务故障</option>
+						<option value="机房故障">机房故障</option>
+						<option value="运维故障">运维故障</option>
+						<option value="网络故障">网络故障</option>
+						<option value="管理后台">管理后台</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+
+        <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true" contenteditable="true">关闭</button>
+		<button class="btn btn btn-success" contenteditable="true" onclick="SubData()">提交</button>
+        </div>
+</div>
+
+
+<!--报表开始-->
+<script src="../static/js/jscharts.js"></script>
+
+<script type="text/javascript">
+	var myData = eval("(" + {{ fault_type | tojson }} + ")");
+	var colors = {{ type_colors | tojson }} 
+	var myChart = new JSChart('fault_type', 'pie');
+	myChart.setDataArray(myData);
+	myChart.colorizePie(colors);
+	myChart.setTitle('故障类型 (%)');
+	myChart.draw();
+</script>
+
+
+
+<script type="text/javascript">
+	var myData = eval("("+ {{ fault_center | tojson }} + ")"); 
+	var colors = {{ center_colors | tojson }};
+	var myChart = new JSChart('fault_center', 'bar');
+	myChart.setDataArray(myData);
+	myChart.colorizeBars(colors);
+	myChart.setTitle('运营中心故障数量');
+	myChart.setAxisNameX('');
+	myChart.setAxisNameY('');
+	myChart.setAxisNameFontSize(16);
+	myChart.setAxisNameColor('#999');
+	myChart.setAxisValuesColor('#777');
+	myChart.setAxisColor('#B5B5B5');
+	myChart.setAxisWidth(1);
+	myChart.setBarValuesColor('#2F6D99');
+	myChart.setBarOpacity(0.5);
+	myChart.setAxisPaddingTop(60);
+	myChart.setAxisPaddingBottom(40);
+	myChart.setAxisPaddingLeft(45);
+	myChart.setTitleFontSize(11);
+	myChart.setBarBorderWidth(0);
+	myChart.setBarSpacingRatio(50);
+	myChart.setBarOpacity(0.9);
+	myChart.setFlagRadius(6);
+	myChart.setTooltipOffset(3);
+	myChart.setSize(616, 321);
+	myChart.draw();
+</script>
+<!--报表结束-->
+
+<!--BussionModule()下拉列表开始-->
+<script type="text/javascript">
+	function BussionModule(Sid, num, id){
+		var ul = document.getElementById("SelectUl" + id + Sid);
+		var lis = ul.getElementsByTagName('a');
+		var ResultInput = document.all("ResultInput" + id);
+		for(var x=0; x<lis.length; x++){
+			lis[x].onclick = function(){
+				ResultInput[num - 1].value = this.innerHTML
+			}
+		}
+	}
+</script>
+<!--BussionModule()下拉列表结束-->
+
+<!--th 中心、类型、归属按钮功能-->
+<script type="text/javascript">
+	/* 添加按钮 */
+	var att = 0;
+	function ReportAddInput(type){
+		att ++
+                var notinput = document.getElementById("NoteInput_" + type);
+                notinput.innerHTML += "<input class=span6 name=Newinput id=Newinput_" + att + "></input><a class=btn onclick=ReportDelInput(" + att + ") id=ReportDelBut" + att + ">" + "删除" +"</a>";
+	}
+
+	/* 删除数据 */
+	function ReportDelData(id,type){
+		var info = {};
+		var xml = new XMLHttpRequest(); 
+		xml.open("POST", "{{ url_for('main.report_fault') }}", true);
+		info['del_' + type] = id;
+		xml.send(JSON.stringify(info))
+		location.reload()	
+	}
+
+	/* 保存数据 */
+	function ReportSaveDate(type){
+		var Newinput = document.all("Newinput");
+		var result = ""
+		var info = {}
+		if(Newinput.length == undefined){
+			result = Newinput.value
+		}else{
+			for(var x=0;x<Newinput.length;x++){
+				if(result == ""){
+					result = Newinput[x].value
+				}else{
+					result = result + "," + Newinput[x].value
+				}
+			}
+		}
+		info['add_' + type] = result;
+		var xml = new XMLHttpRequest();
+		xml.open("POST", "{{ url_for('main.report_fault') }}", true);
+		xml.send(JSON.stringify(info))
+		location.reload()	
+	}
+
+	/* 页面临时input删除 */
+	function ReportDelInput(a){
+                var e1 = document.getElementById("Newinput_" + a);
+	        var b1 = document.getElementById("ReportDelBut" + a);
+                e1.parentNode.removeChild(e1);
+		b1.parentNode.removeChild(b1);
+
+        }
+</script>
+
+<!--翻页开始-->
+<script type="text/javascript">
+	function Page(page){
+		var url = "{{ url_for('main.report_fault') }}?" + "page=" + page;
+		window.location.href = url;
+	}
+
+	function PageUp(){
+		var params = window.location.search;
+                var arr = params.split("=");
+		var page = arr[1];
+		if(page != 1){
+			page --
+		}
+		var url = "{{ url_for('main.report_fault') }}?" + "page=" + page;
+		window.location.href = url;
+	}
+
+	function PageDown(){
+		var params = window.location.search;
+		var arr = params.split("=");
+		var page = arr[1];
+		if(page != "{{ all_page }}"){
+			page ++
+                }
+                var url = "{{ url_for('main.report_fault') }}?" + "page=" + page;
+                window.location.href = url;
+	}
+</script>
+<!--翻页结束-->
+
+<!--按日期查询开始-->
+<script type="text/javascript">
+	function SelectTime(){
+		var datas = {}
+		var SelectStart = document.getElementById("SelectStart").value;
+		var SelectEnd = document.getElementById("SelectEnd").value;
+		datas['SelectStart'] = SelectStart;
+		datas['SelectEnd'] = SelectEnd;
+		var url = "{{ url_for('main.report_fault')}}?page=1&" + "SelectStart=" + SelectStart + "&SelectEnd=" + SelectEnd; 
+		window.location.href = url;
+	}
+</script>
+<!--按日期查询结束-->
+
+<!--创建提交保存数据开始-->
+<script type="text/javascript">
+	function SubData(){
+		var Insert_data = document.all("Insert_data");
+		var List = [];
+		for(var x=0; x<Insert_data.length; x++){
+			if(Insert_data[x].value == ""){
+				var value = "None";
+			}else{
+				var value = Insert_data[x].value;
+			}
+			List[x] = value; 
+		}
+		var xml = new XMLHttpRequest(); 
+                xml.open("POST", "{{ url_for('main.report_fault_save') }}", true); 
+                xml.send(JSON.stringify(List))
+                location.reload()
+	}
+</script>
+<!--创建提交保存数据结束-->
+
+<!--删除数据开始-->
+<script type="text/javascript">
+	function DelData(){
+		var str = "";
+		var checkBox = document.all("CheckBoxReport");
+		if(checkBox.length == undefined){
+			if(checkBox.checked == true){
+				if(str == ""){
+					str = checkBox.value;
+				}else{
+					str = str + "," + checkBox.value;
+				}
+			}
+		}else{
+			for(var x=0; x<checkBox.length; x++){
+				if(checkBox[x].checked == true){
+					if(str == ""){
+						str = checkBox[x].value;
+					}else{
+						str = str + "," + checkBox[x].value;
+					}
+				}
+			}
+		}
+		var url = "{{ url_for('main.report_fault_del')}}?" + "ids=" + str;
+		window.location.href = url;
+	}
+</script>
+<!--删除数据结束-->
+
+<!--table显示隐藏控制开始-->
+<script type="text/javascript">
+	window.onload = function(){
+		var plary = [11,14,18];
+		var CheckBoxReport = document.all("CheckBoxReport")
+		for(var x=0; x<CheckBoxReport.length; x++){
+			for(var y=0; y<plary.length; y++){
+				if(CheckBoxReport.length == undefined){
+					var id = CheckBoxReport.value;
+				}else{
+					var id = CheckBoxReport[x].value;
+				}
+				var td = document.getElementById("td_" + id + "_" + plary[y]);
+				td.style.display = "none";
+
+				var tabindex = document.getElementById("tabindex" + plary[y]);
+				var th = document.getElementById("th" + plary[y]);
+				tabindex.checked = true;
+				th.style.display = "none";
+			}
+		}
+		Clicked('FaultReport')
+		{% if all_page > 1 %}
+			activepage()
+		{% endif %}
+	}
+</script>
+
+
+
+<!--用于判断页面开始-->
+<script type="text/javascript">
+        function activepage(){
+                var arr = window.location.search.split('=');
+                var page = Number(arr[1]);
+                var page_num = document.getElementById("page_num" + page);
+                page_num.className = "active";
+        }
+</script>
+<!--用于判断页面结束-->
+
+
+<script type="text/javascript">
+	function SelectCheck(i){
+		var tabindex = document.getElementById("th" + i);
+		var tabbutton = document.getElementById("tabindex" + i);
+		var CheckBoxReport = document.all("CheckBoxReport");
+		for(var x=0; x<=CheckBoxReport.length; x++){
+			var td = document.getElementById("td_" + CheckBoxReport[x].value + "_" + i);
+			if(tabbutton.checked == true){
+				tabindex.style.display = 'none';
+				td.style.display = 'none';
+			}else{
+				tabindex.style.display = 'table-cell';
+				td.style.display = 'table-cell';
+			}
+		}
+	}
+</script>
+<!--table显示隐藏控制结束-->
+
+<!--双击变input显示状态开始-->
+<script type="text/javascript">
+	function Clicked(id){
+		var ResultIn = document.getElementById(id).rows;
+		for(var x=0; x<ResultIn.length; x++){
+			ResultIn[x].ondblclick = function(){
+				var id = this.cells[0].id.split('_');
+				var RInput = document.all("ResultInput" + id[1]);
+				var Buttion = document.all("Buttion" + id[1]);
+				for(var y=0; y<RInput.length; y++){
+					RInput[y].disabled = false;
+				}
+				for(var z=0; z<Buttion.length; z++){
+					Buttion[z].disabled = false;
+				}
+			}
+		}
+	}
+</script>
+<!--双击变input显示状态结束-->
+
+<!--checkbox 全选功能开始-->
+<script type="text/javascript">
+	document.getElementById("CheckBoxReportAll").addEventListener("click",function(){
+		var CheckBoxReport = document.all("CheckBoxReport");
+		if(CheckBoxReport.length == undefined){
+			CheckBoxReport.checked = this.checked;
+		}
+		for(var x=0; x<CheckBoxReport.length; x++){
+			CheckBoxReport[x].checked = this.checked;
+		}
+
+	},false)
+
+</script>
+<!--checkbox 全选功能结束-->
+
+<!--数据更新保存数据开始-->
+<script type="text/javascript">
+	function ReportSave(){
+		var datas = {};
+		var ReportCheckBox = document.all("CheckBoxReport");
+		if(ReportCheckBox.length == undefined){
+			var ResultInput = document.all("ResultInput" + ReportCheckBox.value);
+			var tablevalues = [];
+			for(var y=0; y<ResultInput.length; y++){
+                                tablevalues[y] = ResultInput[y].value
+                        }
+                        datas[ReportCheckBox.value] = tablevalues;
+		}else{
+			for(var x=0; x<ReportCheckBox.length; x++ ){
+				var ResultInput = document.all("ResultInput" + ReportCheckBox[x].value);
+				var tablevalues = [];
+				for(var y=0; y<ResultInput.length; y++){
+					tablevalues[y] = ResultInput[y].value
+				}
+				datas[ReportCheckBox[x].value] = tablevalues;
+			}
+		}
+		var xml = new XMLHttpRequest(); 
+		xml.open("POST", "{{ url_for('main.report_fault_update') }}", true); 
+		xml.send(JSON.stringify(datas))
+		location.reload()
+	}
+</script>
+<!--数据更新保存数据结束-->
+
+<!--用户负责人用户添加开始-->
+<script type="text/javascript">
+	function InputUser(){
+		var str = "";
+		var SelectUser = document.all("SelectUser");
+		if(SelectUser.length == undefined){
+			if(SelectUser.checked == true){
+				str = SelectUser.value;
+			}
+		}else{
+			for(var x=0; x<SelectUser.length; x++){
+				if(SelectUser[x].checked == true){
+					if(str == ""){
+						str = SelectUser[x].value
+					}else{
+						str = str + "," + SelectUser[x].value
+					}
+				}
+
+			}
+		}
+		var AppenUsers = document.all("Insert_data");
+		AppenUsers[12].value = str
+	}
+</script>
+<!--用户负责人用户添加结束-->
+
+<!--用于导出excel开始-->
+<script type="text/javascript">
+	function ToExcel(){
+		var CheckBoxReport = document.all("CheckBoxReport");
+		var str = "";
+		if(CheckBoxReport.length == undefined){
+			if(CheckBoxReport.checked == true){
+				if(str == ""){
+					str = CheckBoxReport.value;
+				}else{
+					str = str + CheckBoxReport.value;
+				}
+			}
+		}else{
+			for(var x=0; x<CheckBoxReport.length; x++){
+				if(CheckBoxReport[x].checked == true){
+					var id = CheckBoxReport[x].value;
+					if(str == ""){
+						str = id;
+					}else{
+						str = str + "," + id;
+					}
+				}
+			}
+		}
+		if(str == ""){
+			alert('请选择故障')
+		}else{
+			var ReportMonth = document.getElementById("ReportMonth").checked;
+			if(ReportMonth == true){
+				var url = "{{ url_for('main.report_fault_toexcel')}}?ids=" + str + "&monthfault=1";
+			}else{
+				var url = "{{ url_for('main.report_fault_toexcel')}}?ids=" + str + "&monthfault=0";
+			}
+			window.location.href = url;
+		}
+	}
+</script>
+<!--用于导出excel结束-->
+
+<!--日期显示功能-->
+<script src="http://www.my97.net/dp/My97DatePicker/WdatePicker.js"></script>
+{% endblock %}
+
+

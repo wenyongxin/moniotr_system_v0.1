@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block title %}{{ name }}{% endblock %}
+
+{% block page_content %}
+
+
+
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+{% for dns in dns_all %}
+<div id="myModal{{dns.id}}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">{{ dns.dns_domain }}信息</h3>
+	</div>
+	<div class="modal-body">
+		<table>
+		<th style="width:100px"></th>
+		{%for key,value in dns_info[dns.id].iteritems() %}
+			<tr>
+				<td><strong>{{ en_to_cn[key] }}</strong></td>
+				<td>{{ value }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+	</div>
+</div>
+{% endfor %}
+
+
+
+<form class="form-inline">
+	<div class="input-prepend">
+		<span class="add-on">新增域名</span>
+		<input id="dns_info" type="text">
+	</div>
+	<button class="btn" type="button" onclick="PostDns()">提交</button>	
+	<div class="text-right">
+		<button type="button" class="btn btn-info" onclick="UpdateTable()"><i class="icon-refresh"></i>刷新</button>
+		<button type="button" class="btn btn-primary" onclick="SelectTable()"><i class="icon-eye-open"></i>查看</button>  
+		<button type="button" class="btn btn-success" id="EditTableButton" onclick="EditTable()"><i class="icon-pencil"></i>修改</button>
+		<button type="button" class="btn btn-warning" id="SaveTableButton" disabled="true" onclick="SaveTable()"><i class="icon-folder-open"></i>保存</button>
+		<button type="button" class="btn btn-danger" onclick="DelTable()"><i class="icon-trash"></i>删除</button>
+	</div>
+</form>
+
+
+<table class="table" id="DnsTable">
+	<th><input type="checkbox" id="CheckboxAll"></th>
+	<th>域名</th><th>供应商</th><th>地址</th><th>到期日期</th><th>距离到期时间(天)</th>
+	{% for dns in dns_all %}
+		{% if Due_date[dns.id] < 10 %}
+			<tr class="warning">
+		{% else %}
+			<tr>
+		{% endif %}
+		<td><input type="checkbox" id="Checkboxtd" value="{{ dns.id }}"></td>
+		<td>{{ dns.dns_domain }}</td>
+		<td id="TableDns{{ dns.id }}">{{ dns.dns_supplier }}</td>
+		<td id="TableDns{{ dns.id }}">{{ dns.dns_url }}</td>
+		<td>{{ dns.dns_date_end }}</td>
+		<td>{{ Due_date[dns.id] }}天</td>
+		<td style="display:none;"><a href="#myModal{{ dns.id }}" id="btnSearch{{ dns.id }}" role="button" class="btn" data-toggle="modal">查看</a></td>
+	</tr>
+	{% endfor %}	
+</table>
+
+<!--全选功能开始-->
+<script type="text/javascript">
+	window.onload = function(){
+		document.getElementById("CheckboxAll").addEventListener('click',function(){
+			var Checkboxtd = document.all("Checkboxtd");
+			if(Checkboxtd.length == undefined){
+				Checkboxtd.checked = this.checked;
+			}else{
+				for(var x=0; x<Checkboxtd.length; x++){
+					Checkboxtd[x].checked = this.checked;
+				}	
+			}
+		},false)
+	}
+</script>
+<!--全选功能结束-->
+
+<!--查看信息功能开始-->
+<script type="text/javascript">
+	/*
+	function Checkedtd(num){
+		var Checkboxtd = document.all("Checkboxtd");
+		for(var x=0; x<Checkboxtd.length; x++){
+			if(Checkboxtd[num].checked == true){
+				Checkboxtd[x].disabled = true;
+			}else{
+				Checkboxtd[x].disabled = false;
+			}
+		}
+		Checkboxtd[num].disabled = false;
+	}
+	*/
+
+
+	function SelectTable(){
+		var Checkboxtd = document.all("Checkboxtd");
+		if(Checkboxtd.length == undefined){
+			if(Checkboxtd.checked == true){
+				document.getElementById("btnSearch" + Checkboxtd.value).click();
+			}
+		}else{
+			for(var x=0; x<Checkboxtd.length; x++){
+				if(Checkboxtd[x].checked == true){
+					document.getElementById("btnSearch" + Checkboxtd[x].value).click();
+				}
+			}
+		}	
+	}
+</script>
+<!--查看信息功能结束-->
+
+
+<!--刷新功能开始-->
+<script type="text/javascript">
+	var ids = "";
+	function UpdateTable(){
+		var Checkboxtd = document.all("Checkboxtd");
+		if(Checkboxtd.length == undefined){
+			if(Checkboxtd.checked == true){
+				if(ids == ""){
+					ids = Checkboxtd.value
+				}else{
+					ids = ids + "," + Checkboxtd.value
+				}
+			}
+		}else{
+			for(var x=0; x<Checkboxtd.length; x++){
+				if(Checkboxtd[x].checked == true){
+					if(ids == ""){
+						ids = Checkboxtd[x].value
+					}else{
+						ids = ids + "," + Checkboxtd[x].value
+					}
+				}
+			}		
+		}		
+		window.location.href = "{{ url_for('main.manager_dns') }}?update=" + ids;	
+		ids = "";
+	}
+</script>
+<!--刷新功能结束-->
+
+
+
+<!--EditTable() a标签变input标签开始 -->
+<script type="text/javascript">
+function EditTable(){
+	var Checkboxtd = document.all("Checkboxtd");
+	if(Checkboxtd.length == undefined){
+		var id = Checkboxtd.value
+		var item = document.all("TableDns" + id)
+		var SaveTableButton = document.getElementById("SaveTableButton");
+		var EditTableButton = document.getElementById("EditTableButton");
+		SaveTableButton.disabled = false;
+		EditTableButton.disabled = true;
+		for(var y=0; y<item.length; y++){
+			item[y].innerHTML = '<input type="txt" id="Input'+id+'" value="'+item[y].innerHTML+'">';
+		}
+	}else{
+		for(var x=0; x<Checkboxtd.length; x++){
+			if(Checkboxtd[x].checked == true){
+				var id = Checkboxtd[x].value
+				var item = document.all("TableDns" + id)
+				var SaveTableButton = document.getElementById("SaveTableButton");
+				var EditTableButton = document.getElementById("EditTableButton");
+				SaveTableButton.disabled = false;
+				EditTableButton.disabled = true;
+				for(var y=0; y<item.length; y++){
+					item[y].innerHTML = '<input type="txt" id="Input'+id+'" value="'+item[y].innerHTML+'">';
+				}
+			}
+		}
+	}
+}
+
+function SaveTable(){
+	var fun_info = {};
+	var info = [];
+	var Checkboxtd = document.all("Checkboxtd");
+	if(Checkboxtd.length == undefined){
+		if(Checkboxtd.checked == true){
+			var id = Checkboxtd.value;
+			var item = document.all("Input" + id)
+			for(var x=0; x<item.length; x++){
+				info[x] = item[x].value
+			}
+			fun_info[id] = info
+		}
+	}else{
+		for(var y=0; y<Checkboxtd.length; y++){
+			if(Checkboxtd[y].checked == true){
+				var id = Checkboxtd[y].value;
+				var item = document.all("Input" + id)
+				for(var x=0; x<item.length; x++){
+					info[x] = item[x].value
+				}
+				fun_info[id] = info
+			}
+		}
+	}
+	var xml = new XMLHttpRequest();
+	xml.open("POST", "{{ url_for('main.save_dns') }}", true);
+	xml.send(JSON.stringify(fun_info))
+	location.reload()
+}
+
+function DelTable(){
+	var ids = [];
+	var Checkboxtd = document.all("Checkboxtd");
+	if(Checkboxtd.length == undefined){
+		if(Checkboxtd.checked == true){
+			if(ids == ""){
+				ids = Checkboxtd.value;
+			}else{
+				ids = ids + "," + Checkboxtd[x].value;
+                        }
+		}
+	}else{
+		for(var x=0; x<Checkboxtd.length; x++){
+			if(Checkboxtd[x].checked == true){
+				if(ids == ""){
+					ids = Checkboxtd[x].value;
+				}else{
+					ids = ids + "," + Checkboxtd[x].value;
+				}
+			}
+		}
+	}
+	window.location.href = "{{ url_for('main.manager_dns') }}?delete=" + ids;
+}
+</script>
+<!--EditTable() a标签变input标签结束 -->
+
+
+
+
+
+
+<script src="http://www.my97.net/dp/My97DatePicker/WdatePicker.js"></script>
+
+<!-- form表单提交信息 post方法 开始 -->
+<script type="text/javascript">
+	function PostDns(){
+		var table_info = []
+		var fun_info = {}
+
+		var DnsTable = document.getElementById("DnsTable").rows;
+		for(var z=0; z<DnsTable.length - 1; z++){
+			table_info[z] = DnsTable[z + 1].cells[1].innerHTML
+		}
+		var dns_info = document.getElementById("dns_info")
+		if(table_info.indexOf(dns_info.value) == -1){
+			window.location.href = "{{ url_for('main.manager_dns') }}?domain=" + dns_info.value;
+		}else{
+			alert('域名不能重复')
+
+		}
+	}
+</script>
+<!-- form表单提交信息 post方法 结束 -->
+
+{% endblock %}
+

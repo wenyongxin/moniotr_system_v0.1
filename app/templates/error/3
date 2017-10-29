@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+
+<style type="text/css">
+	.a{height:50px; border:1px solid #ccc; background-color:#eee;}
+	/*.a-upload {padding: 4px 10px;height: 20px;line-height: 20px;position: relative;cursor: pointer;color: #888;background: #fafafa;border: 1px solid #ddd;border-radius: 4px;overflow: hidden;display: inline-block;*display: inline;*zoom: 1}*/
+	/*.a-upload  input {position: absolute;font-size: 100px;right: 0;top: 0;opacity: 0; filter: alpha(opacity=0);cursor: pointer}*/
+	/*.a-upload:hover {color: #444;background: #eee;border-color: #ccc;text-decoration: none}*/
+</style>
+
+<!-- DND信息添加弹窗 -->	
+<div class="row-fluid">
+	<div id="example" class="modal hide fade in" style="display: none; ">
+		 <div class="modal-header">
+				<h3>DNS添加</h3>
+				<div id="totaldns"></div>
+		</div>
+		<div class="modal-body">
+			<div class="row-fluid">
+				<div class="span6">
+					<label>域名前缀</label>
+					<input type="text" id="DNSDomain">
+				</div>
+
+				<div class="span6">
+					<label>解析类型</label>
+					<select id="DNSDomain">
+						<option value="A">A</option>
+	                                        <option value="AAA">AAA</option>
+        	                                <option value="CNAME">CNAME</option>
+                	                        <option value="MX">MX</option>
+                        	        </select>
+				</div>	
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					<label>域名</label>
+                                        <div class="input-append">
+                                                <input type="text" id="DNSDomain" style="width:172px;">
+                                                <div class="btn-group">
+                                                        <button class="btn dropdown-toggle" id="#" data-toggle="dropdown"><span class="caret"></span></button>
+                                                        <ul class="dropdown-menu" id="ButtonDomain" onclick="BussionModule()">
+                                                        {% for domain in domains %}
+                                                                <li><a>{{ domain }}</a></li>
+                                                        {% endfor %}
+                                                        </ul>
+                                                </div>        
+                                        </div>
+				</div>	
+
+				<div class="span6">
+					<label>解析目标地址</label>
+	                                <input type="text" id="DNSDomain">
+				</div>	
+			</div>
+
+			<div class="row-fluid">
+				<div class="span6">
+					<label>游戏名称</label>
+	                                <select id="DNSDomain">        
+						<option value="None">请选择</option>
+                                        {% for i in list_info %}
+                                                {% if '亚欧_' in i[1] or '港台_' in i[1] or '韩国_' in i[1] or '国内_' in i[1] %}
+                                                        <option value="{{ i[1] }}">{{ i[1] }}</option>
+                                                {% endif %}
+                                        {% endfor %}
+					</select> 
+				</div>	
+	
+				<div class="span6">
+					<label>用途</label>
+	                                <input type="text" id="DNSDomain">
+				</div>	
+			</div>
+
+			<div class="row-fluid">
+				<div class="span3 offset9">
+					<a class="btn btn-info" onclick="AddAgeinDns()">继续添加</a>
+				</div>	
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a class="btn btn-success" onclick="SendAllDns()">全部提交</a>
+			<a href="#" class="btn btn-danger" data-dismiss="modal">关闭</a>
+		</div>
+	</div> 
+</div>
+
+<!--头部按钮-->
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span4">
+			<form class="form-inline" action="{{ url_for('main.update_file') }}" method="post" enctype="multipart/form-data">
+				<div class="btn-group">
+					<button data-toggle="modal" href="#example" class="btn btn-success submit">DNS添加</button>
+					<button class="btn btn-danger" onclick="return DownFile()"><i class="icon-arrow-down"></i>导出</button>
+					<input class="btn btn-primary" type=submit value="导入">
+					<input type="file" name="file" id="lefile" class="filestyle" data-icon="false" style="display:none">
+					<div class="input-append">
+						<input id="photoCover" class="input-large" type="text">
+						<a class="btn" onclick="$('input[id=lefile]').click();">Browse</a>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="text-right">
+			<div class="input-append">
+				<input class="span2" id="SearchDnsInput" style="width:200px;"type="text" placeholder="域名或IP或游戏名称">
+				<button class="btn" type="submit" onclick="SearchDns()">查找</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- dns 信息显示页面-->
+<div class="row-fluid">
+	<div class="span12">
+		<div class="tabbable"> 
+			<ul class="nav nav-tabs">
+				{% for domain,value in all_dns.iteritems() %}
+					{% if defdomain == domain %}
+						<li class="active"><a href="#dns{{ loop.index }}" data-toggle="tab" >{{ domain }}</a></li>
+					{% else %}
+						<li><a href="#dns{{ loop.index }}" data-toggle="tab" >{{ domain }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+			<div class="tab-content">
+				{% for domain,value in all_dns.iteritems() %}
+					{% if defdomain == domain %}
+						<div class="tab-pane active" id="dns{{ loop.index }}">
+					{% else %}
+						<div class="tab-pane" id="dns{{ loop.index }}">
+					{% endif %}
+						<table class="table table-hover">
+							<th>游戏域名</th><th>解析类型</th><th>地址</th><th>操作人</th><th>游戏名称</th><th>用途</th><th>删除</th> 
+							{% for data in value %}
+								<tr>
+								<td>{{ data.domain }}</td>
+								<td>{{ data.domain_type }}</td>
+								<td>{{ data.domain_add }}</td>
+								<td>{{ data.operation }}</td>
+								<td>{{ data.game_name }}</td>
+								<td>{{ data.game_lange }}</td>
+								<td><a href="{{ url_for('main.report_dns')}}?delete={{ data.id }}">删除</a></td>
+								</tr>
+							{% endfor %}
+						</table>
+						{% if page_num[domain] > 1 %}
+							{% if all_page[domain] %}
+								<div class="pagination" style="text-align:center;">
+									<ul>
+							                        <li><a onclick="PageUp('{{ domain }}')">上一页</a></li>
+								                {% for c in all_page[domain] %}
+								                         <li><a onclick="Page('{{ domain }}', {{ loop.index }})">{{ loop.index }}</a></li>
+								                {% endfor %}
+						        	                 <li><a onclick="PageDown('{{ domain }}', '{{ page_num[domain] }}')">下一页</a></li>
+						                	</ul>
+						                </div>
+							{% endif %}
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+	$('input[id=lefile]').change(function() {
+		$('#photoCover').val($(this).val());
+	});
+</script>
+
+<!--updatefile() 文件上传开始 -->
+<script type="text/javascript">
+	/*function UpdateFile(){
+		return $("#File").click();
+	}*/
+	function DownFile(){
+		alert('s')
+		return false;
+	}
+</script>
+<!--updatefile() 文件上传结束 -->
+
+
+<!--BussionModule() 域名选择按钮开始-->
+<script type="text/javascript">
+	function BussionModule(){
+		var ButtonDomain = document.getElementById("ButtonDomain");
+		var lis = ButtonDomain.getElementsByTagName('a');
+                var DNSDomain = document.all("DNSDomain");
+                for(var x=0; x<lis.length; x++){
+                        lis[x].onclick = function(){
+				DNSDomain[2].value = this.innerHTML;
+                        }
+                }
+
+	}
+</script>
+<!--BussionModule() 域名选择按钮结束-->
+
+<!--AddAgeinDns() DNS继续添加开始-->
+<script type="text/javascript">
+	var AddDns = [];
+	var a = 0;
+	function AddAgeinDns(){
+		var DnsStr = [];
+		var DNSDomain = document.all("DNSDomain");
+		for(var x=0; x<DNSDomain.length; x++){
+			if(DNSDomain[x].value == ""){
+				DnsStr[x] = "None";
+			}else{
+				DnsStr[x] = DNSDomain[x].value;
+			}
+		}	
+		AddDns[a] = DnsStr
+		a++;
+		for(var y=0; y<DNSDomain.length; y++){
+			DNSDomain[y].value = "";	
+		}
+		DNSDomain[4].value = "None";	
+		console.log(AddDns.length)
+		var totaldns_num = document.createElement("a");
+		totaldns_num.appendChild(document.createTextNode("未保存记录:" +  AddDns.length));
+
+		var totaldns = document.getElementById("totaldns");
+                totaldns.innerHTML = "";
+                totaldns.appendChild(totaldns_num); 
+	}
+	function SendAllDns(){
+		var DNSDomain = document.all("DNSDomain");
+		for(var x=0; x<DNSDomain.length; x++){
+			if(DNSDomain[x].value != "")	
+				AddAgeinDns()
+                }
+		var xml = new XMLHttpRequest();
+		xml.open("POST", "{{ url_for('main.report_dns') }}", true);
+		xml.send(JSON.stringify(AddDns))
+		location.reload()
+		AddDns.splice(0, AddDns.length);
+		
+	}
+</script>
+<!--AddAgeinDns() DNS继续添加结束-->
+
+
+
+<!-- page()页面标签开始-->
+<script type="text/javascript">
+	function Page(domain, page){
+		var url = "{{ url_for('main.report_dns') }}?efundomain=" + domain + "&page=" + page;
+		window.location.href = url;
+	}
+
+	function PageUp(domain){
+		var params = window.location.search;
+                var arr = params.split("page=");
+                var page = arr[1];
+		if( page != 1){
+			page --
+		}
+		var url = "{{ url_for('main.report_dns') }}?efundomain=" + domain + "&page=" + page;
+		window.location.href = url;
+	}
+	
+	function PageDown(domain, allpage){
+		var params = window.location.search;
+		var arr = params.split("page=");
+		var page = arr[1];
+		if( page != allpage){
+			page ++
+		}
+		var url = "{{ url_for('main.report_dns') }}?efundomain=" + domain + "&page=" + page;
+                window.location.href = url;
+	}
+</script>
+<!-- page()页面标签结束-->
+
+<!--SearchDns() 索引功能开始-->
+<script type="text/javascript">
+	function SearchDns(){
+		var SearchDnsInput = document.getElementById("SearchDnsInput").value;
+		var url = "{{ url_for('main.report_dns') }}?wd=" + SearchDnsInput; 
+		window.location.href = url;
+	}
+</script>
+<!--SearchDns() 索引功能结束-->
+
+
+{% endblock %}

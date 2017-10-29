@@ -1,0 +1,17 @@
+<p>Dear {{ user.username }}</p>
+<p>Welcome to <b>Flasky</b></p>
+<p>To reset your password please<a href="{{ url_for('auth.reset_pass_confirm', token=token, _external=True) }}">Click Here</a></p>
+[root@iZ94jhn87q6Z ~]# cat flask_dir/flask01/blog_flask/app/templates/auth/email/reset.txt 
+Dear {{ user.username }},
+
+Welcome to Flasky
+
+To confirm your new email add. please click on the following link:
+
+{{ url_for('auth.change_email', token=token, _external=True) }}
+
+Sincerely,
+
+The Flasky Team
+
+Note: replies to this email address are not monitored.

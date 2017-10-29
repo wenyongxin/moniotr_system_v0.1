@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ name }}{% endblock %}
+
+
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ name }}</h1>
+</div>
+<style type="text/css">
+	.head{width:100%; height:25px;}
+	.head .h_checkbox{width:75%; height:25px; float:left;}
+	.head .h_checkbox .h_checkbox_line{margin:1px;}
+	.head .h_checkbox .s_btn{margin:-3px 0px 0px 23px;}
+
+	.head .h_select{width:12%; height:25px; float:left;}
+	.head .h_select .s_title{float:left; line-height:26px;}
+	.head .h_select .s_select{float:left; margin:-3px;}
+	.head .h_select .s_select .s_input{width:110px; margin-left:15px;}
+
+	.head .h_excel{width:10%; height:25px; float:left;}
+	.head .h_excel .h_btn{position:relative; float:left; right:-37px; top:-3px;}
+	
+</style>
+
+{% if filename != "None" %}
+        <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>文件生成完毕</strong> <a href="../static/files/{{ filename}}">点击下载</a>
+        </div>
+{% endif %}
+
+<div class="head">
+	<div class="h_checkbox">
+		<input class="h_checkbox_line" type="checkbox" id="CheckAll" >全选
+		{% for user in scan_user %}
+			<input class="h_checkbox_line" type="checkbox" id="CheckUser" value="{{ user }}">{{ user }}
+		{% endfor %}
+		<button class="btn btn-success s_btn" type="button" onclick="ScanOpenvas()">扫描</button>
+	</div>
+	<div class="h_select">
+		<div class="s_title">查看</div>
+		<div class="s_select">
+			<select id="SelectBox1" class="s_input" onchange="SelectUser()">
+			{% if listname %}
+                                <option >{{ listname }}</option>
+                        {% else %}
+                                <option value="0">选择用户</option>
+                        {% endif %}
+                                <option value="1">ALL</option>
+                                {% for user in listusers %}
+                                        <option value="{{ user }}">{{ user }}</option>
+                                {% endfor %}
+                        </select>
+		</div>
+	</div>
+	<div class="h_excel">
+		<button type="button" class="btn btn-success h_btn" id="GamePutExcel" onclick="GamePutExcel()">导出Excel</button>
+	</div>
+</div>
+
+
+
+
+<hr \>
+
+{% if web_hostname_datas %}
+        <div class="view">
+                <div class="row-fluid">
+                        <div class="span12">
+                                <div class="row-fluid">
+                                        <div class="span1">
+						<input type="checkbox" id="GameCheckBoxTotal", name="GameCheckBoxTotal" value="{{ web_hostname_datas.keys() }}">
+                                        </div>
+                                        <div class="span3">
+                                                <h4>游戏名称</h4>
+                                        </div>
+                                        <div class="span6">
+                                                <h4>进度</h4>
+                                        </div>
+                                        <div class="span1"></div>
+                                        <div class="span1">
+                                                <h4>查看详细</h4>
+                                        </div>
+                                </div>
+				{% for hostgroupid, values in web_hostname_datas.iteritems() %}
+                                        <div class="accordion-group">
+                                                <div class="accordion-heading">
+                                                        <div class="row-fluid">
+                                                                <div class="span1">
+                                                                        <input type="checkbox" id="GameCheckBox{{ hostgroupid }}" value="{{ hostgroupid }}" onclick="GameCheckBox({{ hostgroupid }})">
+                                                                </div>
+                                                                <div class="span3">
+									<p>{{ values[0] }}</p>
+                                                                </div>
+                                                                <div class="span6">
+                                                                        <div class="progress"><div class="bar" id="JinDu" style="width: {{ values[1] }}%;">{{ values[1] }}%</div></div>
+                                                                </div>
+                                                                <div class="span1">
+                                                                        <span class="badge">{{ values[2] }}</span>
+                                                                </div>
+                                                                <div class="text-right">
+                                                                        <a class="btn btn-link" data-toggle="collapse" href="#accordion{{ hostgroupid }}" >查看结果<i class=" icon-chevron-down"></i></a>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div id="accordion{{ hostgroupid }}" class="accordion-body collapse" style="height: 0px;">
+                                                        <div class="accordion-inner">
+                                                                <table class="table table-hover">
+                                                                        <th><span class="icon-leaf"></span></th>
+                                                                        <th>名称</th><th>IP地址</th><th>执行日期</th><th>负责人</th><th>进度</th><th>查看</th>
+									{% for hostinfo in web_hostname_hostids[hostgroupid] %}
+									<tr>
+										<td><input type="checkbox" id="GameCheckBox{{ hostgroupid }}Smail" value="{{ hostinfo[0] }}" onclick="RadioCheck({{ hostgroupid }}, {{ loop.index0 }})"></td>
+										<td>{{ hostnames[hostgroupid][hostinfo[0]] }}</td>
+										<td>{{ hostinfo[1] }}</td>
+										<td>{{ hostinfo[2] }}</td>
+										<td>{{ hostinfo[3] }}</td>
+										<td>
+											<div class="progress progress-success progress-striped">
+												<div class="bar" style="width: {{ hostinfo[4] }}%">{{ hostinfo[4] }}%</div>
+											</td>
+										</td>
+										{% if hostinfo[4] == "100.0" %}
+											{% if hostinfo[5] == "[]" or hostinfo[6] == 0 %}
+												<td><button class="btn btn-success" type="button" disabled=true>无数据</button></td>
+											{% else %}
+												<td><button class="btn btn-success" type="button" onclick="DumpReport({{ hostinfo[0] }})">查看</button></td>
+											{% endif %}
+										{% else %}
+											<td><button class="btn btn-success" type="button" disabled=true>稍等</button></td>
+										{% endif %}
+									</tr>
+									{% endfor %}
+                                                                </table>
+                                                        </div>
+                                                </div>
+                                        </div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<!--DumpReport()报告页面跳转开始-->
+<script type="text/javascript">
+	function DumpReport(id){
+		var url = "{{ url_for('main.game_openvas_report')}}?" + "hostid=" + id;
+		window.open(url)
+	}
+</script>
+<!--DumpReport()报告页面跳转结束-->
+
+
+<!--CheckAll 全选按钮开始-->
+<script type="text/javascript">
+	check_user = document.all("CheckUser");
+	document.getElementById("CheckAll").addEventListener("click", function(){
+		if(CheckUser.length == undefined){
+			check_user.checked = this.checked;
+		}else{
+			for(var x=0; x<CheckUser.length; x++){
+				check_user[x].checked = this.checked;
+			}
+		}
+		
+	}, false);
+</script>
+<!--CheckAll 全选按钮结束-->
+
+<!--漏洞扫描按钮ScanOpenvas()开始-->
+<script type="text/javascript">
+	function ScanOpenvas(){
+		var str = "";
+		check_user = document.all("CheckUser");
+		if(check_user.length == undefined){
+			str = check_user.value;
+		}else{
+			for(var x=0; x<check_user.length; x++){
+				if(check_user[x].checked == true){
+					if(str == ""){
+						str = check_user[x].value;
+					}else{
+						str = str + "," + check_user[x].value;
+					}
+				}
+			}
+		}
+		if(str ==""){
+			alert('请选择')
+		}else{
+			var data = new XMLHttpRequest(); 
+			data.open("POST", "{{ url_for('main.game_openvas_scan') }}", true);
+                	data.send(JSON.stringify(str))
+	                location.reload()     
+		}
+	}
+</script>
+<!--漏洞扫描按钮ScanOpenvas()结束-->
+
+<!--赛选用户 SelectUser()开始 -->
+<script type="text/javascript">
+        function SelectUser(){
+        var SelectBox1 = document.getElementById("SelectBox1");
+        if(SelectBox1.value != '0'){
+                if(SelectBox1.value == '1'){
+                        var url = "{{ url_for('main.game_openvas')}}?" + "user=All"
+                }else{
+                        var url = "{{ url_for('main.game_openvas')}}?" + "user=" + SelectBox1.value;
+                }
+                window.location.href = url;
+                }
+        }
+</script>
+<!--赛选用户 SelectUser()结束 -->
+
+<!--用于页面input按钮的控制-->
+<script type="text/javascript">
+        /* 用于全选等操作 */
+	document.getElementById("GameCheckBoxTotal").addEventListener("click",function(){
+		var s = this.value
+		var ids = s.match(/\d+(\.\d+)?/g);
+		for(var x=0; x<ids.length; x++){
+			var GameCheckBox = document.getElementById("GameCheckBox" + ids[x]);
+			var GameCheckBoxSmail = document.all("GameCheckBox" + ids[x] + "Smail");
+			GameCheckBox.checked = this.checked;
+			for(var y=0; y<GameCheckBoxSmail.length; y++){
+				if (GameCheckBox.checked == true){
+					GameCheckBoxSmail[y].checked = true;
+				}else{
+					GameCheckBoxSmail[y].checked = false;
+                                        }
+                                }
+                        }
+                },false);
+</script>
+
+<script type="text/javascript">
+        /* 通过js实现 子选项卡全选功能 */
+        function GameCheckBox(groupid){
+                var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupid);
+                var GameCheckBoxSmail = document.all("GameCheckBox" + groupid + "Smail");
+                if(GameCheckBoxSmail.length == undefined){
+                        if(GameCheckBoxAll.checked == true){
+                                GameCheckBoxSmail.checked = true;
+                        }else{
+                                GameCheckBoxSmail.checked = false;
+                        }
+                }else{
+                        for(var x=0; x<GameCheckBoxSmail.length; x++){
+                                if(GameCheckBoxAll.checked == true){
+                                        GameCheckBoxSmail[x].checked = true;
+                                }else{
+                                        GameCheckBoxSmail[x].checked = false;
+                                }
+                        }
+
+                }
+        }
+</script>
+
+<script type="text/javascript">
+        function RadioCheck(groupid, index){
+                var GameCheckBox = document.all("GameCheckBox" + groupid + "Smail");
+                var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupid);
+                if(GameCheckBox[index].checked == true){
+                        GameCheckBoxAll.checked = true;
+                }else{
+                        var Check_num = 0;
+                        for(var z=0; z<GameCheckBox.length; z++){
+                                if(GameCheckBox[z].checked == true){
+                                        Check_num++
+                                }
+                        }
+                        if(Check_num == 0){
+                                GameCheckBoxAll.checked = false;
+
+                        }
+                }
+        }
+</script>
+
+<!--GamePutExcel() 用于做excel导出功能 开始-->
+<script type="text/javascript">
+        function GamePutExcel(){
+		var params = window.location.search;
+                var arr = params.substring(1).split("=");
+                var str = ""
+                var groupids_value = document.getElementById("GameCheckBoxTotal").value;
+		var groupids = groupids_value.match(/\d+(\.\d+)?/g);
+                for(var x=0; x<groupids.length; x++){
+                        var GameCheckBoxAll = document.getElementById("GameCheckBox" + groupids[x]);
+                        if(GameCheckBoxAll.checked == true){
+                                var GameCheckBoxSmail = document.all("GameCheckBox" + groupids[x] + "Smail");
+                                if(GameCheckBoxSmail.length == undefined){
+                                        str = GameCheckBoxSmail.value + ":None";
+                                }else{
+                                        var zz = 0;
+                                        for(var z=0; z<GameCheckBoxSmail.length; z++){
+                                                if(GameCheckBoxSmail[z].checked == true){
+                                                        zz ++;
+                                                }
+                                        }
+                                        if(zz == GameCheckBoxSmail.length){
+                                                if(str == ""){
+                                                        str = groupids[x] + ":None";
+                                                }else{
+                                                        str = str + "$" + groupids[x] + ":None";
+                                                }
+                                                
+                                        }else{
+                                                var hids = "";
+                                                for(var y=0; y<GameCheckBoxSmail.length; y++){
+                                                        if(GameCheckBoxSmail[y].checked == true){
+                                                                if(hids == ""){
+                                                                        hids = GameCheckBoxSmail[y].value;
+                                                                }else{
+                                                                        hids = hids + "," + GameCheckBoxSmail[y].value;
+                                                                }
+                                                        }       
+                                                }
+                                                if(str == ""){
+                                                        str = groupids[x] + ":" + hids;
+                                                }else{
+                                                        str = str + "$" + groupids[x] + ":" + hids;
+                                                }               
+                                        }
+                                }
+                        }
+                }
+                var url = "user=" + arr[1] + "&data=" +  str; 
+                window.location.href = "{{ url_for('main.openvas_to_excel')}}?" + url;
+        }
+</script>
+<!--GamePutExcel() 用于做excel导出功能 结束-->
+
+
+
+{% endblock %}

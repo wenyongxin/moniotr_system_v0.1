@@ -1,0 +1,62 @@
+body {
+background:#fff
+}
+.Menu {
+position:relative;
+width:204px;
+height:150px;
+z-index:1;
+background: #FFF;
+border:1px solid #000;
+//margin-top:-100px;
+display:none;
+}
+.Menu2 {
+position: absolute;
+left:0;
+top:0;
+width:100%;
+height:auto;
+overflow:hidden;
+z-index:1;
+}
+.Menu2 ul {
+margin:0;
+padding:0
+}
+.Menu2 ul li {
+width:80%;
+height:auto;
+line-height:25px;
+text-indent:15px;
+text-align:left;
+border-bottom:1px dashed #ccc;
+color:#666;
+cursor:pointer;
+ change:expression(  this.onmouseover=function() {
+ this.style.background="#F2F5EF";
+}
+,  this.onmouseout=function() {
+ this.style.background="";
+}
+ )
+}
+input {
+width:200px
+}
+.form {
+width:200px;
+height:auto;
+}
+.form div {
+position:relative;
+top:0;
+left:0;
+margin-bottom:5px
+}
+
+/*
+#Attribution*, #Type*, #Center* {
+left:0px;
+top:93px;
+}o*/

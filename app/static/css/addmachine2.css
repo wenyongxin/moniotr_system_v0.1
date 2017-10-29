@@ -1,0 +1,18 @@
+.monitor{width:100%}
+.monitor .m_ips { height:90px; width:100%;}
+.monitor .m_ips .i_input{width:99%; height:50px;}
+
+
+.monitor .m_tools{ margin-top:20px; height:80px; width:100%;}
+.monitor .m_tools .t_port {width:20%; float:left;}
+.monitor .m_tools .t_port .t_input {width:100%}
+
+.monitor .m_tools .t_password{width:20%; float:left; margin-left:10%;}
+.monitor .m_tools .t_password .p_input{width:100%;}
+
+.monitor .m_tools .t_proxy{width:15%; float:left; margin-left:10%;}
+.monitor .m_tools .t_proxy .pr_input{width:100%;}
+
+.monitor .m_tools .t_system{width:15%; float:left; margin-left:10%;}
+.monitor .m_tools .t_system .s_input{width:100%}
+
