@@ -10,8 +10,8 @@ class Config:
         MAIL_SERVER = 'mail.efun.com'
         MAIL_PORT = 25
         MAIL_USE_TLS = True
-        MAIL_USERNAME = 'wenyx-it@efun.com'
-        MAIL_PASSWORD = 'p@ssw0rd'
+        MAIL_USERNAME = 'xxxx@qq.com'
+        MAIL_PASSWORD = 'xxxx'
         FLASKY_MAIL_SUBJECT_PREFIX = '[Monitor]'
         FLASKY_MAIL_SENDER = 'Flasky Admin <wenyx-it@efun.com>'
 	FLASKY_ADMIN = 'wenyx-it@efun.com'
@@ -21,7 +21,7 @@ class Config:
 		pass
 
 class DevelopmentConfig(Config):
-	SQLALCHEMY_DATABASE_URI = 'mysql://root:p@ssw0rd@localhost/monitor_v1'
+	SQLALCHEMY_DATABASE_URI = 'mysql://root:xxxxx@localhost/monitor_v1'
 	SQLALCHEMY_TRACK_MODIFICATIONS = 'False'
 
 #class TestingConfig(Config):
